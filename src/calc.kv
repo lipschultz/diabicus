@@ -1,0 +1,150 @@
+#:kivy 1.0.9
+
+<Button>:
+    color: .8,.9,0,1
+
+<Light@Label>:
+    text: 'O'
+    color: .2, .2, .2, 1
+
+<SideLights@BoxLayout>
+    orientation: 'vertical'
+    size_hint_x: 0.1
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+
+<TopBottomLights@BoxLayout>
+    orientation: 'horizontal'
+    size_hint_y: 0.2
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+
+<KeyButton@Button>
+    font_size: 24
+
+<EntryButton@KeyButton>
+    on_press: app.key_press(self.text)
+
+<BasicKeypad@GridLayout>
+    cols: 5
+    
+    KeyButton:
+        id: clear_button
+        text: 'Clear'
+        markup: True
+        halign: 'center'
+        on_press: app.clear()
+    KeyButton:
+        text: 'Bksp'
+        on_press: app.bksp()
+    EntryButton:
+        id: answer_button
+        text: 'Ans\n[size=16](0)[/size]'
+        markup: True
+        halign: 'center'
+        valign: 'middle'
+    KeyButton:
+        text: '<-'
+    KeyButton:
+        text: '->'
+    
+    EntryButton:
+        text: '7'
+    EntryButton:
+        text: '8'
+    EntryButton:
+        text: '9'
+    EntryButton:
+        text: '+'
+    EntryButton:
+        text: '('
+    
+    EntryButton:
+        text: '4'
+    EntryButton:
+        text: '5'
+    EntryButton:
+        text: '6'
+    EntryButton:
+        text: '-'
+    EntryButton:
+        text: ')'
+    
+    EntryButton:
+        text: '1'
+    EntryButton:
+        text: '2'
+    EntryButton:
+        text: '3'
+    EntryButton:
+        text: '×'
+    EntryButton:
+        text: '^'
+    
+    EntryButton:
+        text: '0'
+    EntryButton:
+        text: '.'
+    KeyButton:
+        text: '='
+        on_press: app.calculate()
+    EntryButton:
+        text: '/'
+    KeyButton:
+        text: 'ln(x)'
+        on_press: app.press_ln()
+
+
+
+<CalcMainLayout>:
+    orientation: 'horizontal'
+    
+    SideLights
+
+    BoxLayout:
+        orientation: 'vertical'
+        
+        TopBottomLights
+        
+        Label:
+            id: input
+            text: ''
+            markup: True
+            font_size: 16
+            text_size: self.size
+            halign: 'left'
+            valign: 'middle'
+            size_hint_y: 0.05
+        Label:
+            id: output
+            text: ''
+            markup: True
+            font_size: 20
+            text_size: self.size
+            halign: 'right'
+            valign: 'middle'
+            size_hint_y: 0.1
+        BasicKeypad:
+            id: basic_keypad
+        
+        TopBottomLights
+
+    SideLights
