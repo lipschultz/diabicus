@@ -106,6 +106,18 @@ class CalculatorTests(unittest.TestCase):
         self.app.bksp()
         self.assertEqual(self.app.input, '')
 
+    def test_bksp_after_calculate_deletes_input_char(self):
+        self.enter_basic_input('123')
+        self.app.calculate()
+        self.app.bksp()
+        self.assertEqual(self.app.input, '12')
+
+    def test_calculate_bksp_then_type_adds_to_input(self):
+        self.enter_basic_input('125')
+        self.app.calculate()
+        self.app.bksp()
+        self.enter_basic_input('3')
+        self.assertEqual(self.app.input, '123')
 
 if __name__ == '__main__':
     unittest.main()

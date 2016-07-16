@@ -96,6 +96,7 @@ class Calculator:
             self.input = ''
 
     def bksp(self):
+        self.__just_calculated = False
         if len(self.input) > 0:
             if self.input[-3:] == 'Ans':
                 self.input = self.input[:-3]
