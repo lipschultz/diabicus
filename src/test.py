@@ -80,7 +80,7 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.app.press_ans()
         self.app.calculate()
-        self.assertEqual(self.app.output, 0)
+        self.assertEqual(self.app.output, '0')
 
 if __name__ == '__main__':
     unittest.main()
