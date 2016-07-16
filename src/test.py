@@ -9,6 +9,10 @@ class CalculatorTests(unittest.TestCase):
         for c in text:
             self.app.press_key(c)
 
+    def assign_value_to_Ans(self, value):
+        self.enter_basic_input(str(value))
+        self.app.calculate()
+
     def test_digits_input_correctly(self):
         self.enter_basic_input('1234567890')
         self.assertEqual(self.app.input, '1234567890')
@@ -130,6 +134,79 @@ class CalculatorTests(unittest.TestCase):
     def test_start_with_minus_operator_does_not_prepend_Ans(self):
         self.enter_basic_input('-2')
         self.assertEqual(self.app.input, '-2')
+
+    def test_func_typed(self):
+        self.app.input_function('ln')
+        self.assertEqual(self.app.input, calculator.FUNCTION_PREFIX + 'ln(')
+
+    def test_func_evaluated_correctly(self):
+        self.app.input_function('ln')
+        self.enter_basic_input('2)')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 0.6931471805599453)
+
+    def test_bksp_deletes_full_func_name(self):
+        self.app.input_function('ln')
+        self.app.bksp()
+        self.assertEqual(self.app.input, '')
+
+    def test_implicit_multiply_number_func_name(self):
+        self.enter_basic_input('2')
+        self.app.input_function('ln')
+        self.enter_basic_input('2)')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
+
+    def test_implicit_multiply_func_number(self):
+        self.app.input_function('ln')
+        self.enter_basic_input('2)2')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
+
+    def test_implicit_multiply_func_func(self):
+        self.app.input_function('ln')
+        self.enter_basic_input('2)')
+        self.app.input_function('ln')
+        self.enter_basic_input('2)')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 0.4804530139182014)
+
+    def test_implicit_multiply_Ans_func_name(self):
+        self.assign_value_to_Ans(2)
+        self.app.press_ans()
+        self.app.input_function('ln')
+        self.enter_basic_input('2)')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
+
+    def test_implicit_multiply_func_Ans(self):
+        self.assign_value_to_Ans(2)
+        self.app.input_function('ln')
+        self.enter_basic_input('2)')
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
+
+    def test_implicit_multiply_num_Ans(self):
+        self.assign_value_to_Ans(3)
+        self.enter_basic_input('2')
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertEqual(self.app.result, 6)
+
+    def test_implicit_multiply_Ans_num(self):
+        self.assign_value_to_Ans(3)
+        self.app.press_ans()
+        self.enter_basic_input('2')
+        self.app.calculate()
+        self.assertEqual(self.app.result, 6)
+
+    def test_implicit_multiply_Ans_Ans(self):
+        self.assign_value_to_Ans(3)
+        self.app.press_ans()
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertEqual(self.app.result, 9)
 
 if __name__ == '__main__':
     unittest.main()

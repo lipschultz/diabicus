@@ -7,6 +7,7 @@ import operator
 import re
 from simpleeval import SimpleEval
 
+FUNCTION_PREFIX = '\u200b'
 DISCO_LENGTH = 2 #seconds
 
 class ComputationError:
@@ -64,7 +65,9 @@ class Calculator:
         self._input = value
     input = property(get_input, set_input)
     def _append_input_text(self, text):
-        self.input = self.input + text
+        self.input += text
+    def input_function(self, func_name):
+        self.input += FUNCTION_PREFIX + func_name + '('
 
     def get_result(self):
         return self._result
@@ -153,7 +156,7 @@ class CalcApp(App, Calculator):
         pass
 
     def press_ln(self):
-        pass
+        self.input_function('ln')
 
 
 if __name__=="__main__":
