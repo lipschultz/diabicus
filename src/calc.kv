@@ -45,7 +45,7 @@
 
 <BasicKeypad@GridLayout>
     cols: 5
-    
+
     KeyButton:
         id: clear_button
         text: 'Clear'
@@ -65,7 +65,7 @@
         text: '<-'
     KeyButton:
         text: '->'
-    
+
     EntryButton:
         text: '7'
     EntryButton:
@@ -76,7 +76,7 @@
         text: '+'
     EntryButton:
         text: '('
-    
+
     EntryButton:
         text: '4'
     EntryButton:
@@ -87,7 +87,7 @@
         text: '-'
     EntryButton:
         text: ')'
-    
+
     EntryButton:
         text: '1'
     EntryButton:
@@ -98,7 +98,7 @@
         text: '×'
     EntryButton:
         text: '^'
-    
+
     EntryButton:
         text: '0'
     EntryButton:
@@ -116,14 +116,14 @@
 
 <CalcMainLayout>:
     orientation: 'horizontal'
-    
+
     SideLights
 
     BoxLayout:
         orientation: 'vertical'
-        
+
         TopBottomLights
-        
+
         Label:
             id: input
             text: ''
@@ -144,7 +144,7 @@
             size_hint_y: 0.1
         BasicKeypad:
             id: basic_keypad
-        
+
         TopBottomLights
 
     SideLights
