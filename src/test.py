@@ -39,6 +39,12 @@ class CalculatorTests(unittest.TestCase):
         self.assertEqual(self.app.input, '')
         self.assertEqual(self.app.output, '')
 
+    def test_typing_after_calculate_clears_input(self):
+        self.enter_basic_input('1234+6789')
+        self.app.calculate()
+        self.enter_basic_input('50')
+        self.assertEqual(self.app.input, '50')
+
     def test_output_matches_result(self):
         self.enter_basic_input('12345+67890')
         self.app.calculate()
