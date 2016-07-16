@@ -32,6 +32,8 @@ def eval_expr(evaluator, expr):
         return ComputationError('invalid syntax')
     except ZeroDivisionError:
         return ComputationError('divide by zero')
+    except:
+        return ComputationError('computation error')
 
 class CalcMainLayout(BoxLayout):
     pass
