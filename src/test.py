@@ -3,7 +3,6 @@ import calculator
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):
-        print('setting up')
         self.app = calculator.Calculator()
 
     def enter_basic_input(self, text):

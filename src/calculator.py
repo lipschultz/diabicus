@@ -33,6 +33,8 @@ class Calculator:
                                }
         self._output_format[int] = self._output_format[float]
 
+        self.__just_calculated = False
+
     def get_input(self):
         return self._input
     def set_input(self, value):
@@ -55,6 +57,9 @@ class Calculator:
     output = property(get_output, set_output)
 
     def press_key(self, value):
+        if self.__just_calculated:
+            self.clear()
+        self.__just_calculated = False
         self._append_input_text(str(value))
 
     def press_ans(self):
@@ -73,6 +78,7 @@ class Calculator:
         else:
             self.result = result
             self.output = result
+        self.__just_calculated = True
 
 class CalcApp(App, Calculator):
     def __init__(self, *args, **kwargs):
