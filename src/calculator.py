@@ -40,11 +40,12 @@ class CalcMainLayout(BoxLayout):
 
 class Calculator:
     def __init__(self):
-        self.__eval = SimpleEval()
-
-        self.result = 0
+        self._result = 0
         self._input = ''
         self._output = ''
+
+        self.__eval = SimpleEval()
+        self.__init_eval()
 
         self._output_format = {complex : lambda v : '%0.8g + %0.8gi' % (v.real, v.imag),
                                float : lambda v : "%0.8g" % v,
@@ -53,6 +54,9 @@ class Calculator:
         self._output_format[int] = self._output_format[float]
 
         self.__just_calculated = False
+
+    def __init_eval(self):
+        self.__eval.names['Ans'] = self._result
 
     def get_input(self):
         return self._input
@@ -130,6 +134,14 @@ class CalcApp(App, Calculator):
     def set_output(self, value):
         self.root.ids.output.text = super(CalcApp, self).set_output(value)
     output = property(get_output, set_output)
+
+    def get_result(self):
+        return super(CalcApp, self).get_result()
+    def set_result(self, value):
+        super(CalcApp, self).set_result(value)
+        display_value = self._answer_format[type(value)](value)
+        self.root.ids.basic_keypad.ids.answer_button.text = 'Ans\n[size=16](%s)[/size]' % (display_value)
+    result = property(get_result, set_result)
 
     def __on_interaction(self):
         pass
