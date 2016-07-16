@@ -2,7 +2,9 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
-import simpleeval
+import ast
+import operator
+from simpleeval import SimpleEval
 
 DISCO_LENGTH = 2 #seconds
 
@@ -10,9 +12,14 @@ class ComputationError:
     def __init__(self, message):
         self.msg = message
 
-def eval_expr(expr, ans):
+EXPRESSION_TRANSLATIONS = {'×' : '*'}
+
+def eval_expr(evaluator, expr):
+    for k, v in EXPRESSION_TRANSLATIONS.items():
+        expr = expr.replace(k, v)
+
     try:
-        return simpleeval.simple_eval(expr, names={"Ans" : ans})
+        return evaluator.eval(expr)
     except SyntaxError:
         return ComputationError('invalid syntax')
     except ZeroDivisionError:
@@ -23,7 +30,10 @@ class CalcMainLayout(BoxLayout):
 
 class Calculator:
     def __init__(self):
-        self._result = 0
+        self.__eval = SimpleEval()
+        self.__init_evaluator()
+
+        self.result = 0
         self._input = ''
         self._output = ''
 
@@ -34,6 +44,9 @@ class Calculator:
         self._output_format[int] = self._output_format[float]
 
         self.__just_calculated = False
+
+    def __init_evaluator(self):
+        self.__eval.operators[ast.BitXor] = operator.pow
 
     def get_input(self):
         return self._input
@@ -47,6 +60,7 @@ class Calculator:
         return self._result
     def set_result(self, value):
         self._result = value
+        self.__eval.names['Ans'] = value
     result = property(get_result, set_result)
 
     def get_output(self):
@@ -72,7 +86,7 @@ class Calculator:
             self.input = ''
 
     def calculate(self):
-        result = eval_expr(self.input, ans=self.result)
+        result = eval_expr(self.__eval, self.input)
         if isinstance(result, ComputationError):
             self.output = "Error: "+result.msg
         else:
