@@ -12,12 +12,14 @@ class ComputationError:
     def __init__(self, message):
         self.msg = message
 
-EXPRESSION_TRANSLATIONS = {'×' : '*'}
-
-def eval_expr(evaluator, expr):
+EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**'}
+def translate_operators(expr):
     for k, v in EXPRESSION_TRANSLATIONS.items():
         expr = expr.replace(k, v)
+    return expr
 
+def eval_expr(evaluator, expr):
+    expr = translate_operators(expr)
     try:
         return evaluator.eval(expr)
     except SyntaxError:
@@ -31,7 +33,6 @@ class CalcMainLayout(BoxLayout):
 class Calculator:
     def __init__(self):
         self.__eval = SimpleEval()
-        self.__init_evaluator()
 
         self.result = 0
         self._input = ''
@@ -44,9 +45,6 @@ class Calculator:
         self._output_format[int] = self._output_format[float]
 
         self.__just_calculated = False
-
-    def __init_evaluator(self):
-        self.__eval.operators[ast.BitXor] = operator.pow
 
     def get_input(self):
         return self._input
