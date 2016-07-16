@@ -84,6 +84,8 @@ class Calculator:
         if self.__just_calculated:
             self.clear()
         self.__just_calculated = False
+        if len(self.input) == 0 and value in ('*', '/', '^'):
+            self.press_ans()
         self._append_input_text(str(value))
 
     def press_ans(self):
