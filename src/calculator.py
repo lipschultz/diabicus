@@ -4,6 +4,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 import ast
 import operator
+import re
 from simpleeval import SimpleEval
 
 DISCO_LENGTH = 2 #seconds
@@ -18,8 +19,13 @@ def translate_operators(expr):
         expr = expr.replace(k, v)
     return expr
 
+def make_operations_explicit(expr):
+    expr = re.sub(r'([0-9).]?)\(', lambda m: '(' if len(m.group(1)) == 0 else m.group(1)+'*(', expr)
+    return expr
+
 def eval_expr(evaluator, expr):
     expr = translate_operators(expr)
+    expr = make_operations_explicit(expr)
     try:
         return evaluator.eval(expr)
     except SyntaxError:

@@ -59,6 +59,16 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertEqual(self.app.result, -9)
 
+    def test_implicit_multiplication_using_parentheses_preceded_by_decimal_point(self):
+        self.enter_basic_input('3.(2-5)')
+        self.app.calculate()
+        self.assertEqual(self.app.result, -9)
+
+    def test_implicit_multiplication_parentheses_time_parentheses(self):
+        self.enter_basic_input('(3-1)(2-5)')
+        self.app.calculate()
+        self.assertEqual(self.app.result, -6)
+
     def test_typing_ans_inputs_Ans(self):
         self.app.press_ans()
         self.assertEqual(self.app.input, "Ans")
