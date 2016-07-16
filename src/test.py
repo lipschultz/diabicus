@@ -92,5 +92,20 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertEqual(self.app.output, '0')
 
+    def test_bksp_deletes_one_char_to_the_left_of_cursor(self):
+        self.enter_basic_input('123')
+        self.app.bksp()
+        self.assertEqual(self.app.input, '12')
+
+    def test_bksp_on_empty_input(self):
+        self.app.bksp()
+        self.assertEqual(self.app.input, '')
+
+    def test_bksp_on_Ans_deletes_Ans(self):
+        self.app.press_ans()
+        self.app.bksp()
+        self.assertEqual(self.app.input, '')
+
+
 if __name__ == '__main__':
     unittest.main()

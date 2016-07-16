@@ -91,6 +91,13 @@ class Calculator:
         else:
             self.input = ''
 
+    def bksp(self):
+        if len(self.input) > 0:
+            if self.input[-3:] == 'Ans':
+                self.input = self.input[:-3]
+            else:
+                self.input = self.input[:-1]
+
     def calculate(self):
         result = eval_expr(self.__eval, self.input)
         if isinstance(result, ComputationError):
@@ -103,7 +110,6 @@ class Calculator:
 class CalcApp(App, Calculator):
     def __init__(self, *args, **kwargs):
         super(CalcApp, self).__init__(*args, **kwargs)
-        self.__equals_pressed = False
 
         self._answer_format = {complex : lambda v : '%0.2g + %0.2gi' % (v.real, v.imag),
                                float : lambda v : "%0.4g" % v
@@ -132,13 +138,6 @@ class CalcApp(App, Calculator):
         pass
 
     def press_ln(self):
-        pass
-
-    def calculate(self):
-        super(CalcApp, self).calculate()
-        self.__equals_pressed = True
-
-    def bksp(self):
         pass
 
 
