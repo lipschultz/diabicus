@@ -55,10 +55,10 @@ class Calculator:
     output = property(get_output, set_output)
 
     def press_key(self, value):
-        if value.startswith('Ans'):
-            self._append_input_text('Ans')
-        else:
-            self._append_input_text(str(value))
+        self._append_input_text(str(value))
+
+    def press_ans(self):
+        self.press_key("Ans")
 
     def clear(self):
         if len(self.input) == 0:

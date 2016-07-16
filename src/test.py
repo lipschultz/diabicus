@@ -60,5 +60,28 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertEqual(self.app.result, -9)
 
+    def test_typing_ans_inputs_Ans(self):
+        self.app.press_ans()
+        self.assertEqual(self.app.input, "Ans")
+
+    def test_Ans_initialized_to_zero(self):
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertEqual(self.app.result, 0)
+
+    def test_Ans_value_updated_after_calculation(self):
+        self.enter_basic_input('12345+67890')
+        self.app.calculate()
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertEqual(self.app.output, '80235')
+
+    def test_Ans_value_unchanged_after_error(self):
+        self.enter_basic_input('12345*/^*')
+        self.app.calculate()
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertEqual(self.app.output, 0)
+
 if __name__ == '__main__':
     unittest.main()

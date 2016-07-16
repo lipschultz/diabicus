@@ -55,12 +55,13 @@
     KeyButton:
         text: 'Bksp'
         on_press: app.bksp()
-    EntryButton:
+    KeyButton:
         id: answer_button
         text: 'Ans\n[size=16](0)[/size]'
         markup: True
         halign: 'center'
         valign: 'middle'
+        on_press: app.press_ans()
     KeyButton:
         text: '<-'
     KeyButton:
