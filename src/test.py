@@ -150,6 +150,16 @@ class CalculatorTests(unittest.TestCase):
         self.app.bksp()
         self.assertEqual(self.app.input, '')
 
+    def test_bksp_deletes_opening_paren_at_start_of_input(self):
+        self.enter_basic_input('(')
+        self.app.bksp()
+        self.assertEqual(self.app.input, '')
+
+    def test_bksp_deletes_only_opening_paren_when_input_starts_with_digit_open_paren(self):
+        self.enter_basic_input('2(')
+        self.app.bksp()
+        self.assertEqual(self.app.input, '2')
+
     def test_implicit_multiply_number_func_name(self):
         self.enter_basic_input('2')
         self.app.input_function('ln')

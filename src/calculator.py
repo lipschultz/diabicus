@@ -108,6 +108,9 @@ class Calculator:
         if len(self.input) > 0:
             if self.input[-3:] == 'Ans':
                 self.input = self.input[:-3]
+            elif len(self.input) > 1 and self.input[-1] == '(' and self.input[-2].isalpha():
+                start_of_function = self.input.rfind(FUNCTION_PREFIX)
+                self.input = self.input[:start_of_function]
             else:
                 self.input = self.input[:-1]
 
