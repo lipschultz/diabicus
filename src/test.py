@@ -129,8 +129,8 @@ class CalculatorTests(unittest.TestCase):
         self.assertEqual(self.app.input, '123')
 
     def test_start_with_non_plus_minus_operator_prepends_Ans(self):
-        self.enter_basic_input('*2')
-        self.assertEqual(self.app.input, 'Ans*2')
+        self.enter_basic_input('×2')
+        self.assertEqual(self.app.input, 'Ans×2')
 
     def test_start_with_plus_operator_does_not_prepend_Ans(self):
         self.enter_basic_input('+2')
