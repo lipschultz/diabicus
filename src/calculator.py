@@ -7,6 +7,7 @@ import operator
 import re
 from simpleeval import SimpleEval
 import math
+import time
 
 FUNCTION_PREFIX = '\u200b'
 DISCO_LENGTH = 2 #seconds
@@ -47,6 +48,19 @@ def eval_expr(evaluator, expr):
 class CalcMainLayout(BoxLayout):
     pass
 
+class Disco:
+    def __init__(self, default_length=DISCO_LENGTH):
+        self.__stop_time = 0
+        self.__default_len = default_length
+
+    def update_stop_time(self, length=None):
+        if length is None:
+            length = self.__default_len
+        self.__stop_time = length + time.time()
+
+    def is_discoing(self):
+        return time.time() < self.__stop_time
+
 class Calculator:
     def __init__(self):
         self._result = 0
@@ -63,6 +77,7 @@ class Calculator:
         self._output_format[int] = self._output_format[float]
 
         self.__just_calculated = False
+        self.__disco = Disco()
 
     def __init_eval(self):
         self.__eval.names['Ans'] = self._result
