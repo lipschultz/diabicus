@@ -105,7 +105,19 @@ class Calculator:
         return self._output
     output = property(get_output, set_output)
 
+    def start_disco(self):
+        if not self.__disco.is_discoing():
+            Clock.schedule_interval(self.update_disco, 0.25)
+        self.__disco.update_stop_time()
+
+    def update_disco(self, dt):
+        return self.__disco.is_discoing()
+
+    def __on_interaction(self):
+        self.start_disco()
+
     def press_key(self, value):
+        self.__on_interaction()
         if self.__just_calculated:
             self.clear()
         self.__just_calculated = False
@@ -117,18 +129,21 @@ class Calculator:
         self.press_key("Ans")
 
     def press_function_key(self, func_name):
+        self.__on_interaction()
         if self.__just_calculated:
             self.clear()
         self.__just_calculated = False
         self.input += FUNCTION_PREFIX + func_name + '('
 
     def clear(self):
+        self.__on_interaction()
         if len(self.input) == 0:
             self.output = ''
         else:
             self.input = ''
 
     def bksp(self):
+        self.__on_interaction()
         self.__just_calculated = False
         if len(self.input) > 0:
             if self.input[-3:] == 'Ans':
@@ -140,6 +155,7 @@ class Calculator:
                 self.input = self.input[:-1]
 
     def calculate(self):
+        self.__on_interaction()
         result = eval_expr(self.__eval, self.input)
         if isinstance(result, ComputationError):
             self.output = "Error: "+result.msg
@@ -179,9 +195,6 @@ class CalcApp(App, Calculator):
         display_value = self._answer_format[type(value)](value)
         self.root.ids.basic_keypad.ids.answer_button.text = 'Ans\n[size=16](%s)[/size]' % (display_value)
     result = property(get_result, set_result)
-
-    def __on_interaction(self):
-        pass
 
     def __set_clear_button(self, to_all_clear=False):
         pass
