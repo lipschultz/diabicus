@@ -6,6 +6,7 @@ import ast
 import operator
 import re
 from simpleeval import SimpleEval
+import math
 
 FUNCTION_PREFIX = '\u200b'
 DISCO_LENGTH = 2 #seconds
@@ -58,6 +59,7 @@ class Calculator:
 
     def __init_eval(self):
         self.__eval.names['Ans'] = self._result
+        self.__eval.functions['ln'] = math.log
 
     def get_input(self):
         return self._input
