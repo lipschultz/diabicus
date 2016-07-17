@@ -141,17 +141,23 @@ class CalculatorTests(unittest.TestCase):
         self.assertEqual(self.app.input, '-2')
 
     def test_func_typed(self):
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.assertEqual(self.app.input, calculator.FUNCTION_PREFIX + 'ln(')
 
     def test_func_evaluated_correctly(self):
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)')
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 0.6931471805599453)
 
+    def test_func_after_calc_clears_input(self):
+        self.enter_basic_input('12345+67890')
+        self.app.calculate()
+        self.app.press_function_key('ln')
+        self.assertEqual(self.app.input, calculator.FUNCTION_PREFIX + 'ln(')
+
     def test_bksp_deletes_full_func_name(self):
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.app.bksp()
         self.assertEqual(self.app.input, '')
 
@@ -167,21 +173,21 @@ class CalculatorTests(unittest.TestCase):
 
     def test_implicit_multiply_number_func_name(self):
         self.enter_basic_input('2')
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)')
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 1.3862943611198906)
 
     def test_implicit_multiply_func_number(self):
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)2')
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 1.3862943611198906)
 
     def test_implicit_multiply_func_func(self):
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)')
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)')
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 0.4804530139182014)
@@ -189,14 +195,14 @@ class CalculatorTests(unittest.TestCase):
     def test_implicit_multiply_Ans_func_name(self):
         self.assign_value_to_Ans(2)
         self.app.press_ans()
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)')
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 1.3862943611198906)
 
     def test_implicit_multiply_func_Ans(self):
         self.assign_value_to_Ans(2)
-        self.app.input_function('ln')
+        self.app.press_function_key('ln')
         self.enter_basic_input('2)')
         self.app.press_ans()
         self.app.calculate()

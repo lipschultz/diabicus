@@ -71,8 +71,6 @@ class Calculator:
     input = property(get_input, set_input)
     def _append_input_text(self, text):
         self.input += text
-    def input_function(self, func_name):
-        self.input += FUNCTION_PREFIX + func_name + '('
 
     def get_result(self):
         return self._result
@@ -98,6 +96,12 @@ class Calculator:
 
     def press_ans(self):
         self.press_key("Ans")
+
+    def press_function_key(self, func_name):
+        if self.__just_calculated:
+            self.clear()
+        self.__just_calculated = False
+        self.input += FUNCTION_PREFIX + func_name + '('
 
     def clear(self):
         if len(self.input) == 0:
@@ -162,9 +166,6 @@ class CalcApp(App, Calculator):
 
     def __set_clear_button(self, to_all_clear=False):
         pass
-
-    def press_ln(self):
-        self.input_function('ln')
 
 
 if __name__=="__main__":
