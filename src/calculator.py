@@ -31,6 +31,8 @@ def make_operations_explicit(expr):
 def eval_expr(evaluator, expr):
     expr = translate_operators(expr)
     expr = make_operations_explicit(expr)
+    expr = expr.replace(FUNCTION_PREFIX, '')
+
     try:
         return evaluator.eval(expr)
     except SyntaxError:
