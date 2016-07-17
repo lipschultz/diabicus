@@ -23,6 +23,7 @@ def translate_operators(expr):
 
 def make_operations_explicit(expr):
     expr = re.sub(r'([0-9).]?)\(', lambda m: '(' if len(m.group(1)) == 0 else m.group(1)+'*(', expr)
+    expr = re.sub(r'\)([0-9.]?)', lambda m: ')' if len(m.group(1)) == 0 else ')*'+m.group(1), expr)
     expr = re.sub('([0-9).]?)'+FUNCTION_PREFIX, lambda m: '' if len(m.group(1)) == 0 else m.group(1)+'*', expr)
     return expr
 

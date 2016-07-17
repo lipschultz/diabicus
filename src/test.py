@@ -58,8 +58,13 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertEqual(self.app.result, -6)
 
-    def test_implicit_multiplication_using_parentheses(self):
+    def test_implicit_multiplication_num_paren(self):
         self.enter_basic_input('3(2-5)')
+        self.app.calculate()
+        self.assertEqual(self.app.result, -9)
+
+    def test_implicit_multiplication_paren_num(self):
+        self.enter_basic_input('(2-5)3')
         self.app.calculate()
         self.assertEqual(self.app.result, -9)
 
