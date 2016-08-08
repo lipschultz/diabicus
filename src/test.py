@@ -1,5 +1,6 @@
 import unittest
 import calculator
+import compute
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):
@@ -142,7 +143,7 @@ class CalculatorTests(unittest.TestCase):
 
     def test_func_typed(self):
         self.app.press_function_key('ln')
-        self.assertEqual(self.app.input, calculator.FUNCTION_PREFIX + 'ln(')
+        self.assertEqual(self.app.input, compute.FUNCTION_PREFIX + 'ln(')
 
     def test_func_evaluated_correctly(self):
         self.app.press_function_key('ln')
@@ -154,7 +155,7 @@ class CalculatorTests(unittest.TestCase):
         self.enter_basic_input('12345+67890')
         self.app.calculate()
         self.app.press_function_key('ln')
-        self.assertEqual(self.app.input, calculator.FUNCTION_PREFIX + 'ln(')
+        self.assertEqual(self.app.input, compute.FUNCTION_PREFIX + 'ln(')
 
     def test_bksp_deletes_full_func_name(self):
         self.app.press_function_key('ln')

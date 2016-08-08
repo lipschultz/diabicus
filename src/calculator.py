@@ -2,50 +2,14 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
-import ast
-import operator
-import re
 from simpleeval import SimpleEval
+import compute
 import math
 import time
 import number_facts
 import argparse
 
-FUNCTION_PREFIX = '\u200b'
 DISCO_LENGTH = 2 #seconds
-
-class ComputationError:
-    def __init__(self, message):
-        self.msg = message
-
-EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**'}
-def translate_operators(expr):
-    for k, v in EXPRESSION_TRANSLATIONS.items():
-        expr = expr.replace(k, v)
-    return expr
-
-def make_operations_explicit(expr):
-    expr = re.sub(r'([0-9).])\(', lambda m: m.group(1)+'*(', expr)
-    expr = re.sub(r'\)([0-9(.])', lambda m: ')*'+m.group(1), expr)
-    expr = re.sub('([0-9).]|(?:Ans))'+FUNCTION_PREFIX, lambda m: m.group(1)+'*', expr)
-    expr = re.sub('Ans([0-9(.])', lambda m: 'Ans*'+m.group(1), expr)
-    expr = re.sub('([0-9).])Ans', lambda m: m.group(1)+'*Ans', expr)
-    expr = expr.replace('AnsAns', 'Ans*Ans')
-    return expr
-
-def eval_expr(evaluator, expr):
-    expr = translate_operators(expr)
-    expr = make_operations_explicit(expr)
-    expr = expr.replace(FUNCTION_PREFIX, '')
-
-    try:
-        return evaluator.eval(expr)
-    except SyntaxError:
-        return ComputationError('invalid syntax')
-    except ZeroDivisionError:
-        return ComputationError('divide by zero')
-    except:
-        return ComputationError('computation error')
 
 class CalcMainLayout(BoxLayout):
     pass
@@ -140,7 +104,7 @@ class Calculator:
         if self.__just_calculated:
             self.clear()
         self.__just_calculated = False
-        self.input += FUNCTION_PREFIX + func_name + '('
+        self.input += compute.FUNCTION_PREFIX + func_name + '('
 
     def clear(self):
         self.__on_interaction()
@@ -156,15 +120,15 @@ class Calculator:
             if self.input[-3:] == 'Ans':
                 self.input = self.input[:-3]
             elif len(self.input) > 1 and self.input[-1] == '(' and self.input[-2].isalpha():
-                start_of_function = self.input.rfind(FUNCTION_PREFIX)
+                start_of_function = self.input.rfind(compute.FUNCTION_PREFIX)
                 self.input = self.input[:start_of_function]
             else:
                 self.input = self.input[:-1]
 
     def calculate(self):
         self.__on_interaction()
-        result = eval_expr(self.__eval, self.input)
-        if isinstance(result, ComputationError):
+        result = compute.eval_expr(self.__eval, self.input)
+        if isinstance(result, compute.ComputationError):
             self.output = "Error: "+result.msg
         else:
             self.result = result
@@ -218,7 +182,6 @@ class CalcApp(App, Calculator):
         if self.__facts is not None:
             fact = number_facts.get_fact(self.__facts, self.input, result, self.context)
             if fact is not None:
-                print(fact, fact.raw_message)
                 self.root.ids.fact.text = "[ref='" + fact.link + "']" + fact.message(self.input, result, self.context) + "[/ref]"
 
 def command_line_arguments():
