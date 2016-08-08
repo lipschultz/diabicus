@@ -8,6 +8,8 @@ import re
 from simpleeval import SimpleEval
 import math
 import time
+import number_facts
+import argparse
 
 FUNCTION_PREFIX = '\u200b'
 DISCO_LENGTH = 2 #seconds
@@ -79,6 +81,8 @@ class Calculator:
         self.__just_calculated = False
         self.__disco = Disco()
 
+        self.context = {'result' : [], 'formula' : [], 'output' : []}
+
     def __init_eval(self):
         self.__eval.names['Ans'] = self._result
         self.__eval.functions['ln'] = math.log
@@ -104,6 +108,9 @@ class Calculator:
         self._output = self._output_format[type(value)](value)
         return self._output
     output = property(get_output, set_output)
+
+    def get_context(self):
+        return self.__context
 
     def start_disco(self):
         if not self.__disco.is_discoing():
@@ -163,9 +170,16 @@ class Calculator:
             self.result = result
             self.output = result
         self.__just_calculated = True
+        self.context['result'].append(result)
+        self.context['formula'].append(self.input)
+        self.context['output'].append(self.output)
+        return result
 
 class CalcApp(App, Calculator):
     def __init__(self, *args, **kwargs):
+        self.__facts = kwargs.get('facts')
+        del kwargs['facts']
+
         super(CalcApp, self).__init__(*args, **kwargs)
 
         self._answer_format = {complex : lambda v : '%0.2g + %0.2gi' % (v.real, v.imag),
@@ -199,6 +213,22 @@ class CalcApp(App, Calculator):
     def __set_clear_button(self, to_all_clear=False):
         pass
 
+    def calculate(self):
+        result = super(CalcApp, self).calculate()
+        if self.__facts is not None:
+            fact = number_facts.get_fact(self.__facts, self.input, result, self.context)
+            if fact is not None:
+                print(fact, fact.raw_message)
+                self.root.ids.fact.text = "[ref='" + fact.link + "']" + fact.message(self.input, result, self.context) + "[/ref]"
+
+def command_line_arguments():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--facts', help="Path to json file containing facts and when to use them")
+    args = parser.parse_args()
+    return args
 
 if __name__=="__main__":
-    CalcApp().run()
+    args = command_line_arguments()
+    if args.facts is not None:
+        facts = number_facts.load_json_file(args.facts)
+    CalcApp(facts=facts).run()

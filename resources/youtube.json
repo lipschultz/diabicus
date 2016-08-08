@@ -77,43 +77,43 @@
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "The number of partitions for %{result} is divisible by 5"
+  "msg" : "The number of partitions for {result} is divisible by 5"
  },
  {"test" : "lambda formula, result, context: (result-5) % 7 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "The number of partitions for %{result} is divisible by 7"
+  "msg" : "The number of partitions for {result} is divisible by 7"
  },
  {"test" : "lambda formula, result, context: (result-6) % 11 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "The number of partitions for %{result} is divisible by 11"
+  "msg" : "The number of partitions for {result} is divisible by 11"
  },
  {"test" : "lambda formula, result, context: (result-237) % 17303 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "The number of partitions for %{result} is divisible by 13"
+  "msg" : "The number of partitions for {result} is divisible by 13"
  },
  {"test" : "lambda formula, result, context: (result-2623) % 206839 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "The number of partitions for %{result} is divisible by 17"
+  "msg" : "The number of partitions for {result} is divisible by 17"
  },
  {"test" : "lambda formula, result, context: (result-1977147619) % 815655 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "The number of partitions for %{result} is divisible by 19"
+  "msg" : "The number of partitions for {result} is divisible by 19"
  },
  {"test" : "lambda formula, result, context: is_int(result) and result > 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: '%d has approximately %d partitions' % (result, 1/(4*math.sqrt(3)*result) * math.exp(math.pi*math.sqrt(2*result/3)))"
+  "msg" : "lambda f, result, c: '%d has approximately %d partitions' % (result, 1/(4*math.sqrt(3)*result) * math.exp(math.pi*math.sqrt(2*result/3)))"
  },
  {"test" : "lambda formula, result, context: is_error(result) or result in (3051, 4107)",
   "link" : "https://www.youtube.com/watch?v=aOT_bG-vWyg",
@@ -185,7 +185,7 @@
   "link" : "https://www.youtube.com/watch?v=Lihh_lMmcDw",
   "title": "Skewes' Massive Number",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Number of primes below the result: %0.1f' % (scipy.integrate.quad(lambda x: 1/math.log(x), 2, r))"
+  "msg" : "lambda f, r, c: 'Number of primes below the result: %0.1f' % (scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0])"
  },
  {"test" : "lambda formula, result, context: (is_int(result) and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",

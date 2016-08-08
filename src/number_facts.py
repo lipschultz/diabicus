@@ -5,6 +5,7 @@ import json
 import sys
 import random
 import logging
+import string
 
 def context_to_str(context):
     str_context = []
@@ -54,13 +55,13 @@ def is_close(num1, num2, threshold=1e-5):
     return abs(num1-num2) < threshold
 
 
-
+"""
 def farey_addition(history):
     first = Fraction(history['result'][-3]).limit_denominator(234)
     second = Fraction(history['result'][-2]).limit_denominator(234)
     third = Fraction(history['result'][-1]).limit_denominator(234)
     return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second
-
+"""
 class MagicSquare:
     def __init__(self):
         self.link = 'https://www.youtube.com/watch?v=aQxCnmhqZko'
@@ -71,16 +72,18 @@ class MagicSquare:
         self.__coeff = 1/(4*math.sqrt(3))
         self.__exp = math.pi*math.sqrt(2/3)
 
-    def test(self, formula, result, history):
+    def test(self, formula, result, context):
         return not self.skip and is_int(result) and 21 <= result <= 65
 
-    def message(self, formula, result, history):
+    def message(self, formula, result, context):
         row1 = [result-20, 1, 12, 7]
         row2 = [11, 8, result-21, 2]
         row3 = [5, 10, 3, result-18]
         row4 = [4, result-19, 6, 9]
         square = [row1, row2, row3, row4]
         return 'The magic square for %d is %s' % (result, square)
+
+DEFAULT_MSG_FORMATTER = string.Formatter()
 
 class JsonFact:
     def __init__(self, json_data):
@@ -92,11 +95,11 @@ class JsonFact:
         self.weight = json_data.get('weight', 1)
         self.init = json_data.get('init')
         self.raw_test = json_data.get('test')
-        self.message = json_data.get('msg', self.title)
+        self.raw_message = json_data.get('msg', self.title)
 
         try:
             self.init = compile(self.init, '<json_string>', "exec")
-            eval(self.init)
+            print("eval result for", self.title, ":", eval(self.init, globals(), locals()))
         except:
             pass
 
