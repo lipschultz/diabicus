@@ -136,12 +136,24 @@ class JsonFact:
         if not callable(self.test):
             self.test = lambda *args: False
 
-        try:
-            self.message = eval(self.message)
-        except:
-            pass
-        if not callable(self.message):
-            self.message = lambda formula, result, history: self.message % {'result' : result}
+        if not isinstance(self.raw_message, list):
+            self.raw_message = [self.raw_message]
+
+        self.__message = []
+        for i in range(len(self.raw_message)):
+            raw_msg = self.raw_message[i]
+            try:
+                msg = eval(raw_msg)
+            except:
+                msg = raw_msg
+            if not callable(msg):
+                msg = lambda formula, result, context: DEFAULT_MSG_FORMATTER.format(raw_msg, formula=formula, result=result, context=context)
+
+            self.__message.append(msg)
+
+    def message(self, formula, result, context):
+        msg = random.choice(self.__message)
+        return msg(formula, result, context)
 
     def __str__(self):
         return self.title
