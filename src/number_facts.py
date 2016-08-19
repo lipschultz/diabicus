@@ -166,6 +166,7 @@ def load_json_file(json_file):
         contents = json.load(fin)
 
     facts = [JsonFact(d) for d in contents]
+    logging.info(str(len(facts)) + ' facts loaded from ' + json_file)
     return facts
 
 def test_fact(fact, formula, result, context):
@@ -189,7 +190,7 @@ def find_applicable_facts(facts, formula, result, context):
     return app_facts
 
 def pick_random_fact(facts):
-    logging.info("Picking random fact from: "+repr(facts))
+    logging.info("Pick random fact from: "+repr(facts))
 
     total = sum(f.weight for f in facts)
     if total == 0:
@@ -201,11 +202,11 @@ def pick_random_fact(facts):
     for f in facts:
         cdf += f.weight
         if p <= cdf:
-            logging.info('Picking fact: ' + str(f))
+            logging.info('Fact picked: ' + str(f))
             return f
 
     f = random.choice(facts)
-    logging.info('Picking fact (fallback): ' + str(f))
+    logging.info('Fact picked (fallback): ' + str(f))
     return f
 
 def get_fact(facts, formula, result, context):
