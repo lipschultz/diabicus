@@ -379,13 +379,13 @@
   "source":"Numberphile",
   "weight":0.5
  },
- {"test" : "lambda formula, result, context: False",
+ {"test" : "lambda formula, result, context: result == random.random()",
   "link" : "https://www.youtube.com/watch?v=Obg7JPd6cmw",
   "title": "Should you catch a tossed coin?",
   "source":"Numberphile",
   "note" : "randomness"
  },
- {"test" : "lambda formula, result, context: is_rational(result) and is_close(result, 0.51, 1e-3)",
+ {"test" : "lambda formula, result, context: (is_rational(result) and is_close(result, 0.51, 1e-3)) or result == random.random()",
   "link" : "https://www.youtube.com/watch?v=AYnJv68T3MM",
   "title": "How random is a coin toss?",
   "source":"Numberphile",
@@ -787,7 +787,8 @@
  {"test" : "lambda formula, result, context: result == random.random()",
   "link" : "https://www.youtube.com/watch?v=1O69uBL22nY",
   "title": "NSA Surveillance (an extra bit)",
-  "source":"Numberphile"
+  "source":"Numberphile",
+  "note" : "random"
  },
  {"test" : "lambda formula, result, context: result == 4",
   "link" : "https://www.youtube.com/watch?v=qbkH_0TNdk0",
@@ -836,7 +837,7 @@
   "title": "Sloane's Gap",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: any((result == v for v in (1.9999998, 1e-5, 1.99999999999, 0.99999999999)) or (is_error(result) and result.msg == 'divide by zero') or result in {25, 2, 41, 27} or formula == '5+2*5'",
+ {"test" : "lambda formula, result, context: any(result == v for v in (1.9999998, 1e-5, 1.99999999999, 0.99999999999)) or (is_error(result) and result.msg == 'divide by zero') or result in {25, 2, 41, 27} or formula == '5+2*5'",
   "link" : "https://www.youtube.com/watch?v=eaJtjJNrWf0",
   "title": "Calculator Unboxing #1",
   "source":"Numberphile"
@@ -908,6 +909,179 @@
   "link" : "https://www.youtube.com/watch?v=aIggWlKr41w",
   "title": "Point about Points",
   "source":"Numberphile"
- }
+ },
+ {"test" : "lambda formula, result, context: any(str(i)*2 in str(result) for i in range(0, 10)) or (is_rational(result) and 1100 <= result <= 9999) or context['result'][-3:] == [1, 2, 3] or result == 1",
+  "link" : "https://www.youtube.com/watch?v=YBbBbY4qvv4",
+  "title": "British Numbers confuse Americans",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, 1.30637788386308069, 1e-17) or result in {2, 11, 1361, 2521008887, 16022236204009818131831320183, 4113101149215104800030529537915953170486139623539759933135949994882770404074832568499}",
+  "link" : "https://www.youtube.com/watch?v=6ltrPVPEwfo",
+  "title": "Awesome Prime Number Constant",
+  "source":"Numberphile",
+  "wiki" : "https://en.wikipedia.org/wiki/Mills%27_constant",
+  "oeis" : ["https://oeis.org/A051021", "https://oeis.org/A051254"]
+ },
+ {"test" : "lambda formula, result, context: is_close(result, (2.685452001065306445309714835481795693820, ), 1e-11) or result in {1093, 3511} or is_subsequence_of(context['result'][-3:], (1, 2, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 13, 13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 17, 17, 17, 18, 18, 18, 18, 18, 18, 18)) or is_subsequence_of(context['result'][-3:], (0, 1, 5, 27, 194, 1865, 22875, 342391, 6053444, 123456789, 2853116705, 73686780563, 2103299351334, 65751519677857, 2234152501943159, 81985529216486895, 3231407272993502984, 136146740744970718253, 6106233505124424657789, 290464265927977839335179)) or is_subsequence_of(context['result'][-3:], (7, )*3) or is_subsequence_of(context['result'][-3:], (11, 67, 2, 4769, 67)) or is_subsequence_of(context['result'][-3:], (11, 67, 2, 4769, 67))",
+  "link" : "https://www.youtube.com/watch?v=VDD6FDhKCYA",
+  "title": "Six Sequences",
+  "source":"Numberphile",
+  "wiki" : ["https://en.wikipedia.org/wiki/Khinchin%27s_constant", "https://en.wikipedia.org/wiki/Wieferich_prime", "https://en.wikipedia.org/wiki/Golomb_sequence"],
+  "oeis" : ["https://oeis.org/A002210", "https://oeis.org/A001220", "https://oeis.org/A001462", "http://oeis.org/A023811", "http://oeis.org/A010727", "http://oeis.org/A058883"]
+ },
+ {"test" : "lambda formula, result, context: result == math.inf",
+  "link" : "https://www.youtube.com/watch?v=dDl7g_2x74Q",
+  "title": "Infinity Paradoxes",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == 41",
+  "link" : "https://www.youtube.com/watch?v=3K-12i0jclM",
+  "title": "41 and more Ulam's Spiral",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_prime(result) or result in (3399714628553118047, 33251810980696878103150085257129508857312847751498190349983874538507313) or result**.5 % 1 == 0",
+  "link" : "https://www.youtube.com/watch?v=iFuR97YcSLM",
+  "title": "Prime Spirals",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (17, 13)",
+  "link" : "https://www.youtube.com/watch?v=j7jfHM-mMC4",
+  "title": "Cicada 17",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (0, 1, 0.5)",
+  "link" : "https://www.youtube.com/watch?v=PCu_BNNI5x4",
+  "title": "One minus one plus one minus one",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_transcendental(result)",
+  "link" : "https://www.youtube.com/watch?v=seUU2bZtfgM",
+  "title": "Transcendental Numbers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: 'factorial' in formula or 'gamma' in formula",
+  "link" : "https://www.youtube.com/watch?v=Mfk_L4Nx2ZI",
+  "title": "Zero Factorial",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][-3:], FIBONACCI_NUMBERS) or is_close(result, math.pi, 1e-5)",
+  "link" : "https://www.youtube.com/watch?v=acTrvMlpuxA",
+  "title": "Mathematical Music",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: (is_int(result) and (0 <= result <= 9 or result in (79, 854685254, 27))) or is_close(result, math.pi, 1e-21)",
+  "link" : "https://www.youtube.com/watch?v=u17MdWjGA5I",
+  "title": "What colour is 27?",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (23483, 9999)",
+  "link" : "https://www.youtube.com/watch?v=nd_Z_jZdzP4",
+  "title": "Number Trick",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: (len(context['result']) >= 2 and is_prime(result) and is_prime(context['result'][-2]) and result-context['result'][-2] % 2 == 0) or result == 7e7 or is_prime(result)",
+  "link" : "https://www.youtube.com/watch?v=D4_sNKoO-RA",
+  "title": "Gaps between Primes (extra footage)",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: (len(context['result']) >= 2 and is_prime(result) and is_prime(context['result'][-2]) and result-context['result'][-2] % 2 == 0) or result == 7e7 or is_prime(result)",
+  "link" : "https://www.youtube.com/watch?v=vkMXdShDdtY",
+  "title": "Gaps between Primes",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (1e100, 3e41)",
+  "link" : "https://www.youtube.com/watch?v=5JOAoiX1LHA",
+  "title": "Googol Song",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (381654729, 10123457689, 362880, 3265920) or (is_int(result) and len(str(abs(int(result)))) == 9 and all(i in str(result) for i in range(1, 10))) or (is_int(result) and len(str(abs(int(result)))) == 10 and all(i in str(result) for i in range(0, 10)))",
+  "link" : "https://www.youtube.com/watch?v=gaVMrqzb91w",
+  "title": "Why 381,654,729 is awesome",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (10, 2, 3, 15, 25)",
+  "link" : "https://www.youtube.com/watch?v=Fmb3TCvlETk",
+  "title": "Base Number Jokes Explained",
+  "source":"Numberphile",
+  "note" : "different bases"
+ },
+ {"test" : "lambda formula, result, context: (len(context['result']) > 1 and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\*[^*]', formula)",
+  "link" : "https://www.youtube.com/watch?v=JJQWtGm3eIs",
+  "title": "Math Jokes Explained",
+  "source":"Numberphile",
+  "note" : "cross multiplication"
+ },
+ {"test" : "lambda formula, result, context: result in (1, 108, 261, 8848)",
+  "link" : "https://www.youtube.com/watch?v=XvDC-0aNw2k",
+  "title": "Numberphile in Nepal",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in (ord(c) for c in 'NUMBERPHILE') or result == 94699040255592155765623877",
+  "link" : "https://www.youtube.com/watch?v=wo19Y4tw0l8",
+  "title": "Illegal Numbers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == math.inf or is_prime(result)",
+  "link" : "https://www.youtube.com/watch?v=ctC33JAV4FI",
+  "title": "Infinite Primes",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == random.random() or '%' in formula",
+  "link" : "https://www.youtube.com/watch?v=SxP30euw3-0",
+  "title": "Random Numbers",
+  "source":"Numberphile",
+  "note" : "randomness"
+ },
+ {"test" : "lambda formula, result, context: result == random.gauss(216, 7) or result == 216",
+  "link" : "https://www.youtube.com/watch?v=noDSyLzVz2g",
+  "title": "Random Numbers (the next bit)",
+  "source":"Numberphile",
+  "note" : "normal randomness -- what's the stdev in the distribution?"
+ },
+ {"test" : "lambda formula, result, context: result == math.inf or -1 < result < 1",
+  "link" : "https://www.youtube.com/watch?v=u7Z9UnWOJNY",
+  "title": "Zeno's Paradox",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in FIBONACCI_NUMBERS[1:12]",
+  "link" : "https://www.youtube.com/watch?v=e4sF_Z5oJek",
+  "title": "Fibonacci Tartan and Bagpipes",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: context['result'][-3] in ([25, 0, 25], [50, 25, 50]) or result in (8000, 162, 20) or is_close(result, (math.pi, math.e), 1e-8)",
+  "link" : "https://www.youtube.com/watch?v=Waw11zhaKSk",
+  "title": "Safe Cracking with Feynman",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.pi, 1e-9) or is_transcendental(result)",
+  "link" : "https://www.youtube.com/watch?v=CMP9a2J4Bqw",
+  "title": "Squaring the Circle",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {1800, 900, 2, 3, 0, 5, 62}",
+  "link" : "https://www.youtube.com/watch?v=GyN-qpVfOWA",
+  "title": "Statistics on Match Day",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {70, 80, 90} or any('60+'+str(i) in formula for i in (10, 19)) or '4*20' in formula",
+  "link" : "https://www.youtube.com/watch?v=WM1FFhaWj9w",
+  "title": "Problems with French Numbers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {20, 19, 18, 16, 14, 12, 10, 10/20, 12/20, 14/20, 16/20, 18/20, 19/20} or any('60+'+str(i) in formula for i in (10, 19)) or '4*20' in formula",
+  "link" : "https://www.youtube.com/watch?v=QzrRkhU248A",
+  "title": "19 out of 20",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.pi, 1e-1)",
+  "link" : "https://www.youtube.com/watch?v=bFNjA9LOPsg",
+  "title": "How Pi was nearly changed to 3.2",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.pi, 0.0033) or is_close(result, (264+2/3, 84+1/3))",
+  "link" : "https://www.youtube.com/watch?v=x4kyFKyCMv0",
+  "title": "Pi with Pies (director's slice)",
+  "source":"Numberphile"
+ },
 
 ]
