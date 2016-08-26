@@ -23,13 +23,19 @@ def is_int(val):
     return isinstance(val, int) or (isinstance(val, float) and val % 1 == 0)
 
 def is_rational(val):
-    return isinstance(val, (int, float))
+    return isinstance(val, (int, float)) and not is_irrational(val)
 
 def is_irrational(val):
     return is_transcendental(val) or val in (2**.5, GOLDEN_RATIO)
 
 def is_transcendental(val):
     return val in (math.pi, math.e)
+
+def is_real(val):
+    return isinstance(val, (int, float))
+
+def is_complex(val):
+    return isinstance(val, complex)
 
 def is_surreal(number):
     return False
@@ -142,7 +148,7 @@ class JsonFact:
         if not isinstance(self.raw_message, list):
             self.raw_message = [self.raw_message]
 
-        self.__message = []
+        self._message = []
         for i in range(len(self.raw_message)):
             raw_msg = self.raw_message[i]
             try:
@@ -152,10 +158,10 @@ class JsonFact:
             if not callable(msg):
                 msg = lambda formula, result, context: DEFAULT_MSG_FORMATTER.format(raw_msg, formula=formula, result=result, context=context)
 
-            self.__message.append(msg)
+            self._message.append(msg)
 
     def message(self, formula, result, context):
-        msg = random.choice(self.__message)
+        msg = random.choice(self._message)
         return msg(formula, result, context)
 
     def __str__(self):

@@ -85,25 +85,25 @@
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 7"
  },
- {"test" : "lambda formula, result, context: (result-6) % 11 == 0",
+ {"test" : "lambda formula, result, context: is_real(result) and (result-6) % 11 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 11"
  },
- {"test" : "lambda formula, result, context: (result-237) % 17303 == 0",
+ {"test" : "lambda formula, result, context: is_real(result) and (result-237) % 17303 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 13"
  },
- {"test" : "lambda formula, result, context: (result-2623) % 206839 == 0",
+ {"test" : "lambda formula, result, context: is_real(result) and (result-2623) % 206839 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 17"
  },
- {"test" : "lambda formula, result, context: (result-1977147619) % 815655 == 0",
+ {"test" : "lambda formula, result, context: is_real(result) and (result-1977147619) % 815655 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
@@ -187,7 +187,7 @@
   "source":"Numberphile",
   "msg" : "lambda f, r, c: 'Number of primes below the result: %0.1f' % (scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0])"
  },
- {"test" : "lambda formula, result, context: (is_int(result) and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
+ {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",
   "title": "Powers of 2",
   "source":"Numberphile"
@@ -363,7 +363,7 @@
   "title": "Calculator Unboxing #6 (Staples collection)",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result in (8000, 13, 14, 9, 4, 788, 901, 17) or (6 <= result <= 11) or formula in ('8+5', '7+7', '5+4', '4+0', '715+73', '844+57') or is_close(result, 2.83333333333, 1e-7)",
+ {"test" : "lambda formula, result, context: result in (8000, 13, 14, 9, 4, 788, 901, 17) or (is_real(result) and 6 <= result <= 11) or formula in ('8+5', '7+7', '5+4', '4+0', '715+73', '844+57') or is_close(result, 2.83333333333, 1e-7)",
   "link" : "https://www.youtube.com/watch?v=ZbKYmfjMPVM",
   "title": "Calculator Unboxing #5 (Little Professor)",
   "source":"Numberphile"
@@ -449,7 +449,7 @@
   "title": "Sum of Natural Numbers (second proof and extra footage)",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: any(context['result'][-len(s):] == s for s in ((1, 1), (1, 2, 1), (1, 3, 3, 1))) or context['result'][-3] == (1, 4, 1)",
+ {"test" : "lambda formula, result, context: any(len(context['result']) >= len(s) and context['result'][-len(s):] == s for s in ((1, 1), (1, 2, 1), (1, 3, 3, 1), (1, 4, 1)))",
   "link" : "https://www.youtube.com/watch?v=mX0NB9IyYpU",
   "title": "Math and Movies (Animation at Pixar)",
   "source":"Numberphile"
@@ -847,7 +847,7 @@
   "title": "Homer Simpson vs Pierre de Fermat",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result in {223, 75, 107, 21} or 40 <= result < 50",
+ {"test" : "lambda formula, result, context: result in {223, 75, 107, 21} or (is_real(result) and 40 <= result < 50)",
   "link" : "https://www.youtube.com/watch?v=CfoKor05k1I",
   "title": "Politics and Numbers",
   "source":"Numberphile"
@@ -1005,7 +1005,7 @@
   "source":"Numberphile",
   "note" : "different bases"
  },
- {"test" : "lambda formula, result, context: (len(context['result']) > 1 and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\*[^*]', formula)",
+ {"test" : "lambda formula, result, context: (len(context['result']) > 1 and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
   "link" : "https://www.youtube.com/watch?v=JJQWtGm3eIs",
   "title": "Math Jokes Explained",
   "source":"Numberphile",
@@ -1048,7 +1048,7 @@
   "title": "Fibonacci Tartan and Bagpipes",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: context['result'][-3] in ([25, 0, 25], [50, 25, 50]) or result in (8000, 162, 20) or is_close(result, (math.pi, math.e), 1e-8)",
+ {"test" : "lambda formula, result, context: (len(context['result']) >= 3 and context['result'][-3] in ([25, 0, 25], [50, 25, 50])) or result in (8000, 162, 20) or is_close(result, (math.pi, math.e), 1e-8)",
   "link" : "https://www.youtube.com/watch?v=Waw11zhaKSk",
   "title": "Safe Cracking with Feynman",
   "source":"Numberphile"
