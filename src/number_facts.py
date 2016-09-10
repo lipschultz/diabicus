@@ -7,6 +7,7 @@ import random
 import logging
 import string
 from functools import reduce
+import re
 from compute import ComputationError
 
 def context_to_str(context):

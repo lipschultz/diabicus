@@ -73,13 +73,13 @@
   "source":"Numberphile",
   "oeis" : "https://oeis.org/A000594"
  },
- {"test" : "lambda formula, result, context: result % 10 in (4, 9)",
+ {"test" : "lambda formula, result, context: is_real(result) and result % 10 in (4, 9)",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 5"
  },
- {"test" : "lambda formula, result, context: (result-5) % 7 == 0",
+ {"test" : "lambda formula, result, context: is_real(result) and (result-5) % 7 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
@@ -572,7 +572,7 @@
   "oeis" : "https://oeis.org/A007540",
   "wiki" : "https://en.wikipedia.org/wiki/Wilson_prime"
  },
- {"test" : "lambda formula, result, context: result in (27, 7625597484987) or (result > sys.float_info.max)",
+ {"test" : "lambda formula, result, context: is_real(result) and (result in {27, 7625597484987} or (result > sys.float_info.max))",
   "link" : "https://www.youtube.com/watch?v=txajrEOTkuY",
   "title": "Graham's Number Escalates Quickly",
   "source":"Numberphile"
@@ -583,7 +583,7 @@
   "source":"Numberphile",
   "wiki" : "https://en.wikipedia.org/wiki/Mandelbrot_set"
  },
- {"test" : "lambda formula, result, context: result >= 13",
+ {"test" : "lambda formula, result, context: is_real(result) and result >= 13",
   "link" : "https://www.youtube.com/watch?v=HX8bihEe3nA",
   "title": "What is Graham's Number? (feat Ron Graham)",
   "source":"Numberphile"
@@ -597,7 +597,7 @@
   "link" : "https://www.youtube.com/watch?v=xPk3SZiFEvQ",
   "title": "Happy Ending Problem",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %d point with no three points in a line' % (r, (2**(r-2))+1)"
+  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %d points with no three points in a line' % (r, (2**(r-2))+1)"
  },
  {"test" : "lambda formula, result, context: is_rational(result) and is_close(result, (36.7879, 0.367879))",
   "link" : "https://www.youtube.com/watch?v=ZWib5olGbQ0",
@@ -857,7 +857,7 @@
   "title": "Fermat's Last Theorem",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result == 6 or (is_int(result) and result**0.5 % 1 == 0)",
+ {"test" : "lambda formula, result, context: result == 6 or (is_int(result) and result > 0 and result**0.5 % 1 == 0)",
   "link" : "https://www.youtube.com/watch?v=Y30VF3cSIYQ",
   "title": "The Legend of Question Six",
   "source":"Numberphile"
@@ -873,7 +873,7 @@
   "title": "Log Tables",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result < 1e7 and (is_prime(result) or result == 492113)",
+ {"test" : "lambda formula, result, context: is_real(result) and result < 1e7 and (is_prime(result) or result == 492113)",
   "link" : "https://www.youtube.com/watch?v=8UqCyepX3AI",
   "title": "WARNING: Contains Numbers",
   "source":"Numberphile",
@@ -899,7 +899,7 @@
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result > 1 and is_int(result)",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 1",
   "link" : "https://www.youtube.com/watch?v=l8ezziaEeNE",
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
@@ -939,7 +939,7 @@
   "title": "41 and more Ulam's Spiral",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: is_prime(result) or result in (3399714628553118047, 33251810980696878103150085257129508857312847751498190349983874538507313) or result**.5 % 1 == 0",
+ {"test" : "lambda formula, result, context: is_prime(result) or result in (3399714628553118047, 33251810980696878103150085257129508857312847751498190349983874538507313) or (is_real(result) and result > 0 and result**.5 % 1 == 0)",
   "link" : "https://www.youtube.com/watch?v=iFuR97YcSLM",
   "title": "Prime Spirals",
   "source":"Numberphile"
@@ -1038,7 +1038,7 @@
   "source":"Numberphile",
   "note" : "normal randomness -- what's the stdev in the distribution?"
  },
- {"test" : "lambda formula, result, context: result == math.inf or -1 < result < 1",
+ {"test" : "lambda formula, result, context: result == math.inf or (is_real(result) and -1 < result < 1)",
   "link" : "https://www.youtube.com/watch?v=u7Z9UnWOJNY",
   "title": "Zeno's Paradox",
   "source":"Numberphile"
@@ -1109,7 +1109,7 @@
   "source":"Numberphile",
   "note" : "base 12 -- that's where the 12 came from"
  },
- {"test" : "lambda formula, result, context: is_real(result) and result > 0",
+ {"test" : "lambda formula, result, context: is_real(result) and result > 0 and result < math.inf",
   "link" : "https://www.youtube.com/watch?v=aOJOfh2_4PE",
   "title": "Zequals and Estimation",
   "source":"Numberphile",
@@ -1178,7 +1178,7 @@
   "title": "Kids get their money",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result == 12 or any(result % b == 0 for b in (2, 3, 4, 6, 12))",
+ {"test" : "lambda formula, result, context: result == 12 or (is_real(result) and any(result % b == 0 for b in (2, 3, 4, 6, 12)))",
   "link" : "https://www.youtube.com/watch?v=U6xJfP7-HCc",
   "title": "Base 12",
   "source":"Numberphile",
