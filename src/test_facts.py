@@ -1,5 +1,9 @@
 import number_facts
 import math
+from simpleeval import SimpleEval
+import compute
+
+general_eval = SimpleEval()
 
 TEST_SET = [{'result' : 0},
             {'result' : 1},
@@ -29,7 +33,12 @@ TEST_SET = [{'result' : 0},
             {'result' : complex(-3, -5), 'formula' : '-3-(-25)^0.5'},
             {'result' : complex(-3, 5), 'formula' : '-3+(-25)^0.5'},
             {'result' : complex(3, -5), 'formula' : '3-(-25)^0.5'},
+            {'formula' : '1/0'},
+            {'formula' : '9**/5'},
             ]
+'''
+[WARNING] [Math Jokes Explained threw exception TypeError("unsupported operand type(s) for //] 'int' and 'ComputationError'",): formula = "Ans+2", result = "1382041022933, context = {formula : <['105×17', 'Ans^3', '(Ans-8)×3^5', '1/0', 'Ans+2']>, result : <[1785, 5687411625, 1382041022931, <compute.ComputationError object at 0xb202610c>, 1382041022933]>, output : <['1785', '5.6874116e+09', '1.382041e+12', 'Error: divide by zero', '1.382041e+12']>}
+'''
 
 def test_file(filename):
     facts = number_facts.load_json_file(filename)
@@ -39,6 +48,9 @@ def test_file(filename):
         test_fact(fact)
 
 def test_fact(fact):
+    if not isinstance(fact.weight, (int, float)):
+        print(repr(fact), 'has non-numeric weight:', fact.weight)
+
     for case in TEST_SET:
         formula, result, context = convert_test_case(case)
         try:
@@ -70,6 +82,8 @@ def convert_test_case(test_case):
     if context is None:
         if formula is None:
             formula = str(result)
+        elif result is None:
+            result = compute.eval_expr(general_eval, formula)
         context = {'result' : [result], 'formula' : [formula]}
 
     return formula, result, context

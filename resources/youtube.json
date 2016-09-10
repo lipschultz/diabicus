@@ -192,7 +192,7 @@
   "title": "Powers of 2",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: is_rational(result) and (result == 0.25 or is_close(math.pi, result, 1e-3) or result in (2, 30, 312, 3140, 31414))",
+ {"test" : "lambda formula, result, context: is_rational(result) and (result == 0.25 or is_close(math.pi, result, 1e-3) or result in {2, 30, 312, 3140, 31414})",
   "link" : "https://www.youtube.com/watch?v=d0vY0CKYhPY",
   "title": "Pi and the Mandelbrot Set",
   "source":"Numberphile"
@@ -268,7 +268,7 @@
   "source":"Numberphile",
   "oeis" : "https://oeis.org/A258107"
  },
- {"init": "def farey_addition(context):\n    first = Fraction(context['result'][-3]).limit_denominator(234)\n    second = Fraction(context['result'][-2]).limit_denominator(234)\n    third = Fraction(context['result'][-1]).limit_denominator(234)\n    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second\n",
+ {"init": "def farey_addition(context):\n    if len(history['result']) < 3:\n        return False\n    first = Fraction(context['result'][-3]).limit_denominator(234)\n    second = Fraction(context['result'][-2]).limit_denominator(234)\n    third = Fraction(context['result'][-1]).limit_denominator(234)\n    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second\n",
   "test" : "lambda formula, result, context: farey_addition(context)",
   "link" : "https://www.youtube.com/watch?v=0hlvhQZIOQw",
   "title": "Funny Fractions and Ford Circles",
@@ -1295,7 +1295,7 @@
   "title": "Superflip and Rubik's Cube",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result <= 20",
+ {"test" : "lambda formula, result, context: is_int(result) and result <= 20",
   "link" : "https://www.youtube.com/watch?v=yF2J39Xny4Q",
   "title": "God's Number and Rubik's Cube",
   "source":"Numberphile"
@@ -1325,7 +1325,7 @@
   "link" : "https://www.youtube.com/watch?v=dHzUQnRjbuM",
   "title": "Numbery Card Trick",
   "source":"Numberphile",
-  "weight":"0.25"
+  "weight":0.25
  },
  {"test" : "lambda formula, result, context: result in {27, 300, 6, 36, 9, 501, 147, 120, 24, 1, 1575, 649739, 1/649739, 128, 130, 2044}",
   "link" : "https://www.youtube.com/watch?v=fHhnh-1Obyc",
@@ -1533,6 +1533,6 @@
   "link" : "https://www.youtube.com/watch?v=sJVivjuMfWA",
   "title": "Pi and Buffon's Matches",
   "source":"Numberphile"
- },
+ }
 
 ]

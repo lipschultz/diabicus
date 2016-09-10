@@ -95,7 +95,9 @@ def is_subsequence_of(needle, haystack):
     return False
 
 def is_close(num1, num2, threshold=1e-5):
-    if isinstance(num1, (tuple, list, set)):
+    if isinstance(num1, ComputationError) or isinstance(num2, ComputationError):
+        return False
+    elif isinstance(num1, (tuple, list, set)):
         return any(is_close(n, num2, threshold) for n in num1)
     elif isinstance(num2, (tuple, list, set)):
         return any(is_close(num1, n, threshold) for n in num2)
@@ -117,13 +119,15 @@ def to_ordinal(n):
     else:
         return str_n + 'th'
 
-"""
+
 def farey_addition(history):
+    if len(history['result']) < 3:
+        return False
     first = Fraction(history['result'][-3]).limit_denominator(234)
     second = Fraction(history['result'][-2]).limit_denominator(234)
     third = Fraction(history['result'][-1]).limit_denominator(234)
     return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second
-"""
+
 class MagicSquare:
     def __init__(self):
         self.link = 'https://www.youtube.com/watch?v=aQxCnmhqZko'
