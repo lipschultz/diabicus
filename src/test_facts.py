@@ -2,7 +2,9 @@ import number_facts
 import math
 from simpleeval import SimpleEval
 import compute
-
+import time
+from itertools import chain
+chain.from_iterable(seq)
 general_eval = SimpleEval()
 
 TEST_SET = [{'result' : 0},
@@ -40,39 +42,93 @@ TEST_SET = [{'result' : 0},
 [WARNING] [Math Jokes Explained threw exception TypeError("unsupported operand type(s) for //] 'int' and 'ComputationError'",): formula = "Ans+2", result = "1382041022933, context = {formula : <['105×17', 'Ans^3', '(Ans-8)×3^5', '1/0', 'Ans+2']>, result : <[1785, 5687411625, 1382041022931, <compute.ComputationError object at 0xb202610c>, 1382041022933]>, output : <['1785', '5.6874116e+09', '1.382041e+12', 'Error: divide by zero', '1.382041e+12']>}
 '''
 
+import signal
+class timeout:
+    '''
+    http://stackoverflow.com/questions/2281850/timeout-function-if-it-takes-too-long-to-finish/22348885#22348885
+    see also:
+        https://stackoverflow.com/questions/15528939/python-3-timed-input
+        http://stackoverflow.com/questions/492519/timeout-on-a-function-call
+        http://stackoverflow.com/questions/2281850/timeout-function-if-it-takes-too-long-to-finish
+    '''
+    def __init__(self, seconds=1, error_message='Timeout'):
+        self.seconds = seconds
+        self.error_message = error_message
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
+
+class TestResult:
+    def __init__(self, fact):
+        self.fact = fact
+        self.weight = True
+        self.cases = {}
+        self.msgs = {}
+        self.success = True
+
+    def add_test_case_result(self, case, success, duration=None):
+        case = tuple(sorted(case.items()))
+        self.cases[case] = {'success' : success, 'duration' : duration}
+        self.success = self.success and success
+
+    def add_msg_result(self, case, msg_i, success, duration=None):
+        case = tuple(sorted(case.items()))
+        case_msgs = self.msgs.get(case, {})
+        case_msgs[msg_i] = {'success' : success, 'duration' : duration}
+        self.msgs[case] = case_msgs
+        self.success = self.success and success
+
+    def test_times(self):
+        return dict([(k, v['duration']) for k, v in self.cases.items() if v['duration'] is not None])
+
 def test_file(filename):
     facts = number_facts.load_json_file(filename)
     print('Total facts:', len(facts))
 
+    fact_results = []
     for fact in facts:
-        test_fact(fact)
+        fact_results.append(test_fact(fact))
+    return fact_results
 
 def test_fact(fact):
+    status = TestResult(fact)
     if not isinstance(fact.weight, (int, float)):
         print(repr(fact), 'has non-numeric weight:', fact.weight)
+        status.weight = False
 
+    #print(fact)
     for case in TEST_SET:
+        #print('\t', case)
         formula, result, context = convert_test_case(case)
         try:
-            test_result = fact.test(formula, result, context)
+            with timeout(seconds=1):
+                start = time.time()
+                test_result = fact.test(formula, result, context)
+                duration = time.time() - start
+                status.add_test_case_result(case, True, duration)
         except Exception as e:
             print(repr(fact), 'failed on test case', case, ':', e)
-            return False
+            status.add_test_case_result(case, False)
 
         if test_result:
-            had_failure = False
             for i in range(len(fact._message)):
+                #print('\tmsg:', i)
                 msg = fact._message[i]
                 try:
+                    start = time.time()
                     msg(formula, result, context)
+                    duration = time.time() - start
+                    status.add_msg_result(case, i, True, duration)
                 except Exception as e:
                     raw_msg = fact.raw_message[i]
-                    print(repr(fact), 'failed on msg', i, '('+raw_msg+'):', e)
-                    had_failure = True
+                    print(repr(fact), 'failed on msg', i, '('+raw_msg+') with test case', case, ':', e)
+                    status.add_msg_result(case, i, False)
 
-            return not had_failure
-
-    return True
+    return status
 
 def convert_test_case(test_case):
     result = test_case.get('result')
@@ -89,4 +145,4 @@ def convert_test_case(test_case):
     return formula, result, context
 
 if __name__ == '__main__':
-    test_file('../resources/youtube.json')
+    results = test_file('../resources/youtube.json')
