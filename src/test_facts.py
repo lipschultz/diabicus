@@ -33,6 +33,7 @@ TEST_SET = [{'result' : 0},
 
 def test_file(filename):
     facts = number_facts.load_json_file(filename)
+    print('Total facts:', len(facts))
 
     for fact in facts:
         test_fact(fact)
