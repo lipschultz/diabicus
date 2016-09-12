@@ -4,7 +4,7 @@ from simpleeval import SimpleEval
 import compute
 import time
 from itertools import chain
-chain.from_iterable(seq)
+
 general_eval = SimpleEval()
 
 TEST_SET = [{'result' : 0},
@@ -95,6 +95,7 @@ def test_file(filename):
     return fact_results
 
 def test_fact(fact):
+    TIMEOUT = 3
     status = TestResult(fact)
     if not isinstance(fact.weight, (int, float)):
         print(repr(fact), 'has non-numeric weight:', fact.weight)
@@ -105,14 +106,19 @@ def test_fact(fact):
         #print('\t', case)
         formula, result, context = convert_test_case(case)
         try:
-            with timeout(seconds=1):
+            with timeout(seconds=TIMEOUT):
                 start = time.time()
                 test_result = fact.test(formula, result, context)
                 duration = time.time() - start
                 status.add_test_case_result(case, True, duration)
+        except TimeoutError as e:
+            print(repr(fact), 'timed out on case', case)
+            status.add_test_case_result(case, False, TIMEOUT)
+            test_result = False
         except Exception as e:
             print(repr(fact), 'failed on test case', case, ':', e)
             status.add_test_case_result(case, False)
+            test_result = False
 
         if test_result:
             for i in range(len(fact._message)):
@@ -146,3 +152,5 @@ def convert_test_case(test_case):
 
 if __name__ == '__main__':
     results = test_file('../resources/youtube.json')
+    times = list(chain.from_iterable((r.test_times().values() for r in results)))
+    print('Test time: avg=%0.2g, max=%0.2g, min=%0.2g' % (sum(times)/len(times), max(times), min(times)))
