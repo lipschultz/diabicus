@@ -1533,6 +1533,187 @@
   "link" : "https://www.youtube.com/watch?v=sJVivjuMfWA",
   "title": "Pi and Buffon's Matches",
   "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.pi)",
+  "link" : "https://www.youtube.com/watch?v=abv4Fz7oNr0",
+  "title": "Pi and Bouncing Balls",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_real(result) and result > 0 and math.log(result/16, 100) % 1 < 0.001",
+  "link" : "https://www.youtube.com/watch?v=abv4Fz7oNr0",
+  "title": "Pi and Bouncing Balls",
+  "source":"Numberphile",
+  "msg" : "lambda f, result, c: 'With two balls, whose masses are in the ratio %.2f:1, you can generate the first %d digits of pi!' % (result, 1+round(math.log(result/16, 100)))"
+ },
+ {"test" : "lambda formula, result, context: is_real(result) and 3+10/71 < result < 3+10/70",
+  "link" : "https://www.youtube.com/watch?v=yJ-HwrOpIps",
+  "title": "Pi",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == 42 or result in {0, 2, 6, 12, 20, 30, 42, 56, 72, 90, 110, 132, 156, 182, 210, 240, 272, 306, 342, 380, 420, 462, 506, 552, 600, 650, 702, 756, 812, 870, 930, 992, 1056, 1122, 1190, 1260, 1332, 1406, 1482, 1560, 1640, 1722, 1806, 1892, 1980, 2070, 2162, 2256, 2352, 2450, 2550} or result in {2, 6, 42, 1806, 47058, 2214502422, 52495396602, 8490421583559688410706771261086} or result in {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 18, 20, 21, 24, 27, 30, 36, 40, 42, 45, 48, 50, 54, 60, 63, 70, 72, 80, 81, 84, 90, 100, 102, 108, 110, 111, 112, 114, 117, 120, 126, 132, 133, 135, 140, 144, 150, 152, 153, 156, 162, 171, 180, 190, 192, 195, 198, 200, 201, 204}",
+  "link" : "https://www.youtube.com/watch?v=D6tINlNluuY",
+  "title": "42 and Douglas Adams",
+  "source":"Numberphile",
+  "oeis" : ["http://oeis.org/A002378", "http://oeis.org/A054377", "http://oeis.org/A005349"]
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0 and is_int(result**0.5) and all('9'==d for d in str(int(result**0.5)))",
+  "link" : "https://www.youtube.com/watch?v=daro6K6mym8",
+  "title": "998,001 and its Mysterious Recurring Decimals",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_complex(result) or result in {1, 2, 3, 7, 11, 19, 43, 67, 163} or result in {-1, -2, -3, -7, -11, -19, -43, -67, -163} or result in (v**0.5 for v in (-1, -2, -3, -7, -11, -19, -43, -67, -163)) or is_close(result, (math.exp(math.sqrt(v)*math.pi) for v in (1, 2, 3, 7, 11, 19, 43, 67, 163)))",
+  "link" : "https://www.youtube.com/watch?v=DRxAVA6gYMM",
+  "title": "163 and Ramanujan Constant",
+  "source":"Numberphile",
+  "oeis" : "http://oeis.org/A003173"
+ },
+ {"test" : "lambda formula, result, context: result in {29, 2455987, 2440423.62, 2419507.74} or (is_int(result) and result % 4 == 0 and result % 100 != 0 and result % 400 == 0)",
+  "link" : "https://www.youtube.com/watch?v=-O4mYiP2zPQ",
+  "title": "29 and Leap Years",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {83, 38, 73, 58, 89, 145, 42, 20, 4, 16, 37}",
+  "link" : "https://www.youtube.com/watch?v=_DpzAvb3Vk4",
+  "title": "145 and the Melancoil",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {1729, 4104, 13832, 20683, 32832, 39312, 40033, 46683, 64232, 65728, 110656, 110808, 134379, 149389, 165464, 171288, 195841, 216027, 216125, 262656, 314496, 320264, 327763, 373464, 402597, 439101, 443889, 513000, 513856, 515375, 525824, 558441, 593047, 684019, 704977}",
+  "link" : "https://www.youtube.com/watch?v=LzjaDKVC4iY",
+  "title": "1729 and Taxi Cabs",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, {1e100, 5e12, 1e80, 1e90, 1e183, 1e26, 1e78}, method='pct')",
+  "link" : "https://www.youtube.com/watch?v=8GEebx72-qs",
+  "title": "Googol and Googolplex",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {25, 18, 51, 82, 81, 52, 15, 28, 12, 21, 88, 55, 58, 85, 22, 11, 176}",
+  "link" : "https://www.youtube.com/watch?v=aTSYARnB-3Y",
+  "title": "Special Magic Square",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {23, 253} or is_close(result, (0.493, 0.507), 1e-3)",
+  "link" : "https://www.youtube.com/watch?v=a2ey9a70yY0",
+  "title": "23 and Football Birthdays",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {1, 7, 10, 13, 19, 23, 28, 31, 32, 44, 49, 68, 70, 79, 82, 86, 91, 94, 97, 100, 103, 109, 129, 130, 133, 139, 167, 176, 188, 190, 192, 193, 203, 208, 219, 226, 230, 236, 239, 262, 263, 280, 291, 293, 301, 302, 310, 313, 319, 320, 326, 329, 331, 338}",
+  "link" : "https://www.youtube.com/watch?v=kC6YObu61_w",
+  "title": "7 and Happy Numbers",
+  "source":"Numberphile",
+  "oeis" : "http://oeis.org/A007770",
+  "wiki" : "http://en.wikipedia.org/wiki/Happy_number"
+ },
+ {"test" : "lambda formula, result, context: result in {0.5, 14, 32766}",
+  "link" : "https://www.youtube.com/watch?v=bFfSfzjhfC8",
+  "title": "14 Super Bowl Coin Tosses",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0",
+  "link" : "https://www.youtube.com/watch?v=bFfSfzjhfC8",
+  "title": "14 Super Bowl Coin Tosses",
+  "source":"Numberphile",
+  "msg" : "lambda f, result, c: 'To get %d wins in a row (at 50%% chance of a win), you would need to try %d times on average.' % (int(result), math.ceil(2**(result+1)-2))"
+ },
+ {"test" : "lambda formula, result, context: result == 0.75",
+  "link" : "https://www.youtube.com/watch?v=hLGDJFGAmic",
+  "title": "3/4 and Kleiber's Law",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, 2**.5)",
+  "link" : "https://www.youtube.com/watch?v=5sKah3pJnHI",
+  "title": "Root 2",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {17, 1, 2, 3, 4, 5, 6, 7, 8, 9, 81, 6.7e21, 3.3e16, 5472730538}",
+  "link" : "https://www.youtube.com/watch?v=MlyTq-xVkQE",
+  "title": "17 and Sudoku Clues",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {98, 99, 9998, 9999, 77, 9797, 997997, 764, 765, 5711, 5736, 76394, 2798254, 7639321, 8053139, 763932023, 76393202251, 7639320225003} or is_close(result, 3-5**.5)",
+  "link" : "https://www.youtube.com/watch?v=hiOMtBrH8pc",
+  "title": "98 and Grafting Numbers",
+  "source":"Numberphile",
+  "note" : "interesting patterns"
+ },
+ {"test" : "lambda formula, result, context: result in {15, 16, 255, 0xffffffff}",
+  "link" : "https://www.youtube.com/watch?v=9xbJ3enqLnA",
+  "title": "15 and Hexadecimal",
+  "source":"Numberphile",
+  "note" : "base 16"
+ },
+ {"test" : "lambda formula, result, context: result in {3435, 1}",
+  "link" : "https://www.youtube.com/watch?v=mhJY74Bw8mw",
+  "title": "3435",
+  "source":"Numberphile",
+  "wiki" : "https://en.wikipedia.org/wiki/Munchausen_number",
+  "oeis" : "https://oeis.org/A046253"
+ },
+ {"test" : "lambda formula, result, context: result in {1, 2, 3, 4, 5, 6, 7, 8, 9, 153, 370, 371, 407, 1634, 8208, 9474, 54748, 92727, 93084, 548834, 1741725, 4210818, 9800817, 9926315, 24678050, 24678051, 88593477, 146511208, 472335975, 534494836, 912985153, 4679307774, 32164049650, 32164049651}",
+  "link" : "https://www.youtube.com/watch?v=4aMtJ-V26Z4",
+  "title": "153 and Narcissistic Numbers",
+  "source":"Numberphile",
+  "wiki" : "https://en.wikipedia.org/wiki/Narcissistic_number",
+  "oeis" : "https://oeis.org/A005188"
+ },
+ {"test" : "lambda formula, result, context: result in {3, 7, 31, 127, 8191, 131071, 524287, 2147483647, 2305843009213693951, 618970019642690137449562111, 162259276829213363391578010288127, 170141183460469231731687303715884105727}",
+  "link" : "https://www.youtube.com/watch?v=PLL0mo5rHhk",
+  "title": "31 and Mersenne Primes",
+  "source":"Numberphile",
+  "wiki" : "https://en.wikipedia.org/wiki/Mersenne_prime",
+  "oeis" : "https://oeis.org/A000668"
+ },
+ {"test" : "lambda formula, result, context: result in {15}",
+  "link" : "https://www.youtube.com/watch?v=Oev332D0K0I",
+  "title": "15 bumfit",
+  "source":"Numberphile",
+  "note" : "base 20"
+ },
+ {"test" : "lambda formula, result, context: len(context['result']) > 1 and is_int(result) and result > 0 and is_int(context['result'][-2]) and context['result'][-2] > 0 and sum(factors(result)) == context['result'][-2] and sum(factors(context['result'][-2])) == result",
+  "link" : "https://www.youtube.com/watch?v=fUSZBVYZdKY",
+  "title": "220 and 284 (Amicable Numbers)",
+  "source":"Numberphile",
+  "wiki" : "https://en.wikipedia.org/wiki/Amicable_numbers",
+  "oeis" : "https://oeis.org/A259180"
+ },
+ {"test" : "lambda formula, result, context: result in {69, math.factorial(69)} or is_close(result, sys.float_info.max, method='pct')",
+  "link" : "https://www.youtube.com/watch?v=kw6l_uTakRA",
+  "title": "69!",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {6147}",
+  "link" : "https://www.youtube.com/watch?v=d8TRcZklX_Q",
+  "title": "6147",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {6, 28, 496, 8128, 33550336, 8589869056, 137438691328, 2305843008139952128, 2658455991569831744654692615953842176, 191561942608236107294793378084303638130997321548169216}",
+  "link" : "https://www.youtube.com/watch?v=ZfKTD5lvToE",
+  "title": "8128 and Perfect Numbers",
+  "source":"Numberphile",
+  "wiki" : "http://www.wikipedia.org/wiki/Perfect_number",
+  "oeis" : "https://oeis.org/A000396"
+ },
+ {"test" : "lambda formula, result, context: result == 16",
+  "link" : "https://www.youtube.com/watch?v=mLQNvuZH3GU",
+  "title": "16",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == 255",
+  "link" : "https://www.youtube.com/watch?v=umYvFdU54Po",
+  "title": "255 and Pac-Man",
+  "source":"Numberphile",
+  "note" : "base 2"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and 0 <= result < 1e11 and sum([result//(10**(10-i-1)) % 10 * (10-i) for i in range(10)]) % 11",
+  "link" : "https://www.youtube.com/watch?v=sPFWfAxIiwg",
+  "title": "11.11.11",
+  "source":"Numberphile",
+  "msg" : "lambda f, result, c: 'The number %010d could be a valid ISBN-10 value.' % (result)"
+ },
+ {"test" : "lambda formula, result, context: result == 11",
+  "link" : "https://www.youtube.com/watch?v=sPFWfAxIiwg",
+  "title": "11.11.11",
+  "source":"Numberphile"
  }
 
 ]
