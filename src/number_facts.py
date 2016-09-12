@@ -95,17 +95,20 @@ def is_subsequence_of(needle, haystack):
 
     return False
 
-def is_close(num1, num2, threshold=1e-5):
+def is_close(num1, num2, threshold=1e-5, method='raw'):
     if isinstance(num1, ComputationError) or isinstance(num2, ComputationError):
         return False
-    elif isinstance(num1, (tuple, list, set)):
+    elif hasattr(num1, '__iter__'):
         return any(is_close(n, num2, threshold) for n in num1)
-    elif isinstance(num2, (tuple, list, set)):
+    elif hasattr(num2, '__iter__'):
         return any(is_close(num1, n, threshold) for n in num2)
     elif (isinstance(num1, complex) or isinstance(num2, complex)) and type(num1) != type(num2):
         return False
     else:
-        return abs(num1-num2) < threshold
+        if method == 'pct':
+            return abs(num1-num2) / max(num1, num2) < threshold
+        else:
+            return abs(num1-num2) < threshold
 
 def to_ordinal(n):
     str_n = str(n)
