@@ -210,6 +210,14 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 1.3862943611198906)
 
+    @unittest.skip("simpleeval thinks it'll take too long to compute")
+    def test_large_root(self):
+        self.assign_value_to_Ans(1.668e14)
+        self.enter_basic_input('^.5')
+        self.app.press_ans()
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 12915107.432770353)
+
     def test_implicit_multiply_num_Ans(self):
         self.assign_value_to_Ans(3)
         self.enter_basic_input('2')
