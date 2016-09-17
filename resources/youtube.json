@@ -597,7 +597,7 @@
   "link" : "https://www.youtube.com/watch?v=xPk3SZiFEvQ",
   "title": "Happy Ending Problem",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %d points with no three points in a line' % (r, (2**(r-2))+1)"
+  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %d points with no three points in a line' % (r, to_pretty_x10((2**(r-2))+1))"
  },
  {"test" : "lambda formula, result, context: is_rational(result) and is_close(result, (36.7879, 0.367879))",
   "link" : "https://www.youtube.com/watch?v=ZWib5olGbQ0",
