@@ -231,6 +231,15 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertEqual(self.app.result, 9)
 
+    def test_context_stores_past_results(self):
+        self.enter_basic_input('2+2')
+        self.app.calculate()
+        self.enter_basic_input('9/3')
+        self.app.calculate()
+        context = self.app.get_context()
+        self.assertEqual(context['formula'], ['2+2', '9/3'])
+        self.assertEqual(context['result'], [4, 3.0])
+
 class NumberFactsTests(unittest.TestCase):
     def test_prettying_ints_larger_than_can_fit_in_float(self):
         num = 2**(36862)+1

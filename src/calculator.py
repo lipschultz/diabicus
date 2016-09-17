@@ -75,7 +75,7 @@ class Calculator:
     output = property(get_output, set_output)
 
     def get_context(self):
-        return self.__context
+        return self.context
 
     def start_disco(self):
         if not self.__disco.is_discoing():
