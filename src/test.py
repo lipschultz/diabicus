@@ -1,6 +1,7 @@
 import unittest
 import calculator
 import compute
+import number_facts
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):
@@ -229,6 +230,12 @@ class CalculatorTests(unittest.TestCase):
         self.app.press_ans()
         self.app.calculate()
         self.assertEqual(self.app.result, 9)
+
+class NumberFactsTests(unittest.TestCase):
+    def test_prettying_ints_larger_than_can_fit_in_float(self):
+        num = 2**(36862)+1
+        pnum = number_facts.to_pretty_x10(num)
+        self.assertEqual(pnum, '3.6957×10^11096')
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,6 @@
 import re
+import logging
+import simpleeval
 
 FUNCTION_PREFIX = '\u200b'
 
@@ -32,6 +34,9 @@ def eval_expr(evaluator, expr):
         return ComputationError('invalid syntax')
     except ZeroDivisionError:
         return ComputationError('divide by zero')
-    except:
+    except simpleeval.NumberTooHigh as e:
+        return ComputationError(str(e))
+    except Exception as e:
+        logging.error('Error evaluating expression: '+str(e))
         return ComputationError('computation error')
 
