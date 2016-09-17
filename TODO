@@ -1,0 +1,4 @@
+- When calculations take a while, provide indication that the calculation is still being done
+- Make audio/video disco
+- Show result to larger number of decimal places before switching to scientific notation
+- Put timeout on number_facts
