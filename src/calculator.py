@@ -8,6 +8,7 @@ import math
 import time
 import number_facts
 import argparse
+import logging
 
 DISCO_LENGTH = 2 #seconds
 
@@ -127,13 +128,16 @@ class Calculator:
 
     def calculate(self):
         self.__on_interaction()
+        logging.info('input: '+self.input)
         result = compute.eval_expr(self.__eval, self.input)
+        logging.info('result: '+str(result))
         if isinstance(result, compute.ComputationError):
             self.output = "Error: "+result.msg
         else:
             self.result = result
             self.output = result
         self.__just_calculated = True
+        logging.info('output: '+str(self.output))
         self.context['result'].append(result)
         self.context['formula'].append(self.input)
         self.context['output'].append(self.output)
