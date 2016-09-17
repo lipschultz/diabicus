@@ -192,6 +192,7 @@ def command_line_arguments():
 
 if __name__=="__main__":
     args = command_line_arguments()
+    facts = None
     if args.facts is not None:
         facts = number_facts.load_json_file(args.facts)
     CalcApp(facts=facts).run()
