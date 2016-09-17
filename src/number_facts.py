@@ -151,11 +151,16 @@ def to_pretty_x10(n, dec_places=5):
         decimal.getcontext().prec = dec_places+1
         val = str(val.normalize())
     elif not is_int(n) or math.log10(n) > 10:
-        val = ('%0.'+str(dec_places)+'g') % n
+        val = ('%0.'+str(dec_places+1)+'G') % n
+        v = val.split('E')
+        if len(v) == 1:
+            left = v[0].split('.')
+            if len(left) > 1 and len(left[1]) > dec_places:
+                left[1] = left[1][:dec_places]
+            val = '.'.join(left)
     else:
         val = str(n)
-
-    val = val.upper().split('E')
+    val = val.split('E')
     if len(val) == 1:
         return val[0]
     else:

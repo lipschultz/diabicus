@@ -235,7 +235,17 @@ class NumberFactsTests(unittest.TestCase):
     def test_prettying_ints_larger_than_can_fit_in_float(self):
         num = 2**(36862)+1
         pnum = number_facts.to_pretty_x10(num)
-        self.assertEqual(pnum, '3.6957×10^11096')
+        self.assertEqual(pnum, '3.69573×10^11096')
+
+    def test_prettying_num_needing_negative_exponent(self):
+        num = 0.000000000000016007448567456
+        pnum = number_facts.to_pretty_x10(num)
+        self.assertEqual(pnum, '1.60074×10^-14')
+
+    def test_prettying_num_that_shouldnt_become_sci_notation(self):
+        num = 0.16007448567456
+        pnum = number_facts.to_pretty_x10(num)
+        self.assertEqual(pnum, '0.16007')
 
 if __name__ == '__main__':
     unittest.main()
