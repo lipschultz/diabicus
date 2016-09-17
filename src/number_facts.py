@@ -11,6 +11,27 @@ from functools import reduce
 import re
 from compute import ComputationError
 
+import signal
+class timeout:
+    '''
+    http://stackoverflow.com/questions/2281850/timeout-function-if-it-takes-too-long-to-finish/22348885#22348885
+    see also:
+        https://stackoverflow.com/questions/15528939/python-3-timed-input
+        http://stackoverflow.com/questions/492519/timeout-on-a-function-call
+        http://stackoverflow.com/questions/2281850/timeout-function-if-it-takes-too-long-to-finish
+    '''
+    def __init__(self, seconds=1, error_message='Timeout'):
+        self.seconds = seconds
+        self.error_message = error_message
+    def handle_timeout(self, signum, frame):
+        raise TimeoutError(self.error_message)
+    def __enter__(self):
+        signal.signal(signal.SIGALRM, self.handle_timeout)
+        signal.alarm(self.seconds)
+    def __exit__(self, type, value, traceback):
+        signal.alarm(0)
+
+
 def context_to_str(context):
     str_context = []
     for k, v in context.items():
@@ -235,9 +256,12 @@ def load_json_file(json_file):
 def test_fact(fact, formula, result, context):
     try:
         logging.debug("Testing fact " + repr(fact) + " with context " + context_to_str(context))
-        result = fact.test(formula, result, context)
+        with timeout(seconds=1):
+            result = fact.test(formula, result, context)
         logging.debug("Test result for " + repr(fact) + ": " + str(result))
         return result
+    except TimeoutError as e:
+        logging.warning(str(fact) + ' timed out on formula = "'+formula+'", result = "' + str(result) + ', context = ' + context_to_str(context))
     except Exception as e:
         logging.warning(str(fact) + ' threw exception ' + repr(e) + ': formula = "'+formula+'", result = "' + str(result) + ', context = ' + context_to_str(context))
 
