@@ -1714,6 +1714,127 @@
   "link" : "https://www.youtube.com/watch?v=sPFWfAxIiwg",
   "title": "11.11.11",
   "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == 2.2e3",
+  "link" : "https://www.youtube.com/watch?v=7zGwbiCKLHs",
+  "title": "Sun Explosion compared to the Destruction of Planet Alderaan",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, 0.3, 1e-3)",
+  "link" : "https://www.youtube.com/watch?v=T6A0v3xYl7k",
+  "title": "In Defiance of Wadsworth's Constant",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0 and 0 <= result < 1e14 and 10 - ((sum([result//(10**(13-i-1)) % 10 for i in range(0, 12, 2)]) + 3*sum([result//(10**(13-i-1)) % 10 for i in range(1, 12, 2)])) % 10) == result % 10",
+  "link" : "https://www.youtube.com/watch?v=RP8jepN3zMc",
+  "title": "Matt Parker: Stand-up Maths Routine (about barcodes)",
+  "source":"standupmaths",
+  "msg" : "lambda f, result, c: 'The number %013d could be a valid barcode value.' % (result)"
+ },
+ {"test" : "lambda formula, result, context: result == 4",
+  "link" : "https://www.youtube.com/watch?v=nv0Onj3wXCE",
+  "title": "The Castle and the Princess Puzzle",
+  "source":"standupmaths",
+  "note" : "solution to puzzle may be incorrect"
+ },
+ {"test" : "lambda formula, result, context: result in {105, 12}",
+  "link" : "https://www.youtube.com/watch?v=aPD_OkjnCqU",
+  "title": "How to Cheat and Look Like You Can Solve the Rubik's Cube",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {584, 215.5, 224.70069, 365.25, 1/224.70069, 1/365.25, 1/224.70069 - 1/365.25, 1/(1/224.70069 - 1/365.25)} or is_close(result, 1/(1/224.70069 - 1/365.25))",
+  "link" : "https://www.youtube.com/watch?v=Sdz0dRhsoLs",
+  "title": "Transit of Venus - Why it comes in pairs every 100ish years",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {2, -80, 1, 0.5} or is_close(result, 23, 1)",
+  "link" : "https://www.youtube.com/watch?v=ryFvH4Ejaxo",
+  "title": "How to make Instant Icecream using a Fire Extinguisher",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result == 52 or is_close(result, (1/52, 35.7, 51/52))",
+  "link" : "https://www.youtube.com/watch?v=ryFvH4Ejaxo",
+  "title": "How to make Instant Icecream using a Fire Extinguisher",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {27, random.randrange(1, 28), 49, random.randrange(1, 50), 2, 3}",
+  "link" : "https://www.youtube.com/watch?v=G_OuIVOGDr8",
+  "title": "The 27 Card Trick",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: '+' in formula or result in {36, 2, 8, 10, 10000, 9, 3, 12} or (is_int(result) and 0 <= result <= 31) or is_error(result)",
+  "link" : "https://www.youtube.com/watch?v=OpLU__bhu2w",
+  "title": "The 10,000 Domino Computer",
+  "source":"standupmaths",
+  "note" : "base 2"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.pi, 1e-2) or result in (54.2, 68.8}",
+  "link" : "https://www.youtube.com/watch?v=Ngj0a57Rlb0",
+  "title": "Calculating pi by weighing a circle",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, (math.pi/4, math.pi**2/6)) or result in {31.28} or is_close(result, math.pi, 1e-2)",
+  "link" : "https://www.youtube.com/watch?v=qYAdXm69l8g",
+  "title": "Calculating pi with a pendulum",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {1000000, 1/1000000, 2.68}",
+  "link" : "https://www.youtube.com/watch?v=g7TGA-EzBHM",
+  "title": "Matt Parker's Micro-Month: MARCH 2015",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, (985, 400, 389, 29.53059, 363396, 405504, 27.55455, 30, 5.1, 27.212221, 40.7, 223, 239, 242, 18+(11+8/24)/365.2425, 3.7), method='pct')",
+  "link" : "https://www.youtube.com/watch?v=ieUvzy6rnnw",
+  "title": "Solar Eclipse Maths and the Cosmic Coincidence of the Saros Cycle",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {0, 1, 3.58}",
+  "link" : "https://www.youtube.com/watch?v=kdCJunw_Jgg",
+  "title": "NAND Cat [original]",
+  "source":"standupmaths",
+  "note" : "base 2"
+ },
+ {"test" : "lambda formula, result, context: '^2' in formula",
+  "link" : "https://www.youtube.com/watch?v=zXoJlRFbktw",
+  "title": "Sydney: The Unsuccessful Hunt for Parabolas",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result == 1",
+  "link" : "https://www.youtube.com/watch?v=rT1sIVqonE8",
+  "title": "Matt meets Jordan Ellenberg: 0.999999... = ?",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {1, 0, -1, 1/2, math.inf, 2, math.e} or is_close(result, math.log(2), 1e-5)",
+  "link" : "https://www.youtube.com/watch?v=qJiVhfR_XVE",
+  "title": "Matt meets Jordan Ellenberg: BONUS FOOTAGE",
+  "source":"standupmaths",
+  "oeis" : "http://oeis.org/A002162"
+ },
+ {"test" : "lambda formula, result, context: result in {49, 59, math.inf} or is_close(result, (1/13983816, 1/45057474, 1/10.258, 1/40665099))",
+  "link" : "https://www.youtube.com/watch?v=pOx_daJT_8c",
+  "title": "How to get infinitely many lottery tickets",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {358, 210, 26} or '2^' in formula or result in (199 + i*210 for i in range(10)) or result in (43142746595714191 + i*5283234035979900 for i in range(26))",
+  "link" : "https://www.youtube.com/watch?v=W1OkVkq2vFM",
+  "title": "Killing Maths Mosquitoes with Atomic Proofs: roots of two, Fermat and prime numbers",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {1811, 4, 12, 5, 24, 224, 95, 243, 59201, 59049, 6, 33, 7, 45, 9, 65, 10, 71, 9.975, -26.5, 0.995} or formula in {'9.975*Ans-26.5', 'Ans/10+2.7'}",
+  "link" : "https://www.youtube.com/watch?v=Quwvw0vYkRA",
+  "title": "NYC: The Linear Equation of Broadway",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {59, 6, 45057474, 40665099, 33469099} or is_close(result, (2219e-11, 0.00000002988), 1e-4, method='pct') or is_close(result, (0.09748, 0.2572, 1.3462), 1e-3)",
+  "link" : "https://www.youtube.com/watch?v=lP58mP8Wchc",
+  "title": "Matt Explains: The Lottery [featuring: Choose Function, Infinite Geometric Series]",
+  "source":"standupmaths",
+  "note" : "choose function"
+ },
+ {"test" : "lambda formula, result, context: (is_error(result) and result.msg == 'divide by zero') or formula in {'2-3', 'Ans/0', '-1/Ans', '0^0', '25×37'} or result in {0.7734, 2, 30, 3000, 954, 5678} or is_close(result, (2**0.5, math.pi, 2*math.pi))",
+  "link" : "https://www.youtube.com/watch?v=YfIQ7ktFM1g",
+  "title": "Sam's Home-made Disco Calculator",
+  "source":"standupmaths"
  }
 
 ]
