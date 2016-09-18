@@ -185,7 +185,7 @@
   "link" : "https://www.youtube.com/watch?v=Lihh_lMmcDw",
   "title": "Skewes' Massive Number",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Approximately %s primes below the result' % (to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0]))"
+  "msg" : "lambda f, r, c: 'Approximately %s primes below %s.' % (to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0]), to_pretty_x10(r))"
  },
  {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",
@@ -597,7 +597,7 @@
   "link" : "https://www.youtube.com/watch?v=xPk3SZiFEvQ",
   "title": "Happy Ending Problem",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %s points with no three points in a line' % (r, to_pretty_x10((2**(r-2))+1))"
+  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %s points with no three points in a line.' % (r, to_pretty_x10((2**(r-2))+1))"
  },
  {"test" : "lambda formula, result, context: is_rational(result) and is_close(result, (36.7879, 0.367879))",
   "link" : "https://www.youtube.com/watch?v=ZWib5olGbQ0",
@@ -752,7 +752,7 @@
   "link" : "https://www.youtube.com/watch?v=HvMSRWTE2mI",
   "title": "Fool-Proof Test for Primes",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s' % (to_pretty_x10(r), to_pretty_x10(r), '' if is_prime(r) else ' not', to_pretty_x10(r))"
+  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s.' % (to_pretty_x10(r), to_pretty_x10(r), '' if is_prime(r) else ' not', to_pretty_x10(r))"
  },
  {"test" : "lambda formula, result, context: True",
   "link" : "https://www.youtube.com/watch?v=Yexc19j3TjE",
@@ -903,7 +903,7 @@
   "link" : "https://www.youtube.com/watch?v=l8ezziaEeNE",
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
-  "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (to_pretty_x10(r), to_pretty_x10(r / math.log(r), 1))",
+  "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (to_pretty_x10(r), str(r / math.log(r)) if r / math.log(r) < 10000 else to_pretty_x10(r / math.log(r), 1))",
            "lambda f, r, c: 'The %s prime number is approximately %s' % (to_ordinal(r), to_pretty_x10(math.floor(r * math.log(r))))",
            "lambda f, r, c: 'There is a prime between %s and %s' % (to_pretty_x10(r), to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
            ]
@@ -1008,7 +1008,7 @@
   "source":"Numberphile",
   "note" : "different bases"
  },
- {"test" : "lambda formula, result, context: (len(context['result']) > 1 and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
+ {"test" : "lambda formula, result, context: (len(context['result']) > 1 and not any(is_error(r) for r in context['result'][-2:]) and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
   "link" : "https://www.youtube.com/watch?v=JJQWtGm3eIs",
   "title": "Math Jokes Explained",
   "source":"Numberphile",
@@ -1834,7 +1834,7 @@
   "source":"standupmaths",
   "note" : "choose function"
  },
- {"test" : "lambda formula, result, context: (is_error(result) and result.msg == 'divide by zero') or formula in {'2-3', 'Ans/0', '-1/Ans', '0^0', '25×37'} or result in {0.7734, 2, 30, 3000, 954, 5678} or is_close(result, (2**0.5, math.pi, 2*math.pi))",
+ {"test" : "lambda formula, result, context: (is_error(result) and result.msg == 'divide by zero') or formula in {'2-3', 'Ans/0', '-1/Ans', '0^0', '25×37'} or result in {0.7734, 2, 30, 3000, 925, 954, 5678} or is_close(result, (2**0.5, math.pi, 2*math.pi))",
   "link" : "https://www.youtube.com/watch?v=YfIQ7ktFM1g",
   "title": "Sam's Home-made Disco Calculator",
   "source":"standupmaths"
