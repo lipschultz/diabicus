@@ -73,37 +73,37 @@
   "source":"Numberphile",
   "oeis" : "https://oeis.org/A000594"
  },
- {"test" : "lambda formula, result, context: is_real(result) and result % 10 in (4, 9)",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0 and result % 10 in (4, 9)",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 5"
  },
- {"test" : "lambda formula, result, context: is_real(result) and (result-5) % 7 == 0",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0  and (result-5) % 7 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 7"
  },
- {"test" : "lambda formula, result, context: is_real(result) and (result-6) % 11 == 0",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0  and (result-6) % 11 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 11"
  },
- {"test" : "lambda formula, result, context: is_real(result) and (result-237) % 17303 == 0",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0 and (result-237) % 17303 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 13"
  },
- {"test" : "lambda formula, result, context: is_real(result) and (result-2623) % 206839 == 0",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0 and (result-2623) % 206839 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
   "msg" : "The number of partitions for {result} is divisible by 17"
  },
- {"test" : "lambda formula, result, context: is_real(result) and (result-1977147619) % 815655 == 0",
+ {"test" : "lambda formula, result, context: is_int(result) and result > 0 and (result-1977147619) % 815655 == 0",
   "link" : "https://www.youtube.com/watch?v=NjCIq58rZ8I",
   "title": "Partitions",
   "source":"Numberphile",
@@ -185,7 +185,7 @@
   "link" : "https://www.youtube.com/watch?v=Lihh_lMmcDw",
   "title": "Skewes' Massive Number",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Number of primes below the result: %0.1f' % (scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0])"
+  "msg" : "lambda f, r, c: 'Approximately %s primes below the result' % (to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0]))"
  },
  {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",
@@ -597,7 +597,7 @@
   "link" : "https://www.youtube.com/watch?v=xPk3SZiFEvQ",
   "title": "Happy Ending Problem",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %d points with no three points in a line' % (r, to_pretty_x10((2**(r-2))+1))"
+  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %s points with no three points in a line' % (r, to_pretty_x10((2**(r-2))+1))"
  },
  {"test" : "lambda formula, result, context: is_rational(result) and is_close(result, (36.7879, 0.367879))",
   "link" : "https://www.youtube.com/watch?v=ZWib5olGbQ0",
@@ -718,7 +718,7 @@
   "link" : "https://www.youtube.com/watch?v=OAss481FfAQ",
   "title": "Brussels Sprouts",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'A game of Brussels Sprouts with %d starting vertices will end after %d moves.' % (r, 5*r-2)"
+  "msg" : "lambda f, r, c: 'A game of Brussels Sprouts with %d starting vertices will end after %d moves.' % (to_pretty_x10(r), to_pretty_x10(5*r-2))"
  },
  {"test" : "lambda formula, result, context: result in (2, 3)",
   "link" : "https://www.youtube.com/watch?v=E8kUJL04ELA",
@@ -903,7 +903,10 @@
   "link" : "https://www.youtube.com/watch?v=l8ezziaEeNE",
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
-  "msg" : ["lambda f, r, c: 'The number of primes less than %d is approximately %0.1f' % (r, r / math.log(r))", "lambda f, r, c: 'The %s prime number is approximately %d' % (to_ordinal(r), math.floor(r * math.log(r)))", "lambda f, r, c: 'There is a prime between %d and %d' % (r, math.ceil(2*r if r < 100 else 1.2*r))"]
+  "msg" : ["lambda f, r, c: 'The number of primes less than %d is approximately %0.1f' % (to_pretty_x10(r), to_pretty_x10(r / math.log(r)))",
+           "lambda f, r, c: 'The %s prime number is approximately %s' % (to_ordinal(r), to_pretty_x10(math.floor(r * math.log(r))))",
+           "lambda f, r, c: 'There is a prime between %d and %d' % (r, to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
+           ]
  },
  {"test" : "lambda formula, result, context: is_irrational(result) or result == 0",
   "link" : "https://www.youtube.com/watch?v=aIggWlKr41w",
@@ -994,7 +997,7 @@
   "title": "Googol Song",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result in (381654729, 10123457689, 362880, 3265920) or (is_int(result) and len(str(abs(int(result)))) == 9 and all(i in str(result) for i in range(1, 10))) or (is_int(result) and len(str(abs(int(result)))) == 10 and all(i in str(result) for i in range(0, 10)))",
+ {"test" : "lambda formula, result, context: result in (381654729, 10123457689, 362880, 3265920) or (is_int(result) and len(str(abs(int(result)))) == 9 and all(str(i) in str(result) for i in range(1, 10))) or (is_int(result) and len(str(abs(int(result)))) == 10 and all(str(i) in str(result) for i in range(0, 10)))",
   "link" : "https://www.youtube.com/watch?v=gaVMrqzb91w",
   "title": "Why 381,654,729 is awesome",
   "source":"Numberphile"
@@ -1113,7 +1116,7 @@
   "link" : "https://www.youtube.com/watch?v=aOJOfh2_4PE",
   "title": "Zequals and Estimation",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: '%s zequals %s' % (r, round(r, -int(math.floor(math.log10(abs(r))))))"
+  "msg" : "lambda f, r, c: '%s zequals %s' % (to_pretty_x10(r), to_pretty_x10(round(r, -int(math.floor(math.log10(abs(r)))))))"
  },
  {"test" : "lambda formula, result, context: result in {318304, 6433, 4, 115, 54, 12237, 118, 366, 10318, 9, 62.3, 20, 5.6, 47.57, 76, 118, 136, 4611, 17, 17878, 16, 1954371119, 19.7, 47.2, 13.1, 59, 4, 154, 287890550, 1196, 16, 17676, 40997, 40998, 16, 1, 104, 108, 23}",
   "link" : "https://www.youtube.com/watch?v=YJuHC7xXsGA",
@@ -1613,7 +1616,7 @@
   "link" : "https://www.youtube.com/watch?v=bFfSfzjhfC8",
   "title": "14 Super Bowl Coin Tosses",
   "source":"Numberphile",
-  "msg" : "lambda f, result, c: 'To get %d wins in a row (at 50%% chance of a win), you would need to try %d times on average.' % (int(result), math.ceil(2**(result+1)-2))"
+  "msg" : "lambda f, result, c: 'To get %d wins in a row (at 50%% chance of a win), you need to try %s times on average.' % (int(result), to_pretty_x10(math.ceil(2**(result+1)-2)))"
  },
  {"test" : "lambda formula, result, context: result == 0.75",
   "link" : "https://www.youtube.com/watch?v=hLGDJFGAmic",
