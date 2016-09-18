@@ -1,4 +1,15 @@
 - When calculations take a while, provide indication that the calculation is still being done
 - Make audio/video disco
 - Show result to larger number of decimal places before switching to scientific notation
-- Put timeout on number_facts
+- Investigate better calculation timeout
+    * Preferably cross-platform and sub-second timeout
+- Additional buttons:
+    * on left (since it's next to the numbers), add additional constants
+        * pi, tau, e, i, ... (include physics/chemistry constants?)
+    * on right, "lesser-used" functions
+        * '*10^'
+        * trig
+        * mod
+    * around the input/output
+        * configuration options
+- when picking a fact to display, negatively weight commonly- or recently-used facts

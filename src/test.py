@@ -2,6 +2,7 @@ import unittest
 import calculator
 import compute
 import number_facts
+import simpleeval
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):
@@ -247,6 +248,15 @@ class CalculatorTests(unittest.TestCase):
         context = self.app.get_context()
         self.assertEqual(context['formula'], ['2+2', '9/3'])
         self.assertEqual(context['result'], [4, 3.0])
+
+class ComputeTests(unittest.TestCase):
+    def setUp(self):
+        self.eval = simpleeval.SimpleEval()
+
+    def test_catches_divide_by_zero_and_returns_appropriate_error(self):
+        result = compute.eval_expr(self.eval, '5/0')
+        self.assertIsInstance(result, compute.ComputationError)
+        self.assertEqual(result.msg, 'divide by zero')
 
 class NumberFactsTests(unittest.TestCase):
     def test_prettying_ints_larger_than_can_fit_in_float(self):
