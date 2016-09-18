@@ -141,11 +141,12 @@ def to_pretty_x10(n, dec_places=5):
     else:
         val = str(n)
     val = val.split('E')
+
     if len(val) == 1:
         return val[0]
     else:
         if val[1].startswith('+'):
-            val[1] = val[1][1:]
+            val[1] = str(int(val[1][1:]))
         return val[0] + '×10^' + val[1]
 
 

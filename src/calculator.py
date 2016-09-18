@@ -39,7 +39,7 @@ class Calculator:
         self.__init_eval()
 
         self._output_format = {complex : lambda v : '%0.8g + %0.8gi' % (v.real, v.imag),
-                               float : lambda v : number_facts.to_pretty_x10(v, 8),#"%0.8g" % v,
+                               float : lambda v : number_facts.to_pretty_x10(v, 15),#"%0.8g" % v,
                                str : lambda v : v
                                }
         self._output_format[int] = self._output_format[float]
