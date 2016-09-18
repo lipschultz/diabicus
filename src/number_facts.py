@@ -243,7 +243,7 @@ def test_fact(fact, formula, result, context):
     timed_exec = time_limit.TimedExecution()
     try:
         logging.debug("Testing fact " + repr(fact) + " with context " + context_to_str(context))
-        result = timed_exec(fact.test, formula, result, context)
+        result = timed_exec.run(fact.test, formula, result, context)
         logging.debug("Test result for " + repr(fact) + ": " + str(result))
         return result
     except TimeoutError as e:
