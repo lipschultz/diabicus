@@ -718,7 +718,7 @@
   "link" : "https://www.youtube.com/watch?v=OAss481FfAQ",
   "title": "Brussels Sprouts",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'A game of Brussels Sprouts with %d starting vertices will end after %d moves.' % (to_pretty_x10(r), to_pretty_x10(5*r-2))"
+  "msg" : "lambda f, r, c: 'A game of Brussels Sprouts with %s starting vertices will end after %s moves.' % (to_pretty_x10(r), to_pretty_x10(5*r-2))"
  },
  {"test" : "lambda formula, result, context: result in (2, 3)",
   "link" : "https://www.youtube.com/watch?v=E8kUJL04ELA",
@@ -752,7 +752,7 @@
   "link" : "https://www.youtube.com/watch?v=HvMSRWTE2mI",
   "title": "Fool-Proof Test for Primes",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%d - (x^%d - 1) are%s divisible by %d' % (r, r, '' if is_prime(r) else ' not', r)"
+  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s' % (to_pretty_x10(r), to_pretty_x10(r), '' if is_prime(r) else ' not', to_pretty_x10(r))"
  },
  {"test" : "lambda formula, result, context: True",
   "link" : "https://www.youtube.com/watch?v=Yexc19j3TjE",
@@ -903,9 +903,9 @@
   "link" : "https://www.youtube.com/watch?v=l8ezziaEeNE",
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
-  "msg" : ["lambda f, r, c: 'The number of primes less than %d is approximately %0.1f' % (to_pretty_x10(r), to_pretty_x10(r / math.log(r)))",
+  "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (to_pretty_x10(r), to_pretty_x10(r / math.log(r), 1))",
            "lambda f, r, c: 'The %s prime number is approximately %s' % (to_ordinal(r), to_pretty_x10(math.floor(r * math.log(r))))",
-           "lambda f, r, c: 'There is a prime between %d and %d' % (r, to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
+           "lambda f, r, c: 'There is a prime between %s and %s' % (to_pretty_x10(r), to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
            ]
  },
  {"test" : "lambda formula, result, context: is_irrational(result) or result == 0",

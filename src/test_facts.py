@@ -9,7 +9,7 @@ import time_limit
 general_eval = SimpleEval()
 general_eval.functions['ln'] = math.log
 
-TAG_OVERFLOW = 'overflow'
+TAG_BIGNUM = 'big-num'
 
 TEST_SET = [{'result' : 0},
             {'result' : 1},
@@ -26,7 +26,7 @@ TEST_SET = [{'result' : 0},
             {'result' : 0.5},
             {'result' : 13.7},
             {'result' : 1e-35},
-            {'result' : 1e35, 'tags' : (TAG_OVERFLOW, )},
+            {'result' : 1e35, 'tags' : (TAG_BIGNUM, )},
             {'result' : -1},
             {'result' : -2},
             {'result' : -0.5},
@@ -41,8 +41,8 @@ TEST_SET = [{'result' : 0},
             {'formula' : '3-(-25)^0.5'},
             {'formula' : '1/0'},
             {'formula' : '9**/5'},
-            {'formula' : '.3^-221.062', 'tags' : (TAG_OVERFLOW, )},
-            {'formula' : '1213^3'},
+            {'formula' : '.3^-221.062', 'tags' : (TAG_BIGNUM, )},
+            {'formula' : '1213^3', 'tags' : (TAG_BIGNUM, )},
             {'formula' : '333×2197-​ln(.5)'},
             ]
 '''
@@ -89,9 +89,9 @@ def test_fact(fact):
         print(repr(fact), 'has non-numeric weight:', fact.weight)
         status.weight = False
 
-    print(fact)
+    #print(fact)
     for case in TEST_SET:
-        print('\t', case)
+        #print('\t', case)
         formula, result, context = convert_test_case(case)
 
         try:
@@ -100,8 +100,9 @@ def test_fact(fact):
             duration = time.time() - start
             status.add_test_case_result(case, True, duration)
         except TimeoutError as e:
-            print(repr(fact), 'timed out on case', case)
-            status.add_test_case_result(case, False, TIMEOUT)
+            if not ('tags' in case and TAG_BIGNUM in case['tags']):
+                print(repr(fact), 'timed out on case', case)
+                status.add_test_case_result(case, False, TIMEOUT)
             test_result = False
         except Exception as e:
             print(repr(fact), 'failed on test case', case, ':', e)
@@ -110,7 +111,7 @@ def test_fact(fact):
 
         if test_result:
             for i in range(len(fact._message)):
-                print('\tmsg:', i)
+                #print('\tmsg:', i)
                 msg = fact._message[i]
                 raw_msg = fact.raw_message[i]
                 try:
@@ -123,10 +124,11 @@ def test_fact(fact):
                         success = False
                     status.add_msg_result(case, i, True, duration)
                 except TimeoutError as e:
-                    print(repr(fact), 'timed out on msg', i, '('+raw_msg+') with test case', case)
-                    status.add_msg_result(case, i, False)
+                    if not ('tags' in case and TAG_BIGNUM in case['tags']):
+                        print(repr(fact), 'timed out on msg', i, '('+raw_msg+') with test case', case)
+                        status.add_msg_result(case, i, False)
                 except OverflowError as e:
-                    if not ('tags' in case and TAG_OVERFLOW in case['tags']):
+                    if not ('tags' in case and TAG_BIGNUM in case['tags']):
                         print(repr(fact), 'encountered overflow on msg', i, '('+raw_msg+') with test case', case)
                         status.add_msg_result(case, i, False)
                 except Exception as e:
@@ -153,3 +155,11 @@ if __name__ == '__main__':
     results = test_file('../resources/youtube.json')
     times = list(chain.from_iterable((r.test_times().values() for r in results)))
     print('Test time: avg=%0.2g, max=%0.2g, min=%0.2g' % (sum(times)/len(times), max(times), min(times)))
+
+    test_failures = len([s for r in results for s in r.cases.values() if not s['success']])
+    test_total = len([s for r in results for s in r.cases.values()])
+    print('Test Failures: %d / %d = %0.2f' % (test_failures, test_total, test_failures/test_total))
+
+    msg_failures = len([c for r in results for s in r.msgs.values() for c in s.values() if not c['success']])
+    msg_total = len([c for r in results for s in r.msgs.values() for c in s.values()])
+    print('Message Failures: %d / %d = %0.2f' % (msg_failures, msg_total, msg_failures/msg_total))
