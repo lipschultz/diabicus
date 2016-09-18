@@ -9,6 +9,7 @@ import time
 import number_facts
 import argparse
 import logging
+import time_limit
 
 DISCO_LENGTH = 2 #seconds
 
@@ -155,6 +156,8 @@ class CalcApp(App, Calculator):
                                }
         self._answer_format[int] = self._answer_format[float]
 
+        self.timed_exec = time_limit.TimedExecution()
+
     def build(self):
         return CalcMainLayout()
 
@@ -186,7 +189,13 @@ class CalcApp(App, Calculator):
         if self.__facts is not None:
             fact = number_facts.get_fact(self.__facts, self.input, result, self.context)
             if fact is not None:
-                self.root.ids.fact.text = "[ref='" + fact.link + "']" + fact.message(self.input, result, self.context) + "[/ref]"
+                message = fact.title
+                try:
+                    message = self.timed_exec.run(fact.message, self.input, result, self.context)
+                except TimeoutError as e:
+                    logging.warn('Getting message timed out for fact '+str(fact))
+
+                self.root.ids.fact.text = "[ref='" + fact.link + "']" + message + "[/ref]"
 
 def command_line_arguments():
     parser = argparse.ArgumentParser()

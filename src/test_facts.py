@@ -4,8 +4,12 @@ from simpleeval import SimpleEval
 import compute
 import time
 from itertools import chain
+import time_limit
 
 general_eval = SimpleEval()
+general_eval.functions['ln'] = math.log
+
+TAG_OVERFLOW = 'overflow'
 
 TEST_SET = [{'result' : 0},
             {'result' : 1},
@@ -22,7 +26,7 @@ TEST_SET = [{'result' : 0},
             {'result' : 0.5},
             {'result' : 13.7},
             {'result' : 1e-35},
-            {'result' : 1e35},
+            {'result' : 1e35, 'tags' : (TAG_OVERFLOW, )},
             {'result' : -1},
             {'result' : -2},
             {'result' : -0.5},
@@ -37,30 +41,13 @@ TEST_SET = [{'result' : 0},
             {'formula' : '3-(-25)^0.5'},
             {'formula' : '1/0'},
             {'formula' : '9**/5'},
+            {'formula' : '.3^-221.062', 'tags' : (TAG_OVERFLOW, )},
+            {'formula' : '1213^3'},
+            {'formula' : '333×2197-​ln(.5)'},
             ]
 '''
 [WARNING] [Math Jokes Explained threw exception TypeError("unsupported operand type(s) for //] 'int' and 'ComputationError'",): formula = "Ans+2", result = "1382041022933, context = {formula : <['105×17', 'Ans^3', '(Ans-8)×3^5', '1/0', 'Ans+2']>, result : <[1785, 5687411625, 1382041022931, <compute.ComputationError object at 0xb202610c>, 1382041022933]>, output : <['1785', '5.6874116e+09', '1.382041e+12', 'Error: divide by zero', '1.382041e+12']>}
 '''
-
-import signal
-class timeout:
-    '''
-    http://stackoverflow.com/questions/2281850/timeout-function-if-it-takes-too-long-to-finish/22348885#22348885
-    see also:
-        https://stackoverflow.com/questions/15528939/python-3-timed-input
-        http://stackoverflow.com/questions/492519/timeout-on-a-function-call
-        http://stackoverflow.com/questions/2281850/timeout-function-if-it-takes-too-long-to-finish
-    '''
-    def __init__(self, seconds=1, error_message='Timeout'):
-        self.seconds = seconds
-        self.error_message = error_message
-    def handle_timeout(self, signum, frame):
-        raise TimeoutError(self.error_message)
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
-    def __exit__(self, type, value, traceback):
-        signal.alarm(0)
 
 class TestResult:
     def __init__(self, fact):
@@ -96,21 +83,22 @@ def test_file(filename):
 
 def test_fact(fact):
     TIMEOUT = 3
+    timed_exec = time_limit.TimedExecution(TIMEOUT)
     status = TestResult(fact)
     if not isinstance(fact.weight, (int, float)):
         print(repr(fact), 'has non-numeric weight:', fact.weight)
         status.weight = False
 
-    #print(fact)
+    print(fact)
     for case in TEST_SET:
-        #print('\t', case)
+        print('\t', case)
         formula, result, context = convert_test_case(case)
+
         try:
-            with timeout(seconds=TIMEOUT):
-                start = time.time()
-                test_result = fact.test(formula, result, context)
-                duration = time.time() - start
-                status.add_test_case_result(case, True, duration)
+            start = time.time()
+            test_result = timed_exec.run(fact.test, formula, result, context)
+            duration = time.time() - start
+            status.add_test_case_result(case, True, duration)
         except TimeoutError as e:
             print(repr(fact), 'timed out on case', case)
             status.add_test_case_result(case, False, TIMEOUT)
@@ -122,16 +110,27 @@ def test_fact(fact):
 
         if test_result:
             for i in range(len(fact._message)):
-                #print('\tmsg:', i)
+                print('\tmsg:', i)
                 msg = fact._message[i]
+                raw_msg = fact.raw_message[i]
                 try:
                     start = time.time()
-                    msg(formula, result, context)
+                    msg_text = timed_exec.run(msg, formula, result, context)
                     duration = time.time() - start
+                    success = True
+                    if len(msg_text) > 100:
+                        print(repr(fact), 'failed on msg', i, '('+msg_text+') with test case', case, ': text too long (' + str(len(msg_text)) + ')')
+                        success = False
                     status.add_msg_result(case, i, True, duration)
+                except TimeoutError as e:
+                    print(repr(fact), 'timed out on msg', i, '('+raw_msg+') with test case', case)
+                    status.add_msg_result(case, i, False)
+                except OverflowError as e:
+                    if not ('tags' in case and TAG_OVERFLOW in case['tags']):
+                        print(repr(fact), 'encountered overflow on msg', i, '('+raw_msg+') with test case', case)
+                        status.add_msg_result(case, i, False)
                 except Exception as e:
-                    raw_msg = fact.raw_message[i]
-                    print(repr(fact), 'failed on msg', i, '('+raw_msg+') with test case', case, ':', e)
+                    print(repr(fact), 'failed on msg', i, '('+raw_msg+') with test case', case, ':', type(e), e)
                     status.add_msg_result(case, i, False)
 
     return status
