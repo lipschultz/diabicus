@@ -36,7 +36,7 @@ def eval_expr(evaluator, expr):
         return ComputationError('divide by zero')
     except simpleeval.NumberTooHigh as e:
         logging.error('Error evaluating expression: '+str(e))
-        return ComputationError("Calculation timeout")
+        return ComputationError("Overflow error")
     except Exception as e:
         logging.error('Error evaluating expression: '+str(e))
         return ComputationError('computation error')
