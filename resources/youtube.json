@@ -185,7 +185,7 @@
   "link" : "https://www.youtube.com/watch?v=Lihh_lMmcDw",
   "title": "Skewes' Massive Number",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Approximately %s primes below %s.' % (to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0]), to_pretty_x10(r))"
+  "msg" : "lambda f, r, c: 'Approximately %s primes below %s.' % (to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0], 2), to_pretty_x10(r))"
  },
  {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",
@@ -1838,6 +1838,51 @@
   "link" : "https://www.youtube.com/watch?v=YfIQ7ktFM1g",
   "title": "Sam's Home-made Disco Calculator",
   "source":"standupmaths"
- }
+ },
+ {"test" : "lambda formula, result, context: result in {14, 70, 60, 620, 7200}",
+  "link" : "https://www.youtube.com/watch?v=E5-pgBnGyzw",
+  "title": "The Share the Power Puzzle",
+  "source":"standupmaths",
+  "note" : "potential for more"
+ },
+ {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][-3:], (2, 1, 0, 2, 0, 1, 2, 1, 0, 1, 2, 0, 2, 1, 0, 2, 0, 1, 2, 0, 2, 1, 0, 1, 2, 1, 0, 2, 0, 1, 2, 1, 0, 1, 2, 0, 2, 1, 0, 1, 2, 1, 0, 2, 0, 1, 2, 0, 2, 1, 0, 2, 0, 1, 2, 1, 0, 1, 2, 0, 2, 1, 0, 2, 0, 1, 2, 0, 2, 1, 0, 1, 2, 1, 0, 2, 0, 1, 2, 0, 2, 1, 0, 2, 0, 1, 2, 1, 0, 1, 2, 0, 2, 1, 0, 1, 2, 1, 0, 2, 0, 1, 2, 1, 0)) or is_subsequence_of(context['result'][-3:], (0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1))",
+  "link" : "https://www.youtube.com/watch?v=prh72BLNjIk",
+  "title": "The Fairest Sharing Sequence Ever",
+  "source":"standupmaths",
+  "wiki" : "https://en.wikipedia.org/wiki/Thue%E2%80%93Morse_sequence",
+  "oeis" : ["http://oeis.org/A036577", "http://oeis.org/A010060"],
+  "note" : "base 2"
+ },
+ {"test" : "lambda formula, result, context: result in {5, 12}",
+  "link" : "https://www.youtube.com/watch?v=oJ7uOj2LRso",
+  "title": "There are SIX Platonic Solids",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result == 0",
+  "link" : "https://www.youtube.com/watch?v=-EhaFDv-OvU",
+  "title": "Doing Nothing on Platform Zero",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: len(context['result']) >= 5 and context['result'][-5:] == [1, 4, 6, 4, 1]",
+  "link" : "https://www.youtube.com/watch?v=Pcgvv6T_bD8",
+  "title": "Matt Explains: Binomial Coefficients [featuring: choose function, pascal's triangle]",
+  "source":"standupmaths",
+  "note" : "choose function"
+ },
+ {"test" : "lambda formula, result, context: result == 6",
+  "link" : "https://www.youtube.com/watch?v=BIiEsIDenTk",
+  "title": "How to Make a Paper Snowflake",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and 0 <= result <= 255",
+  "link" : "https://www.youtube.com/watch?v=UBX2QQHlQ_I",
+  "title": "Stand-up comedy routine about Spreadsheets",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result == 6210001000",
+  "link" : "https://www.youtube.com/watch?v=07PBcmGozDA",
+  "title": "James Grime's Maths Puzzle: The self descriptive number",
+  "source":"standupmaths"
+ },
 
 ]
