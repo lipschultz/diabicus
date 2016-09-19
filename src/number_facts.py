@@ -223,7 +223,11 @@ class JsonFact:
 
     def message(self, formula, result, context):
         msg = random.choice(self._message)
-        return msg(formula, result, context)
+        try:
+            return msg(formula, result, context)
+        except OverflowError as e:
+            logging.warning("Encountered overflow error for fact "+str(self)+", message " + msg + ", formula="+formula+", result="+result+", context="+context_to_str(context))
+            return self.title
 
     def __str__(self):
         return self.title
