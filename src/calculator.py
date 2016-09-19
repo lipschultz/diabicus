@@ -38,8 +38,9 @@ class Calculator:
         self.__eval = SimpleEval()
         self.__init_eval()
 
-        self._output_format = {complex : lambda v : '%0.8g + %0.8gi' % (v.real, v.imag),
-                               float : lambda v : number_facts.to_pretty_x10(v, 15),#"%0.8g" % v,
+        self.__DISPLAY_DIGITS = 8
+        self._output_format = {complex : lambda v : '%s + %si' % (number_facts.to_pretty_x10(v.real, self.__DISPLAY_DIGITS), number_facts.to_pretty_x10(v.imag, self.__DISPLAY_DIGITS)),
+                               float : lambda v : number_facts.to_pretty_x10(v, 2*self.__DISPLAY_DIGITS),#"%0.8g" % v,
                                str : lambda v : v
                                }
         self._output_format[int] = self._output_format[float]
@@ -151,7 +152,7 @@ class CalcApp(App, Calculator):
 
         super(CalcApp, self).__init__(*args, **kwargs)
 
-        self._answer_format = {complex : lambda v : '%0.2g + %0.2gi' % (v.real, v.imag),
+        self._answer_format = {complex : lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
                                float : lambda v : "%0.4g" % v
                                }
         self._answer_format[int] = self._answer_format[float]
