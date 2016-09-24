@@ -2,6 +2,7 @@ from kivy.app import App
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
+from kivy.core.audio import SoundLoader
 from simpleeval import SimpleEval
 import compute
 import math
@@ -10,6 +11,8 @@ import number_facts
 import argparse
 import logging
 import time_limit
+import glob
+import random
 
 DISCO_LENGTH = 2 #seconds
 
@@ -150,6 +153,12 @@ class CalcApp(App, Calculator):
         self.__facts = kwargs.get('facts')
         del kwargs['facts']
 
+        self.__audio = kwargs.get('audio_src', [])
+        del kwargs['audio_src']
+        self.__audio_current = None
+        self.__audio_current_pos = 0
+        self.__audio_current_len = math.inf
+
         super(CalcApp, self).__init__(*args, **kwargs)
 
         self._answer_format = {complex : lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
@@ -185,6 +194,28 @@ class CalcApp(App, Calculator):
     def __set_clear_button(self, to_all_clear=False):
         pass
 
+    def __play_new_audio(self):
+        self.__audio_current = SoundLoader.load(random.choice(self.__audio))
+        self.__audio_current.play()
+        self.__audio_current_pos = 0
+
+    def update_disco(self, dt):
+        do_play = super(CalcApp, self).update_disco(dt)
+        if do_play:
+            if self.__audio_current is None:
+                self.__play_new_audio()
+            elif self.__audio_current.state == 'stop':
+                if 0 <= self.__audio_current_pos < self.__audio_current_len:
+                    self.__audio_current.play()
+                    time.sleep(0.1)
+                    self.__audio_current.seek(self.__audio_current_pos)
+                else:
+                    self.__play_new_audio()
+        elif self.__audio_current.state == 'play':
+            self.__audio_current_len = self.__audio_current.length
+            self.__audio_current_pos = self.__audio_current.get_pos()
+            self.__audio_current.stop()
+
     def calculate(self):
         result = super(CalcApp, self).calculate()
         if self.__facts is not None:
@@ -209,4 +240,5 @@ if __name__=="__main__":
     facts = None
     if args.facts is not None:
         facts = number_facts.load_json_file(args.facts)
-    CalcApp(facts=facts).run()
+    audio_files = glob.glob('../media/*')
+    CalcApp(facts=facts, audio_src=audio_files).run()
