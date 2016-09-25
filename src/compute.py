@@ -34,10 +34,10 @@ def eval_expr(evaluator, expr):
         return ComputationError('invalid syntax')
     except ZeroDivisionError:
         return ComputationError('divide by zero')
-    except simpleeval.NumberTooHigh as e:
+    except (simpleeval.NumberTooHigh, OverflowError) as e:
         logging.error('Error evaluating expression: '+str(e))
         return ComputationError("Overflow error")
     except Exception as e:
-        logging.error('Error evaluating expression: '+str(e))
+        logging.error('Error evaluating expression ('+str(type(e))+'): '+str(e))
         return ComputationError('computation error')
 
