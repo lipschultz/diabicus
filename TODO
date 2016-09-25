@@ -1,6 +1,5 @@
 - When calculations take a while, provide indication that the calculation is still being done
 - Make audio/video disco
-- Show result to larger number of decimal places before switching to scientific notation
 - Investigate better calculation timeout
     * Preferably cross-platform and sub-second timeout
 - Additional buttons:
@@ -10,6 +9,17 @@
         * '*10^'
         * trig
         * mod
+        * to-int (or round)
     * around the input/output
         * configuration options
+            * select audio source(s)
+            * select number fact source(s)
+            * select number fact category(s)
+            * length of disco
+        * modes (e.g.
+        * maintain "score" of calculator usage -- how is "score" defined?
 - when picking a fact to display, negatively weight commonly- or recently-used facts
+- easter egg music
+- superscript exponents in output (and number fact)
+- how to handle multi-argument functions (e.g. round)
+- why isn't 6^495259 caught as a too-large number to compute?
