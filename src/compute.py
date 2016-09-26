@@ -14,18 +14,16 @@ def translate_operators(expr):
         expr = expr.replace(k, v)
     return expr
 
-def make_operations_explicit(expr):
-    expr = re.sub(r'([0-9).])\(', lambda m: m.group(1)+'*(', expr)
-    expr = re.sub(r'\)([0-9(.])', lambda m: ')*'+m.group(1), expr)
-    expr = re.sub('([0-9).]|(?:Ans))'+FUNCTION_PREFIX, lambda m: m.group(1)+'*', expr)
-    expr = re.sub('Ans([0-9(.])', lambda m: 'Ans*'+m.group(1), expr)
-    expr = re.sub('([0-9).])Ans', lambda m: m.group(1)+'*Ans', expr)
-    expr = expr.replace('AnsAns', 'Ans*Ans')
+def make_operations_explicit(expr, variables):
+    variables = '|'.join(variables)
+    expr = re.sub('([0-9).])([^0-9).+*/-])', lambda m: m.group(1)+'*'+m.group(2), expr)
+    expr = re.sub('([^0-9(.+*/-]+)([0-9(.])', lambda m: m.group(1)+('' if FUNCTION_PREFIX in m.group(1) else '*')+m.group(2), expr)
+    expr = re.sub('(%s)(%s|%s)' % (variables, variables, FUNCTION_PREFIX), lambda m: m.group(1)+'*'+m.group(2), expr)
     return expr
 
 def eval_expr(evaluator, expr):
     expr = translate_operators(expr)
-    expr = make_operations_explicit(expr)
+    expr = make_operations_explicit(expr, evaluator.names)
     expr = expr.replace(FUNCTION_PREFIX, '')
 
     try:
