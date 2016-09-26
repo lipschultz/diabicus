@@ -55,6 +55,11 @@ class Calculator:
 
     def __init_eval(self):
         self.__eval.names['Ans'] = self._result
+        self.__eval.names['π'] = math.pi
+        self.__eval.names['τ'] = 2*math.pi
+        self.__eval.names['e'] = math.e
+        self.__eval.names['i'] = number_facts.I
+        self.__eval.names['φ'] = number_facts.GOLDEN_RATIO
         self.__eval.functions['ln'] = math.log
 
     def get_input(self):
