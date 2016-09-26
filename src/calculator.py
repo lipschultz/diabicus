@@ -173,6 +173,11 @@ class CalcApp(App, Calculator):
 
         self.timed_exec = time_limit.TimedExecution()
 
+    def __init_eval(self):
+        super(CalcApp, self).__init_eval()
+        del self.__eval.names['True']
+        del self.__eval.names['False']
+
     def build(self):
         return CalcMainLayout()
 
