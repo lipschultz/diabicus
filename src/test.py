@@ -287,5 +287,48 @@ class NumberFactsTests(unittest.TestCase):
         pnum = number_facts.to_pretty_x10(num)
         self.assertEqual(pnum, '0.16007')
 
+class NumberFactsTests(unittest.TestCase):
+    ANY_VALUE_ABOVE_THRESHOLD = 5
+
+    def test_simplifying_complex_removes_real_below_threshold(self):
+        num = complex(1e-17, self.ANY_VALUE_ABOVE_THRESHOLD)
+        snum = calculator.simplify_complex(num, 1e-15, 1e-15)
+        self.assertEqual(snum, complex(0, self.ANY_VALUE_ABOVE_THRESHOLD))
+
+    def test_simplifying_complex_removes_imag_below_threshold(self):
+        num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, 1e-17)
+        snum = calculator.simplify_complex(num, 1e-18, 1e-15)
+        self.assertEqual(snum, complex(self.ANY_VALUE_ABOVE_THRESHOLD, 0))
+
+    def test_simplifying_complex_uses_real_threshold_default(self):
+        num = complex(0.1e-16, self.ANY_VALUE_ABOVE_THRESHOLD)
+        snum = calculator.simplify_complex(num)
+        self.assertEqual(snum, complex(0, self.ANY_VALUE_ABOVE_THRESHOLD))
+
+    def test_simplifying_complex_imag_threshold_defaults_to_real_threshold(self):
+        num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, 0.1e-16)
+        snum = calculator.simplify_complex(num)
+        self.assertEqual(snum, complex(self.ANY_VALUE_ABOVE_THRESHOLD, 0))
+
+    def test_simplifying_complex_returns_zero_if_both_below_threshold(self):
+        num = complex(0.1e-16, 0.1e-16)
+        snum = calculator.simplify_complex(num)
+        self.assertEqual(snum, 0)
+
+    def test_simplifying_complex_returns_original_number_if_both_above_threshold(self):
+        num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, self.ANY_VALUE_ABOVE_THRESHOLD)
+        snum = calculator.simplify_complex(num)
+        self.assertEqual(snum, num)
+
+    def test_simplifying_complex_absolute_value_used_when_comparing_real(self):
+        num = complex(-self.ANY_VALUE_ABOVE_THRESHOLD, self.ANY_VALUE_ABOVE_THRESHOLD)
+        snum = calculator.simplify_complex(num)
+        self.assertEqual(snum, num)
+
+    def test_simplifying_complex_absolute_value_used_when_comparing_imag(self):
+        num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, -self.ANY_VALUE_ABOVE_THRESHOLD)
+        snum = calculator.simplify_complex(num)
+        self.assertEqual(snum, num)
+
 if __name__ == '__main__':
     unittest.main()
