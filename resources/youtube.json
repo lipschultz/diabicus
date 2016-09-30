@@ -752,7 +752,7 @@
   "link" : "https://www.youtube.com/watch?v=HvMSRWTE2mI",
   "title": "Fool-Proof Test for Primes",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s.' % (to_pretty_x10(r), to_pretty_x10(r), '' if is_prime(r) else ' not', to_pretty_x10(r))"
+  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s.' % (to_pretty_x10(r, prepend='(', append=')'), to_pretty_x10(r, prepend='(', append=')'), '' if is_prime(r) else ' not', to_pretty_x10(r, prepend='(', append=')'))"
  },
  {"test" : "lambda formula, result, context: True",
   "link" : "https://www.youtube.com/watch?v=Yexc19j3TjE",
@@ -1771,7 +1771,7 @@
   "source":"standupmaths",
   "note" : "base 2"
  },
- {"test" : "lambda formula, result, context: is_close(result, math.pi, 1e-2) or result in (54.2, 68.8}",
+ {"test" : "lambda formula, result, context: is_close(result, math.pi, 1e-2) or result in {54.2, 68.8}",
   "link" : "https://www.youtube.com/watch?v=Ngj0a57Rlb0",
   "title": "Calculating pi by weighing a circle",
   "source":"standupmaths"
