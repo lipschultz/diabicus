@@ -36,9 +36,9 @@ def simplify_complex(value, real_nonzero_threshold=1e-16, imag_nonzero_threshold
     if imag_nonzero_threshold is None:
         imag_nonzero_threshold = real_nonzero_threshold
 
-    real = value.real if value.real >= real_nonzero_threshold else 0
+    real = value.real if abs(value.real) >= real_nonzero_threshold else 0
 
-    if value.imag < imag_nonzero_threshold:
+    if abs(value.imag) < imag_nonzero_threshold:
         return real
     else:
         return complex(real, value.imag)
