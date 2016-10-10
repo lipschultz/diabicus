@@ -32,7 +32,7 @@ class Disco:
     def is_discoing(self):
         return time.time() < self.__stop_time
 
-def simplify_complex(value, real_nonzero_threshold=1e-16, imag_nonzero_threshold=None):
+def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold=None):
     if imag_nonzero_threshold is None:
         imag_nonzero_threshold = real_nonzero_threshold
 
