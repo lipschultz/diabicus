@@ -191,7 +191,7 @@ class CalcApp(App, Calculator):
 
         super(CalcApp, self).__init__(*args, **kwargs)
 
-        self._answer_format = {complex : lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
+        self._answer_format = {complex : lambda v: pretty_print_complex(simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, 2)),#lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
                                float : lambda v : "%0.4g" % v
                                }
         self._answer_format[int] = self._answer_format[float]
