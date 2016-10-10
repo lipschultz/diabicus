@@ -3,6 +3,7 @@ import calculator
 import compute
 import number_facts
 import simpleeval
+import math
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):
@@ -239,6 +240,31 @@ class CalculatorTests(unittest.TestCase):
         self.app.press_ans()
         self.app.calculate()
         self.assertEqual(self.app.result, 9)
+
+    def test_pi_results_in_pi_value(self):
+        self.enter_basic_input('π')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, math.pi)
+
+    def test_e_results_in_e_value(self):
+        self.enter_basic_input('e')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, math.e)
+
+    def test_phi_results_in_phi_value(self):
+        self.enter_basic_input('φ')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, number_facts.GOLDEN_RATIO)
+
+    def test_i_results_in_i_value(self):
+        self.enter_basic_input('i')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, number_facts.I)
+
+    def test_tau_results_in_tau_value(self):
+        self.enter_basic_input('τ')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 2*math.pi)
 
     def test_implicit_multiply_Ans_pi(self):
         self.assign_value_to_Ans(3)
