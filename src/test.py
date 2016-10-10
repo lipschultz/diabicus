@@ -253,6 +253,13 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 8.539734222673566)
 
+    def test_implicit_multiply_pi_e_phi(self):
+        self.enter_basic_input('π')
+        self.enter_basic_input('e')
+        self.enter_basic_input('φ')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, 13.817580227176492)
+
     def test_context_stores_past_results(self):
         self.enter_basic_input('2+2')
         self.app.calculate()
