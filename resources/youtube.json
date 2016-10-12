@@ -185,7 +185,7 @@
   "link" : "https://www.youtube.com/watch?v=Lihh_lMmcDw",
   "title": "Skewes' Massive Number",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Approximately %s primes below %s.' % (to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0], 2), to_pretty_x10(r))"
+  "msg" : "lambda f, r, c: 'Approximately %s primes below %s.' % (format_numbers.to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0], 2), format_numbers.to_pretty_x10(r))"
  },
  {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",
@@ -597,7 +597,7 @@
   "link" : "https://www.youtube.com/watch?v=xPk3SZiFEvQ",
   "title": "Happy Ending Problem",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %s points with no three points in a line.' % (r, to_pretty_x10((2**(r-2))+1))"
+  "msg" : "lambda f, r, c: 'Conjecture: To guarantee a convex %d-gon, you need %s points with no three points in a line.' % (r, format_numbers.to_pretty_x10((2**(r-2))+1))"
  },
  {"test" : "lambda formula, result, context: is_rational(result) and is_close(result, (36.7879, 0.367879))",
   "link" : "https://www.youtube.com/watch?v=ZWib5olGbQ0",
@@ -718,7 +718,7 @@
   "link" : "https://www.youtube.com/watch?v=OAss481FfAQ",
   "title": "Brussels Sprouts",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'A game of Brussels Sprouts with %s starting vertices will end after %s moves.' % (to_pretty_x10(r), to_pretty_x10(5*r-2))"
+  "msg" : "lambda f, r, c: 'A game of Brussels Sprouts with %s starting vertices will end after %s moves.' % (format_numbers.to_pretty_x10(r), format_numbers.to_pretty_x10(5*r-2))"
  },
  {"test" : "lambda formula, result, context: result in (2, 3)",
   "link" : "https://www.youtube.com/watch?v=E8kUJL04ELA",
@@ -752,7 +752,7 @@
   "link" : "https://www.youtube.com/watch?v=HvMSRWTE2mI",
   "title": "Fool-Proof Test for Primes",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s.' % (to_pretty_x10(r, prepend='(', append=')'), to_pretty_x10(r, prepend='(', append=')'), '' if is_prime(r) else ' not', to_pretty_x10(r, prepend='(', append=')'))"
+  "msg" : "lambda f, r, c: 'All coefficients in (x - 1)^%s - (x^%s - 1) are%s divisible by %s.' % (format_numbers.to_pretty_x10(r, prepend='(', append=')'), format_numbers.to_pretty_x10(r, prepend='(', append=')'), '' if is_prime(r) else ' not', format_numbers.to_pretty_x10(r, prepend='(', append=')'))"
  },
  {"test" : "lambda formula, result, context: True",
   "link" : "https://www.youtube.com/watch?v=Yexc19j3TjE",
@@ -903,9 +903,9 @@
   "link" : "https://www.youtube.com/watch?v=l8ezziaEeNE",
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
-  "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (to_pretty_x10(r), str(r / math.log(r)) if r / math.log(r) < 10000 else to_pretty_x10(r / math.log(r), 1))",
-           "lambda f, r, c: 'The %s prime number is approximately %s' % (to_ordinal(r), to_pretty_x10(math.floor(r * math.log(r))))",
-           "lambda f, r, c: 'There is a prime between %s and %s' % (to_pretty_x10(r), to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
+  "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (format_numbers.to_pretty_x10(r), str(r / math.log(r)) if r / math.log(r) < 10000 else format_numbers.to_pretty_x10(r / math.log(r), 1))",
+           "lambda f, r, c: 'The %s prime number is approximately %s' % (to_ordinal(r), format_numbers.to_pretty_x10(math.floor(r * math.log(r))))",
+           "lambda f, r, c: 'There is a prime between %s and %s' % (format_numbers.to_pretty_x10(r), format_numbers.to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
            ]
  },
  {"test" : "lambda formula, result, context: is_irrational(result) or result == 0",
@@ -1116,7 +1116,7 @@
   "link" : "https://www.youtube.com/watch?v=aOJOfh2_4PE",
   "title": "Zequals and Estimation",
   "source":"Numberphile",
-  "msg" : "lambda f, r, c: '%s zequals %s' % (to_pretty_x10(r), to_pretty_x10(round(r, -int(math.floor(math.log10(abs(r)))))))"
+  "msg" : "lambda f, r, c: '%s zequals %s' % (format_numbers.to_pretty_x10(r), format_numbers.to_pretty_x10(round(r, -int(math.floor(math.log10(abs(r)))))))"
  },
  {"test" : "lambda formula, result, context: result in {318304, 6433, 4, 115, 54, 12237, 118, 366, 10318, 9, 62.3, 20, 5.6, 47.57, 76, 118, 136, 4611, 17, 17878, 16, 1954371119, 19.7, 47.2, 13.1, 59, 4, 154, 287890550, 1196, 16, 17676, 40997, 40998, 16, 1, 104, 108, 23}",
   "link" : "https://www.youtube.com/watch?v=YJuHC7xXsGA",
@@ -1616,7 +1616,7 @@
   "link" : "https://www.youtube.com/watch?v=bFfSfzjhfC8",
   "title": "14 Super Bowl Coin Tosses",
   "source":"Numberphile",
-  "msg" : "lambda f, result, c: 'To get %d wins in a row (at 50%% chance of a win), you need to try %s times on average.' % (int(result), to_pretty_x10(math.ceil(2**(result+1)-2)))"
+  "msg" : "lambda f, result, c: 'To get %d wins in a row (at 50%% chance of a win), you need to try %s times on average.' % (int(result), format_numbers.to_pretty_x10(math.ceil(2**(result+1)-2)))"
  },
  {"test" : "lambda formula, result, context: result == 0.75",
   "link" : "https://www.youtube.com/watch?v=hLGDJFGAmic",
@@ -1936,31 +1936,31 @@
   "link" : "https://www.youtube.com/watch?v=qkt_wmRKYNQ",
   "title": "Leap Years: we can do better",
   "source":"standupmaths",
-  "msg" : "lambda f, result, c: to_pretty_x10(int(result)) + ' would be a leap year in the Julian calendar'"
+  "msg" : "lambda f, result, c: format_numbers.to_pretty_x10(int(result)) + ' would be a leap year in the Julian calendar'"
  },
  {"test" : "lambda formula, result, context: is_int(result) and result > 0 and result % 4 == 0 and result % 100 != 0 and result % 400 == 0",
   "link" : "https://www.youtube.com/watch?v=qkt_wmRKYNQ",
   "title": "Leap Years: we can do better",
   "source":"standupmaths",
-  "msg" : "lambda f, result, c: to_pretty_x10(int(result)) + ' would be a leap year in the Gregorian calendar'"
+  "msg" : "lambda f, result, c: format_numbers.to_pretty_x10(int(result)) + ' would be a leap year in the Gregorian calendar'"
  },
  {"test" : "lambda formula, result, context: is_int(result) and result > 0 and result % 4 == 0 and result % 100 != 0 and result % 400 == 0 and (result % 10000) % 2800 != 0",
   "link" : "https://www.youtube.com/watch?v=qkt_wmRKYNQ",
   "title": "Leap Years: we can do better",
   "source":"standupmaths",
-  "msg" : "lambda f, result, c: to_pretty_x10(int(result)) + ' would be a leap year in the Gregorian-Parkerian calendar'"
+  "msg" : "lambda f, result, c: format_numbers.to_pretty_x10(int(result)) + ' would be a leap year in the Gregorian-Parkerian calendar'"
  },
  {"test" : "lambda formula, result, context: is_int(result) and result > 0 and result % 4 == 0 and result % 128 != 0",
   "link" : "https://www.youtube.com/watch?v=qkt_wmRKYNQ",
   "title": "Leap Years: we can do better",
   "source":"standupmaths",
-  "msg" : "lambda f, result, c: to_pretty_x10(int(result)) + ' would be a leap year in the 128 Julian-Parkerian calendar'"
+  "msg" : "lambda f, result, c: format_numbers.to_pretty_x10(int(result)) + ' would be a leap year in the 128 Julian-Parkerian calendar'"
  },
  {"test" : "lambda formula, result, context: is_int(result) and result > 0 and result % 4 == 0 and result % 128 != 0 and result % 625024 == 0",
   "link" : "https://www.youtube.com/watch?v=qkt_wmRKYNQ",
   "title": "Leap Years: we can do better",
   "source":"standupmaths",
-  "msg" : "lambda f, result, c: to_pretty_x10(int(result)) + ' would be a leap year in the 625000 Julian-Parkerian calendar'"
+  "msg" : "lambda f, result, c: format_numbers.to_pretty_x10(int(result)) + ' would be a leap year in the 625000 Julian-Parkerian calendar'"
  },
  {"test" : "lambda formula, result, context: result == 1/4",
   "link" : "https://www.youtube.com/watch?v=owVwjr6pTqc",

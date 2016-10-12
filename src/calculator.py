@@ -14,6 +14,8 @@ import time_limit
 import glob
 import random
 
+import format_numbers
+
 DISCO_LENGTH = 2 #seconds
 
 class CalcMainLayout(BoxLayout):
@@ -32,31 +34,6 @@ class Disco:
     def is_discoing(self):
         return time.time() < self.__stop_time
 
-def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold=None):
-    if imag_nonzero_threshold is None:
-        imag_nonzero_threshold = real_nonzero_threshold
-
-    real = value.real if abs(value.real) >= real_nonzero_threshold else 0
-
-    if abs(value.imag) < imag_nonzero_threshold:
-        return real
-    else:
-        return complex(real, value.imag)
-
-def pretty_print_complex(value, real_tostr_fn=lambda v: str(v), imag_tostr_fn=None, imaginary_indicator='i', display_0=False):
-    if imag_tostr_fn is None:
-        imag_tostr_fn = real_tostr_fn
-
-    real = real_tostr_fn(value.real)
-    imag = imag_tostr_fn(value.imag)
-
-    if display_0 or (value.imag != 0 and value.real != 0):
-        return '%s + %s%s' % (real, imag, imaginary_indicator)
-    elif value.imag == 0:
-        return real
-    else:
-        return '%s%s' % (imag, imaginary_indicator)
-
 class Calculator:
     def __init__(self):
         self._result = 0
@@ -67,7 +44,7 @@ class Calculator:
         self.__init_eval()
 
         self.__DISPLAY_DIGITS = 8
-        self._output_format = {complex : lambda v : pretty_print_complex(simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, self.__DISPLAY_DIGITS)),
+        self._output_format = {complex : lambda v : format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, self.__DISPLAY_DIGITS)),
                                float : lambda v : number_facts.to_pretty_x10(v, 2*self.__DISPLAY_DIGITS),#"%0.8g" % v,
                                str : lambda v : v
                                }
@@ -191,7 +168,7 @@ class CalcApp(App, Calculator):
 
         super(CalcApp, self).__init__(*args, **kwargs)
 
-        self._answer_format = {complex : lambda v: pretty_print_complex(simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, 2)),#lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
+        self._answer_format = {complex : lambda v: format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, 2)),#lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
                                float : lambda v : "%0.4g" % v
                                }
         self._answer_format[int] = self._answer_format[float]

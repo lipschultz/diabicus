@@ -1,7 +1,6 @@
 import math
 import scipy.integrate
 from fractions import Fraction
-import decimal
 import json
 import sys
 import random
@@ -124,30 +123,6 @@ def to_ordinal(n):
             return str_n + 'rd'
     else:
         return str_n + 'th'
-
-def to_pretty_x10(n, dec_places=5, prepend='', append=''):
-    if n < sys.float_info.min or n > sys.float_info.max:
-        val = decimal.Decimal(n)
-        decimal.getcontext().prec = dec_places+1
-        val = str(val.normalize())
-    elif not is_int(n) or math.log10(n) > 10:
-        val = ('%0.'+str(dec_places+1)+'G') % n
-        v = val.split('E')
-        if len(v) == 1:
-            left = v[0].split('.')
-            if len(left) > 1 and len(left[1]) > dec_places:
-                left[1] = left[1][:dec_places]
-            val = '.'.join(left)
-    else:
-        val = str(n)
-    val = val.split('E')
-
-    if len(val) == 1:
-        return prepend + val[0] + append
-    else:
-        if val[1].startswith('+'):
-            val[1] = str(int(val[1][1:]))
-        return prepend + val[0] + '×10^' + val[1] + append
 
 
 def farey_addition(history):
