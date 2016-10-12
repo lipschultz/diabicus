@@ -1,4 +1,3 @@
-- When calculations take a while, provide indication that the calculation is still being done
 - Make audio/video disco
 - Investigate better calculation timeout
     * Preferably cross-platform and sub-second timeout
@@ -18,8 +17,4 @@
             * length of disco
         * modes (e.g.
         * maintain "score" of calculator usage -- how is "score" defined?
-- when picking a fact to display, negatively weight commonly- or recently-used facts
-- easter egg music
-- superscript exponents in output (and number fact)
-- how to handle multi-argument functions (e.g. round)
-- why isn't 6^495259 caught as a too-large number to compute?
+- Unit test to_ordinal
