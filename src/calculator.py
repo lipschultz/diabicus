@@ -8,6 +8,7 @@ import compute
 import math
 import time
 import number_facts
+import numeric_tools
 import argparse
 import logging
 import time_limit
@@ -44,8 +45,8 @@ class Calculator:
         self.__init_eval()
 
         self.__DISPLAY_DIGITS = 8
-        self._output_format = {complex : lambda v : format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, self.__DISPLAY_DIGITS)),
-                               float : lambda v : number_facts.to_pretty_x10(v, 2*self.__DISPLAY_DIGITS),#"%0.8g" % v,
+        self._output_format = {complex : lambda v : format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: format_numbers.to_pretty_x10(n, self.__DISPLAY_DIGITS)),
+                               float : lambda v : format_numbers.to_pretty_x10(v, 2*self.__DISPLAY_DIGITS),#"%0.8g" % v,
                                str : lambda v : v
                                }
         self._output_format[int] = self._output_format[float]
@@ -60,8 +61,8 @@ class Calculator:
         self.__eval.names['π'] = math.pi
         self.__eval.names['τ'] = 2*math.pi
         self.__eval.names['e'] = math.e
-        self.__eval.names['i'] = number_facts.I
-        self.__eval.names['φ'] = number_facts.GOLDEN_RATIO
+        self.__eval.names['i'] = numeric_tools.I
+        self.__eval.names['φ'] = numeric_tools.GOLDEN_RATIO
         self.__eval.functions['ln'] = math.log
 
     def get_input(self):
@@ -168,7 +169,7 @@ class CalcApp(App, Calculator):
 
         super(CalcApp, self).__init__(*args, **kwargs)
 
-        self._answer_format = {complex : lambda v: format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: number_facts.to_pretty_x10(n, 2)),#lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
+        self._answer_format = {complex : lambda v: format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: format_numbers.to_pretty_x10(n, 2)),#lambda v : '%0.1g + %0.2gi' % (v.real, v.imag),
                                float : lambda v : "%0.4g" % v
                                }
         self._answer_format[int] = self._answer_format[float]

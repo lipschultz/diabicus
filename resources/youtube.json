@@ -904,7 +904,7 @@
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
   "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (format_numbers.to_pretty_x10(r), str(r / math.log(r)) if r / math.log(r) < 10000 else format_numbers.to_pretty_x10(r / math.log(r), 1))",
-           "lambda f, r, c: 'The %s prime number is approximately %s' % (to_ordinal(r), format_numbers.to_pretty_x10(math.floor(r * math.log(r))))",
+           "lambda f, r, c: 'The %s prime number is approximately %s' % (format_numbers.to_ordinal(r), format_numbers.to_pretty_x10(math.floor(r * math.log(r))))",
            "lambda f, r, c: 'There is a prime between %s and %s' % (format_numbers.to_pretty_x10(r), format_numbers.to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
            ]
  },

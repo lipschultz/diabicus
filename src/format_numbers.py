@@ -1,5 +1,7 @@
 import sys
 import decimal
+import numeric_tools
+import math
 
 def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold=None):
     if imag_nonzero_threshold is None:
@@ -31,7 +33,7 @@ def to_pretty_x10(n, dec_places=5, prepend='', append=''):
         val = decimal.Decimal(n)
         decimal.getcontext().prec = dec_places+1
         val = str(val.normalize())
-    elif not is_int(n) or math.log10(n) > 10:
+    elif not numeric_tools.is_int(n) or math.log10(n) > 10:
         val = ('%0.'+str(dec_places+1)+'G') % n
         v = val.split('E')
         if len(v) == 1:
@@ -49,3 +51,16 @@ def to_pretty_x10(n, dec_places=5, prepend='', append=''):
         if val[1].startswith('+'):
             val[1] = str(int(val[1][1:]))
         return prepend + val[0] + '×10^' + val[1] + append
+
+def to_ordinal(n):
+    str_n = str(n)
+    ones = n % 10
+    if 1 <= ones <= 3 and n not in (11, 12, 13):
+        if ones == 1:
+            return str_n + 'st'
+        elif ones == 2:
+            return str_n + 'nd'
+        else:
+            return str_n + 'rd'
+    else:
+        return str_n + 'th'

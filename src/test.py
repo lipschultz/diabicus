@@ -1,9 +1,10 @@
 import unittest
 import calculator
 import compute
-import number_facts
+import numeric_tools
 import simpleeval
 import math
+import format_numbers
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):
@@ -254,12 +255,12 @@ class CalculatorTests(unittest.TestCase):
     def test_phi_results_in_phi_value(self):
         self.enter_basic_input('φ')
         self.app.calculate()
-        self.assertAlmostEqual(self.app.result, number_facts.GOLDEN_RATIO)
+        self.assertAlmostEqual(self.app.result, numeric_tools.GOLDEN_RATIO)
 
     def test_i_results_in_i_value(self):
         self.enter_basic_input('i')
         self.app.calculate()
-        self.assertAlmostEqual(self.app.result, number_facts.I)
+        self.assertAlmostEqual(self.app.result, numeric_tools.I)
 
     def test_tau_results_in_tau_value(self):
         self.enter_basic_input('τ')
@@ -304,64 +305,64 @@ class ComputeTests(unittest.TestCase):
         self.assertIsInstance(result, compute.ComputationError)
         self.assertEqual(result.msg, 'divide by zero')
 
-class NumberFactsTests(unittest.TestCase):
-    def test_prettying_ints_larger_than_can_fit_in_float(self):
-        num = 2**(36862)+1
-        pnum = number_facts.to_pretty_x10(num)
-        self.assertEqual(pnum, '3.69573×10^11096')
-
-    def test_prettying_num_needing_negative_exponent(self):
-        num = 0.000000000000016007448567456
-        pnum = number_facts.to_pretty_x10(num)
-        self.assertEqual(pnum, '1.60074×10^-14')
-
-    def test_prettying_num_that_shouldnt_become_sci_notation(self):
-        num = 0.16007448567456
-        pnum = number_facts.to_pretty_x10(num)
-        self.assertEqual(pnum, '0.16007')
-
-class NumberFactsTests(unittest.TestCase):
+class FormatNumbersTests(unittest.TestCase):
     ANY_VALUE_ABOVE_THRESHOLD = 5
 
     def test_simplifying_complex_removes_real_below_threshold(self):
         num = complex(1e-17, self.ANY_VALUE_ABOVE_THRESHOLD)
-        snum = calculator.simplify_complex(num, 1e-15, 1e-15)
+        snum = format_numbers.simplify_complex(num, 1e-15, 1e-15)
         self.assertEqual(snum, complex(0, self.ANY_VALUE_ABOVE_THRESHOLD))
 
     def test_simplifying_complex_removes_imag_below_threshold(self):
         num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, 1e-17)
-        snum = calculator.simplify_complex(num, 1e-18, 1e-15)
+        snum = format_numbers.simplify_complex(num, 1e-18, 1e-15)
         self.assertEqual(snum, complex(self.ANY_VALUE_ABOVE_THRESHOLD, 0))
 
     def test_simplifying_complex_uses_real_threshold_default(self):
         num = complex(0.1e-16, self.ANY_VALUE_ABOVE_THRESHOLD)
-        snum = calculator.simplify_complex(num)
+        snum = format_numbers.simplify_complex(num)
         self.assertEqual(snum, complex(0, self.ANY_VALUE_ABOVE_THRESHOLD))
 
     def test_simplifying_complex_imag_threshold_defaults_to_real_threshold(self):
         num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, 0.1e-16)
-        snum = calculator.simplify_complex(num)
+        snum = format_numbers.simplify_complex(num)
         self.assertEqual(snum, complex(self.ANY_VALUE_ABOVE_THRESHOLD, 0))
 
     def test_simplifying_complex_returns_zero_if_both_below_threshold(self):
         num = complex(0.1e-16, 0.1e-16)
-        snum = calculator.simplify_complex(num)
+        snum = format_numbers.simplify_complex(num)
         self.assertEqual(snum, 0)
 
     def test_simplifying_complex_returns_original_number_if_both_above_threshold(self):
         num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, self.ANY_VALUE_ABOVE_THRESHOLD)
-        snum = calculator.simplify_complex(num)
+        snum = format_numbers.simplify_complex(num)
         self.assertEqual(snum, num)
 
     def test_simplifying_complex_absolute_value_used_when_comparing_real(self):
         num = complex(-self.ANY_VALUE_ABOVE_THRESHOLD, self.ANY_VALUE_ABOVE_THRESHOLD)
-        snum = calculator.simplify_complex(num)
+        snum = format_numbers.simplify_complex(num)
         self.assertEqual(snum, num)
 
     def test_simplifying_complex_absolute_value_used_when_comparing_imag(self):
         num = complex(self.ANY_VALUE_ABOVE_THRESHOLD, -self.ANY_VALUE_ABOVE_THRESHOLD)
-        snum = calculator.simplify_complex(num)
+        snum = format_numbers.simplify_complex(num)
         self.assertEqual(snum, num)
+
+    def test_prettying_ints_larger_than_can_fit_in_float(self):
+        num = 2**(36862)+1
+        pnum = format_numbers.to_pretty_x10(num)
+        self.assertEqual(pnum, '3.69573×10^11096')
+
+    def test_prettying_num_needing_negative_exponent(self):
+        num = 0.000000000000016007448567456
+        pnum = format_numbers.to_pretty_x10(num)
+        self.assertEqual(pnum, '1.60074×10^-14')
+
+    def test_prettying_num_that_shouldnt_become_sci_notation(self):
+        num = 0.16007448567456
+        pnum = format_numbers.to_pretty_x10(num)
+        self.assertEqual(pnum, '0.16007')
+
 
 if __name__ == '__main__':
     unittest.main()
