@@ -1,6 +1,7 @@
 import re
 import logging
-import simpleeval
+
+from . import simpleeval
 
 FUNCTION_PREFIX = '\u200b'
 

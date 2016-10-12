@@ -1,10 +1,12 @@
 import unittest
-import calculator
-import compute
-import numeric_tools
-import simpleeval
 import math
-import format_numbers
+
+import calculator
+
+from src import compute
+from src import numeric_tools
+from src import simpleeval
+from src import format_numbers
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):

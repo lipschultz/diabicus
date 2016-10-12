@@ -3,21 +3,31 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 from kivy.core.audio import SoundLoader
-from simpleeval import SimpleEval
-import compute
+
+from src.simpleeval import SimpleEval
+from src import compute
+from src import number_facts
+from src import numeric_tools
+from src import time_limit
+from src import format_numbers
+
 import math
 import time
-import number_facts
-import numeric_tools
 import argparse
 import logging
-import time_limit
 import glob
 import random
-
-import format_numbers
+import os
+import importlib
 
 DISCO_LENGTH = 2 #seconds
+
+def get_loader_lib(module_location):
+    path, name = os.path.split(module_location)
+    module_name = os.path.splitext(name)[0]
+    module_path = path
+    importlib.import_module(module_path)
+    return importlib.import_module('.'+module_name, module_path)
 
 class CalcMainLayout(BoxLayout):
     pass
@@ -235,7 +245,7 @@ class CalcApp(App, Calculator):
     def calculate(self):
         result = super(CalcApp, self).calculate()
         if self.__facts is not None:
-            fact = number_facts.get_fact(self.__facts, self.input, result, self.context)
+            fact = self.__facts.get_fact(self.input, result, self.context)
             if fact is not None:
                 message = fact.title
                 try:
@@ -247,7 +257,7 @@ class CalcApp(App, Calculator):
 
 def command_line_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--facts', help="Path to json file containing facts and when to use them")
+    parser.add_argument('-f', '--facts', help="Path to python file containing facts (or code to load facts)")
     args = parser.parse_args()
     return args
 
@@ -255,6 +265,7 @@ if __name__=="__main__":
     args = command_line_arguments()
     facts = None
     if args.facts is not None:
-        facts = number_facts.load_json_file(args.facts)
-    audio_files = glob.glob('../media/*')
+        facts_lib = get_loader_lib(args.facts)
+        facts = facts_lib.load_facts()
+    audio_files = glob.glob('media/*')
     CalcApp(facts=facts, audio_src=audio_files).run()

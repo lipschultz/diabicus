@@ -1,13 +1,9 @@
-import math
-import scipy.integrate
-from fractions import Fraction
-import json
-import sys
 import random
 import logging
 import string
-import re
-import time_limit
+import json
+
+from . import time_limit
 
 def context_to_str(context):
     str_context = []
@@ -20,153 +16,122 @@ def context_to_str(context):
 
     return '{' + ', '.join(str_context) + '}'
 
-
-def farey_addition(context):
-    if len(context['result']) < 3 or any(not is_rational(r) for r in context['result'][-3:]):
-        return False
-    first = Fraction(context['result'][-3]).limit_denominator(234)
-    second = Fraction(context['result'][-2]).limit_denominator(234)
-    third = Fraction(context['result'][-1]).limit_denominator(234)
-    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second
-
-class MagicSquare:
-    def __init__(self):
-        self.link = 'https://www.youtube.com/watch?v=aQxCnmhqZko'
-        self.title = 'Magic Square Party Trick'
-        self.source = 'Numberphile'
-        self.skip = True
-
-        self.__coeff = 1/(4*math.sqrt(3))
-        self.__exp = math.pi*math.sqrt(2/3)
-
-    def test(self, formula, result, context):
-        return not self.skip and is_int(result) and 21 <= result <= 65
-
-    def message(self, formula, result, context):
-        row1 = [result-20, 1, 12, 7]
-        row2 = [11, 8, result-21, 2]
-        row3 = [5, 10, 3, result-18]
-        row4 = [4, result-19, 6, 9]
-        square = [row1, row2, row3, row4]
-        return 'The magic square for %d is %s' % (result, square)
-
 DEFAULT_MSG_FORMATTER = string.Formatter()
 
-class JsonFact:
-    def __init__(self, json_data):
-        self.link = json_data.get('link')
-        self.title = json_data.get('title')
-        self.source = json_data.get('source')
-        self.oeis = json_data.get('oeis')
-        self.wiki = json_data.get('wiki')
-        self.weight = json_data.get('weight', 1)
-        self.init = json_data.get('init')
-        self.raw_test = json_data.get('test')
-        self.raw_message = json_data.get('msg', self.title)
+class BaseFact:
+    def __init__(self):
+        self.weight = 1
+        self._messages = []
+        self._messages_pos = 0
 
-        try:
-            self.init = compile(self.init, '<json_string>', "exec")
-            print("eval result for", self.title, ":", eval(self.init, globals(), locals()))
-        except:
-            pass
+    def reset_messages(self):
+        random.shuffle(self._messages)
+        self._messages_pos = 0
 
-        try:
-            self.test = eval(self.raw_test)
-        except:
-            self.test = False
-        if not callable(self.test):
-            self.test = lambda *args: False
-
-        if not isinstance(self.raw_message, list):
-            self.raw_message = [self.raw_message]
-
-        self._message = []
-        for i in range(len(self.raw_message)):
-            raw_msg = self.raw_message[i]
-            try:
-                msg = eval(raw_msg)
-            except:
-                msg = raw_msg
-            if not callable(msg):
-                msg = lambda formula, result, context: DEFAULT_MSG_FORMATTER.format(raw_msg, formula=formula, result=result, context=context)
-
-            self._message.append(msg)
+    def get_default_message(self):
+        return ''
 
     def message(self, formula, result, context):
-        msg = random.choice(self._message)
-        try:
-            return msg(formula, result, context)
-        except OverflowError as e:
-            logging.warning("Encountered overflow error for fact "+str(self)+", message " + msg + ", formula="+formula+", result="+result+", context="+context_to_str(context))
-            return self.title
+        looped = False
+        prev_j = -1
+        return_message = None
+        for i in range(len(self._messages)):
+            j = (i+self._messages_pos) % len(self._messages)
+            looped = looped or prev_j > j
+            prev_j += 1
+
+            msg = self._messages[j]
+            try:
+                return_message = msg(formula, result, context)
+                break
+            except OverflowError as e:
+                logging.warning("Encountered overflow error for fact "+str(self)+", message " + msg + ", formula="+formula+", result="+result+", context="+context_to_str(context))
+
+        self._messages_pos += prev_j + 1
+        if looped or self._messages_pos >= len(self._messages):
+            self.reset_messages()
+
+        if return_message is None:
+            return self.get_default_message()
+        else:
+            return return_message
+
+class JsonFact(BaseFact):
+    def __init__(self, json_data):
+        super(JsonFact, self).__init__()
+        self.json_data = json_data
+        self.raw_test = json_data.get('test')
+        self.raw_message = json_data.get('msg')
 
     def __str__(self):
-        return self.title
+        return self.raw_test.encode("unicode-escape") + " -> " + self.raw_message
 
     def __repr__(self):
-        return str(self) + "{test : " + repr(self.raw_test.encode("unicode-escape")) + "}"
+        return self.json_data
 
-def load_json_file(json_file):
-    with open(json_file) as fin:
-        contents = json.load(fin)
+    @classmethod
+    def load_file(clas, filename):
+        with open(filename) as fin:
+            contents = json.load(fin)
 
-    facts = [JsonFact(d) for d in contents]
-    logging.info(str(len(facts)) + ' facts loaded from ' + json_file)
-    return facts
+        facts = [clas(d) for d in contents]
+        logging.info(str(len(facts)) + ' facts loaded from ' + filename)
+        return NumberFacts(facts)
 
-def test_fact(fact, formula, result, context):
-    timed_exec = time_limit.TimedExecution()
-    try:
-        logging.debug("Testing fact " + repr(fact) + " with context " + context_to_str(context))
-        result = timed_exec.run(fact.test, formula, result, context)
-        logging.debug("Test result for " + repr(fact) + ": " + str(result))
-        return result
-    except TimeoutError as e:
-        logging.warning(str(fact) + ' timed out on formula = "'+formula+'", result = "' + str(result) + ', context = ' + context_to_str(context))
-    except Exception as e:
-        logging.warning(str(fact) + ' threw exception ' + repr(e) + ': formula = "'+formula+'", result = "' + str(result) + ', context = ' + context_to_str(context))
+class NumberFacts:
+    def __init__(self, facts):
+        self.facts = facts
 
-    return False
+    def get_fact(self, formula, result, context):
+        app_facts = self.find_applicable_facts(formula, result, context)
+        rand_fact = self.pick_random_fact(app_facts)
+        return rand_fact
 
-def find_applicable_facts(facts, formula, result, context):
-    app_facts = []
-    for f in facts:
-        if test_fact(f, formula, result, context):
-            app_facts.append(f)
+    def find_applicable_facts(self, formula, result, context):
+        app_facts = []
+        for f in self.facts:
+            if self.test_fact(f, formula, result, context):
+                app_facts.append(f)
 
-    logging.info("Number of applicable facts found: "+str(len(app_facts)))
-    return app_facts
+        logging.info("Number of applicable facts found: "+str(len(app_facts)))
+        return app_facts
 
-def pick_random_fact(facts):
-    logging.info("Pick random fact from: "+repr(facts))
+    def test_fact(self, fact, formula, result, context):
+        timed_exec = time_limit.TimedExecution()
+        try:
+            logging.debug("Testing fact " + repr(fact) + " with context " + context_to_str(context))
+            result = timed_exec.run(fact.test, formula, result, context)
+            logging.debug("Test result for " + repr(fact) + ": " + str(result))
+            return result
+        except TimeoutError as e:
+            logging.warning(str(fact) + ' timed out on formula = "'+formula+'", result = "' + str(result) + ', context = ' + context_to_str(context))
+        except Exception as e:
+            logging.warning(str(fact) + ' threw exception ' + repr(e) + ': formula = "'+formula+'", result = "' + str(result) + ', context = ' + context_to_str(context))
 
-    total = sum(f.weight for f in facts)
-    if total == 0:
-        logging.info('No facts to pick')
-        return None
+        return False
 
-    p = random.uniform(0, total)
-    cdf = 0
-    for f in facts:
-        cdf += f.weight
-        if p <= cdf:
-            logging.info('Fact picked: ' + str(f))
-            return f
+    def pick_random_fact(self, facts):
+        logging.info("Pick random fact from: "+repr(facts))
 
-    f = random.choice(facts)
-    logging.info('Fact picked (fallback): ' + str(f))
-    return f
+        total = sum(f.weight for f in facts)
+        if total == 0:
+            logging.info('No facts to pick')
+            return None
 
-def get_fact(facts, formula, result, context):
-    app_facts = find_applicable_facts(facts, formula, result, context)
-    rand_fact = pick_random_fact(app_facts)
-    return rand_fact
+        p = random.uniform(0, total)
+        cdf = 0
+        for f in facts:
+            cdf += f.weight
+            if p <= cdf:
+                logging.info('Fact picked: ' + str(f))
+                return f
 
-if __name__ == '__main__':
-    facts = load_json_file('../resources/youtube.json')
-    formula = 'cos(2)'
-    result = 19
-    context = {'result' : [15, 14, 13, 12]}
-    rand_fact = get_fact(facts, formula, result, context)
+        f = random.choice(facts)
+        logging.info('Fact picked (fallback): ' + str(f))
+        return f
 
-    print('chose: ' + str(rand_fact))
+    def __len__(self):
+        return len(self.facts)
+
+    def __getitem__(self, key):
+        return self.facts[key]

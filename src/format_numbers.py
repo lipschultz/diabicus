@@ -1,7 +1,8 @@
 import sys
 import decimal
-import numeric_tools
 import math
+
+from . import numeric_tools
 
 def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold=None):
     if imag_nonzero_threshold is None:

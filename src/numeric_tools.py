@@ -1,6 +1,7 @@
 import math
-from compute import ComputationError
 from functools import reduce
+
+from .compute import ComputationError
 
 def is_int(val):
     return isinstance(val, int) or (isinstance(val, float) and val % 1 == 0)

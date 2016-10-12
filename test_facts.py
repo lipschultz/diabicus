@@ -1,28 +1,32 @@
-import number_facts
 import math
-from simpleeval import SimpleEval
-import compute
 import time
 from itertools import chain
-import time_limit
+import os
+import importlib
+
+from src import number_facts
+from src import numeric_tools
+from src.simpleeval import SimpleEval
+from src import compute
+from src import time_limit
 
 general_eval = SimpleEval()
 general_eval.functions['ln'] = math.log
 general_eval.names['π'] = math.pi
 general_eval.names['τ'] = 2*math.pi
 general_eval.names['e'] = math.e
-general_eval.names['i'] = number_facts.I
-general_eval.names['φ'] = number_facts.GOLDEN_RATIO
+general_eval.names['i'] = numeric_tools.I
+general_eval.names['φ'] = numeric_tools.GOLDEN_RATIO
 
 TAG_BIGNUM = 'big-num'
 
 TEST_SET = [{'result' : 0},
             {'result' : 1},
             {'result' : 2},
-            {'result' : number_facts.GOLDEN_RATIO},
-            {'result' : number_facts.PRIME_NUMBERS[15]},
-            {'result' : number_facts.FIBONACCI_NUMBERS[15]},
-            {'result' : number_facts.LUCAS_NUMBERS[15]},
+            {'result' : numeric_tools.GOLDEN_RATIO},
+            {'result' : numeric_tools.PRIME_NUMBERS[15]},
+            {'result' : numeric_tools.FIBONACCI_NUMBERS[15]},
+            {'result' : numeric_tools.LUCAS_NUMBERS[15]},
             {'result' : math.pi},
             {'result' : math.e},
             {'result' : math.inf},
@@ -77,8 +81,16 @@ class TestResult:
     def test_times(self):
         return dict([(k, v['duration']) for k, v in self.cases.items() if v['duration'] is not None])
 
+def get_loader_lib(module_location):
+    path, name = os.path.split(module_location)
+    module_name = os.path.splitext(name)[0]
+    module_path = path
+    importlib.import_module(module_path)
+    return importlib.import_module('.'+module_name, module_path)
+
 def test_file(filename):
-    facts = number_facts.load_json_file(filename)
+    facts_lib = get_loader_lib(filename)
+    facts = facts_lib.load_facts()
     print('Total facts:', len(facts))
 
     fact_results = []
@@ -161,7 +173,7 @@ def convert_test_case(test_case):
     return formula, result, context
 
 if __name__ == '__main__':
-    results = test_file('../resources/youtube.json')
+    results = test_file('resources/youtube_facts.py')
     times = list(chain.from_iterable((r.test_times().values() for r in results)))
     print('Test time: avg=%0.2g, max=%0.2g, min=%0.2g' % (sum(times)/len(times), max(times), min(times)))
 
