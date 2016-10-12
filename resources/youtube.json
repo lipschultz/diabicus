@@ -2105,5 +2105,15 @@
   "title": "Manchester Mega Pixel: world's largest analogue digital image",
   "source":"standupmaths"
  },
+ {"test" : "lambda formula, result, context: result in {29.97, math.inf, 525, 262.5, 60, 30, 6, 4.5, 6e6, 4.5e6, 0.25, 0.25e6, 25, 625, 6, 6e6, 384, 625, 240} or is_close(result, 4.5e6/15750, 0.2857) or is_close(result, 15734.25, 15.75)",
+  "link" : "https://www.youtube.com/watch?v=3GJUM6pCpew",
+  "title": "Why is TV 29.97 frames per second?",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result == math.inf or (is_real(result) and result > 0 and is_int(math.log2(result)) and math.log2(result) < 0) or is_close(result, math.exp(100), 1e-1, 'pct') or is_close(result, 0.57721566490153286060)",
+  "link" : "https://www.youtube.com/watch?v=4k1jegU4Wb4",
+  "title": "The mystery of 0.577",
+  "source":"Numberphile"
+ }
 
 ]
