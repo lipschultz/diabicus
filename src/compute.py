@@ -43,10 +43,6 @@ def make_multiplying_variables_explicit(expr, variables):
         start = pos_open_paren+1
     return new_expr
 
-    variables = '|'.join(variables)
-    expr = re.sub('(%s)(%s|%s)' % (variables, variables, FUNCTION_PREFIX), lambda m: m.group(1)+'*'+m.group(2), expr)
-    return expr
-
 def make_operations_explicit(expr, variables):
     expr = re.sub('([0-9).])([^0-9).+*/-])', lambda m: m.group(1)+'*'+m.group(2), expr)
     expr = re.sub('([^0-9(.+*/-]+)([0-9(.])', lambda m: m.group(1)+('' if FUNCTION_PREFIX in m.group(1) else '*')+m.group(2), expr)
