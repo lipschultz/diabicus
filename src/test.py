@@ -286,6 +286,13 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 13.817580227176492)
 
+    def test_implicit_multiply_e_i_tau(self):
+        self.enter_basic_input('e')
+        self.enter_basic_input('i')
+        self.enter_basic_input('τ')
+        self.app.calculate()
+        self.assertAlmostEqual(self.app.result, complex(0, 17.079468445347132))
+
     def test_context_stores_past_results(self):
         self.enter_basic_input('2+2')
         self.app.calculate()
