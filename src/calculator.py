@@ -166,6 +166,7 @@ class CalcApp(App, Calculator):
         self.__audio_current = None
         self.__audio_current_pos = 0
         self.__audio_current_len = math.inf
+        self.__audio_current_state = None
 
         super(CalcApp, self).__init__(*args, **kwargs)
 
@@ -208,25 +209,27 @@ class CalcApp(App, Calculator):
         pass
 
     def __play_new_audio(self):
-        self.__audio_current = SoundLoader.load(random.choice(self.__audio))
+        choice = random.choice(self.__audio)
+        self.__audio_current = SoundLoader.load(choice)
         self.__audio_current.play()
         self.__audio_current_pos = 0
+        self.__audio_current_len = self.__audio_current.length
+        self.__audio_current_state = 'play'
 
     def update_disco(self, dt):
         do_play = super(CalcApp, self).update_disco(dt)
         if do_play:
-            if self.__audio_current is None:
+            if self.__audio_current is None or (self.__audio_current_state == 'play' and self.__audio_current.state == 'stop'):
                 self.__play_new_audio()
-            elif self.__audio_current.state == 'stop':
-                if 0 <= self.__audio_current_pos < self.__audio_current_len:
-                    self.__audio_current.play()
-                    time.sleep(0.1)
-                    self.__audio_current.seek(self.__audio_current_pos)
-                else:
-                    self.__play_new_audio()
+            elif self.__audio_current_state == 'paused':
+                self.__audio_current.play()
+                time.sleep(0.1)
+                self.__audio_current.seek(self.__audio_current_pos)
+                self.__audio_current_state = 'play'
         elif self.__audio_current.state == 'play':
             self.__audio_current_len = self.__audio_current.length
             self.__audio_current_pos = self.__audio_current.get_pos()
+            self.__audio_current_state = 'paused'
             self.__audio_current.stop()
 
     def calculate(self):
