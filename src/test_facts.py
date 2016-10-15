@@ -8,6 +8,11 @@ import time_limit
 
 general_eval = SimpleEval()
 general_eval.functions['ln'] = math.log
+general_eval.names['π'] = math.pi
+general_eval.names['τ'] = 2*math.pi
+general_eval.names['e'] = math.e
+general_eval.names['i'] = number_facts.I
+general_eval.names['φ'] = number_facts.GOLDEN_RATIO
 
 TAG_BIGNUM = 'big-num'
 
@@ -45,10 +50,8 @@ TEST_SET = [{'result' : 0},
             {'formula' : '.3^-221.062', 'tags' : (TAG_BIGNUM, )},
             {'formula' : '1213^3', 'tags' : (TAG_BIGNUM, )},
             {'formula' : '333×2197-​ln(.5)'},
+            {'formula' : ('eiτ×5', '15-2')},
             ]
-'''
-[WARNING] [Math Jokes Explained threw exception TypeError("unsupported operand type(s) for //] 'int' and 'ComputationError'",): formula = "Ans+2", result = "1382041022933, context = {formula : <['105×17', 'Ans^3', '(Ans-8)×3^5', '1/0', 'Ans+2']>, result : <[1785, 5687411625, 1382041022931, <compute.ComputationError object at 0xb202610c>, 1382041022933]>, output : <['1785', '5.6874116e+09', '1.382041e+12', 'Error: divide by zero', '1.382041e+12']>}
-'''
 
 class TestResult:
     def __init__(self, fact):
@@ -145,10 +148,14 @@ def convert_test_case(test_case):
 
     if context is None:
         if formula is None:
-            formula = str(result)
+            if not hasattr(result, '__iter__') or isinstance(result, str):
+                result = (result, )
+            formula = [str(r) for r in result]
         elif result is None:
-            result = compute.eval_expr(general_eval, formula)
-        context = {'result' : [result], 'formula' : [formula]}
+            if not hasattr(formula, '__iter__') or isinstance(formula, str):
+                formula = (formula, )
+            result = [compute.eval_expr(general_eval, f) for f in formula]
+        context = {'result' : result, 'formula' : formula}
 
     return formula, result, context
 

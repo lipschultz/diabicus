@@ -1008,7 +1008,7 @@
   "source":"Numberphile",
   "note" : "different bases"
  },
- {"test" : "lambda formula, result, context: (len(context['result']) > 1 and not any(is_error(r) for r in context['result'][-2:]) and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
+ {"test" : "lambda formula, result, context: (len(context['result']) > 1 and not any(is_error(r) or is_complex(r) for r in context['result'][-2:]) and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
   "link" : "https://www.youtube.com/watch?v=JJQWtGm3eIs",
   "title": "Math Jokes Explained",
   "source":"Numberphile",
