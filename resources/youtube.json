@@ -268,7 +268,7 @@
   "source":"Numberphile",
   "oeis" : "https://oeis.org/A258107"
  },
- {"init": "def farey_addition(context):\n    if len(history['result']) < 3:\n        return False\n    first = Fraction(context['result'][-3]).limit_denominator(234)\n    second = Fraction(context['result'][-2]).limit_denominator(234)\n    third = Fraction(context['result'][-1]).limit_denominator(234)\n    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second\n",
+ {"init": "def farey_addition(context):\n    if len(context['result']) < 3 or any(not is_rational(r) for r in context['result'][-3:]):\n        return False\n    first = Fraction(context['result'][-3]).limit_denominator(234)\n    second = Fraction(context['result'][-2]).limit_denominator(234)\n    third = Fraction(context['result'][-1]).limit_denominator(234)\n    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second\n",
   "test" : "lambda formula, result, context: farey_addition(context)",
   "link" : "https://www.youtube.com/watch?v=0hlvhQZIOQw",
   "title": "Funny Fractions and Ford Circles",
