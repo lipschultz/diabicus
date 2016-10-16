@@ -118,11 +118,11 @@ def test_fact(fact):
             status.add_test_case_result(case, True, duration)
         except TimeoutError as e:
             if not ('tags' in case and TAG_BIGNUM in case['tags']):
-                print(repr(fact), 'timed out on case', case)
+                print('test:', repr(fact), 'timed out on case', case)
                 status.add_test_case_result(case, False, TIMEOUT)
             test_result = False
         except Exception as e:
-            print(repr(fact), 'failed on test case', case, ':', e)
+            print('test:', repr(fact), 'failed on test case', case, ':', type(e), e)
             status.add_test_case_result(case, False)
             test_result = False
 
@@ -137,19 +137,19 @@ def test_fact(fact):
                     duration = time.time() - start
                     success = True
                     if len(msg_text) > 100:
-                        print(repr(fact), 'failed on msg', i, '('+msg_text+') with test case', case, ': text too long (' + str(len(msg_text)) + ')')
+                        print('msg:', repr(fact), 'failed on msg', i, '('+msg_text+') with test case', case, ': text too long (' + str(len(msg_text)) + ')')
                         success = False
                     status.add_msg_result(case, i, True, duration)
                 except TimeoutError as e:
                     if not ('tags' in case and TAG_BIGNUM in case['tags']):
-                        print(repr(fact), 'timed out on msg', i, '('+raw_msg+') with test case', case)
+                        print('msg:', repr(fact), 'timed out on msg', i, '('+raw_msg+') with test case', case)
                         status.add_msg_result(case, i, False)
                 except OverflowError as e:
                     if not ('tags' in case and TAG_BIGNUM in case['tags']):
-                        print(repr(fact), 'encountered overflow on msg', i, '('+raw_msg+') with test case', case)
+                        print('msg:', repr(fact), 'encountered overflow on msg', i, '('+raw_msg+') with test case', case)
                         status.add_msg_result(case, i, False)
                 except Exception as e:
-                    print(repr(fact), 'failed on msg', i, '('+raw_msg+') with test case', case, ':', type(e), e)
+                    print('msg:', repr(fact), 'failed on msg', i, '('+raw_msg+') with test case', case, ':', type(e), e)
                     status.add_msg_result(case, i, False)
 
     return status
