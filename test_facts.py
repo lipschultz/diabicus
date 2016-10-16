@@ -127,9 +127,9 @@ def test_fact(fact):
             test_result = False
 
         if test_result:
-            for i in range(len(fact._message)):
+            for i in range(len(fact._messages)):
                 #print('\tmsg:', i)
-                msg = fact._message[i]
+                msg = fact._messages[i]
                 raw_msg = fact.raw_message[i]
                 try:
                     start = time.time()
@@ -159,18 +159,19 @@ def convert_test_case(test_case):
     formula = test_case.get('formula')
     context = test_case.get('context')
 
+    if result is not None and (not hasattr(result, '__iter__') or isinstance(result, str)):
+        result = (result, )
+    if formula is not None and (not hasattr(formula, '__iter__') or isinstance(formula, str)):
+        formula = (formula, )
+
     if context is None:
         if formula is None:
-            if not hasattr(result, '__iter__') or isinstance(result, str):
-                result = (result, )
             formula = [str(r) for r in result]
         elif result is None:
-            if not hasattr(formula, '__iter__') or isinstance(formula, str):
-                formula = (formula, )
             result = [compute.eval_expr(general_eval, f) for f in formula]
         context = {'result' : result, 'formula' : formula}
 
-    return formula, result, context
+    return formula[0], result[0], context
 
 if __name__ == '__main__':
     results = test_file('resources/youtube_facts.py')
