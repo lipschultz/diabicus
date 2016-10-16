@@ -64,14 +64,13 @@ class YoutubeFact(number_facts.JsonFact):
     def __repr__(self):
         return str(self) + "{test : " + repr(self.raw_test.encode("unicode-escape")) + "}"
 
-def farey_addition(history):
-    if len(history['result']) < 3:
+def farey_addition(context):
+    if len(context['result']) < 3 or any(not is_rational(r) for r in context['result'][-3:]):
         return False
-    first = Fraction(history['result'][-3]).limit_denominator(234)
-    second = Fraction(history['result'][-2]).limit_denominator(234)
-    third = Fraction(history['result'][-1]).limit_denominator(234)
+    first = Fraction(context['result'][-3]).limit_denominator(234)
+    second = Fraction(context['result'][-2]).limit_denominator(234)
+    third = Fraction(context['result'][-1]).limit_denominator(234)
     return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second
-
 
 def int_to_digits(result, as_type=int):
     if as_type == int:
