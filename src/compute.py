@@ -24,16 +24,21 @@ from . import simpleeval
 FUNCTION_PREFIX = '\u200b'
 
 class ComputationError:
+    '''
+    Class to represent any parsing/computation/math error.
+    '''
     def __init__(self, message):
         self.msg = message
 
 EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**'}
 def translate_operators(expr):
-    for k, v in EXPRESSION_TRANSLATIONS.items():
-        expr = expr.replace(k, v)
+    """ Convert human-familiar operators to python operators. """
+    for k, val in EXPRESSION_TRANSLATIONS.items():
+        expr = expr.replace(k, val)
     return expr
 
 def make_multiplying_variables_explicit(expr, variables):
+    """ Convert implicit multiplication of variables to explicit. """
     #Need to ignore all variables between FUNCTION_PREFIX and '('
     variables = '|'.join(variables)
     start = 0
@@ -41,20 +46,24 @@ def make_multiplying_variables_explicit(expr, variables):
     while start < len(expr):
         try:
             pos_func_prefix = expr.index(FUNCTION_PREFIX, start)
-        except:
+        except IndexError:
             pos_func_prefix = len(expr)
         try:
             pos_open_paren = expr.index('(', pos_func_prefix)
-        except:
+        except IndexError:
             pos_open_paren = len(expr)
 
         part = expr[start:pos_func_prefix+1]
         curr_len = len(part)
-        part = re.sub('(%s)(%s|%s)' % (variables, variables, FUNCTION_PREFIX), lambda m: m.group(1)+'*'+m.group(2), part)
+        part = re.sub('(%s)(%s|%s)' % (variables, variables, FUNCTION_PREFIX),
+                      lambda m: m.group(1)+'*'+m.group(2), part
+                     )
         new_len = len(part)
         while new_len != curr_len:
             curr_len = new_len
-            part = re.sub('(%s)(%s|%s)' % (variables, variables, FUNCTION_PREFIX), lambda m: m.group(1)+'*'+m.group(2), part)
+            part = re.sub('(%s)(%s|%s)' % (variables, variables, FUNCTION_PREFIX),
+                          lambda m: m.group(1)+'*'+m.group(2), part
+                         )
             new_len = len(part)
 
         new_expr += part + expr[pos_func_prefix+1:pos_open_paren+1]
@@ -62,15 +71,29 @@ def make_multiplying_variables_explicit(expr, variables):
         start = pos_open_paren+1
     return new_expr
 
-def make_operations_explicit(expr, variables):
+def make_multiplication_explicit(expr, variables):
+    """
+    Convert implicit multiplication to explicit multiplication.
+
+    Multiplication can be implied with:
+    - parentheses, e.g. `3(5)2` = `3*(5)*2`
+    - a number before/after a function, e.g. `3fn(2)4` = `3*fn(2)*4`
+    - adjacent variables, e.g. `4e` = `4*e`
+    """
     expr = re.sub('([0-9).])([^0-9).+*/-])', lambda m: m.group(1)+'*'+m.group(2), expr)
-    expr = re.sub('([^0-9(.+*/-]+)([0-9(.])', lambda m: m.group(1)+('' if FUNCTION_PREFIX in m.group(1) else '*')+m.group(2), expr)
+    expr = re.sub('([^0-9(.+*/-]+)([0-9(.])',
+                  lambda m: m.group(1)+('' if FUNCTION_PREFIX in m.group(1) else '*')+m.group(2),
+                  expr
+                 )
     expr = make_multiplying_variables_explicit(expr, variables)
     return expr
 
 def eval_expr(evaluator, expr):
+    """
+    Convert expr into something evaluator can evaluate, compute and return result.
+    """
     expr = translate_operators(expr)
-    expr = make_operations_explicit(expr, evaluator.names)
+    expr = make_multiplication_explicit(expr, evaluator.names)
     expr = expr.replace(FUNCTION_PREFIX, '')
 
     try:
@@ -79,10 +102,9 @@ def eval_expr(evaluator, expr):
         return ComputationError('invalid syntax')
     except ZeroDivisionError:
         return ComputationError('divide by zero')
-    except (simpleeval.NumberTooHigh, OverflowError) as e:
-        logging.error('Error evaluating expression: '+str(e))
+    except (simpleeval.NumberTooHigh, OverflowError) as err:
+        logging.error('Error evaluating expression: '+str(err))
         return ComputationError("Overflow error")
-    except Exception as e:
-        logging.error('Error evaluating expression ('+str(type(e))+'): '+str(e))
+    except Exception as err:
+        logging.error('Error evaluating expression ('+str(type(err))+'): '+str(err))
         return ComputationError('computation error')
-
