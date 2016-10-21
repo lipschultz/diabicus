@@ -118,12 +118,11 @@ def factors(num, form=FACTORS_PROPER):
     as FACTORS_ALL, except the list will not include num.  So, for
     num=12, the list returned would be [1, 2, 3, 4].
 
-    If num is not an integer (as determined by is_int), raises TypeError.
+    If num is not an integer (as determined by is_int) greater than 1,
+    return empty list.
     """
     if not is_int(num) or num < 2:
-        raise TypeError('`%s` is type %s and does not look like an int greater than 1.'
-                        % (str(num), type(num))
-                       )
+        return []
     if form == FACTORS_PRIME:
         primes = []
         i = 2
