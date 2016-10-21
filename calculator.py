@@ -1,15 +1,20 @@
-from kivy.app import App
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
-from kivy.clock import Clock
-from kivy.core.audio import SoundLoader
+"""
+Diabicus: A calculator that plays music, lights up, and displays facts.
+Copyright (C) 2016 Michael Lipschultz
 
-from src.simpleeval import SimpleEval
-from src import compute
-from src import number_facts
-from src import numeric_tools
-from src import time_limit
-from src import format_numbers
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <http://www.gnu.org/licenses/>.
+"""
 
 import math
 import time
@@ -19,6 +24,17 @@ import glob
 import random
 import os
 import importlib
+
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.clock import Clock
+from kivy.core.audio import SoundLoader
+
+from src.simpleeval import SimpleEval
+from src import compute
+from src import numeric_tools
+from src import time_limit
+from src import format_numbers
 
 DISCO_LENGTH = 2 #seconds
 
