@@ -23,6 +23,15 @@ import math
 from . import numeric_tools
 
 def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold=None):
+    """
+    Convert close-to-zero parts of complex value to zero.
+
+    If imag_nonzero_threshold is None, then it defaults to the value of
+    real_nonzero_threshold.
+
+    If both value.real and value.imag are close to zero, then int(0) is
+    returned.
+    """
     if imag_nonzero_threshold is None:
         imag_nonzero_threshold = real_nonzero_threshold
 
@@ -33,7 +42,18 @@ def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold
     else:
         return complex(real, value.imag)
 
-def pretty_print_complex(value, real_tostr_fn=lambda v: str(v), imag_tostr_fn=None, imaginary_indicator='i', display_0=False):
+def pretty_print_complex(value, real_tostr_fn=str, imag_tostr_fn=None,
+                         imaginary_indicator='i', display_0=False
+                        ):
+    """
+    Convert complex number value to displayable string.
+
+    real_tostr_fn is a function taking a number and returning a string
+    representation.  Defaults to str.
+
+    If imag_tostr_fn is None (default, then use the same function
+    specified by real_tostr_fn.
+    """
     if imag_tostr_fn is None:
         imag_tostr_fn = real_tostr_fn
 
@@ -45,23 +65,24 @@ def pretty_print_complex(value, real_tostr_fn=lambda v: str(v), imag_tostr_fn=No
     elif value.imag == 0:
         return real
     else:
-        return '%s%s' % (imag, imaginary_indicator)
+        return imag + imaginary_indicator
 
-def to_pretty_x10(n, dec_places=5, prepend='', append=''):
-    if n < sys.float_info.min or n > sys.float_info.max:
-        val = decimal.Decimal(n)
+def to_pretty_x10(num, dec_places=5, prepend='', append=''):
+    """ Format num to look like nnn×10^mmm. """
+    if num < sys.float_info.min or num > sys.float_info.max:
+        val = decimal.Decimal(num)
         decimal.getcontext().prec = dec_places+1
         val = str(val.normalize())
-    elif not numeric_tools.is_int(n) or math.log10(n) > 10:
-        val = ('%0.'+str(dec_places+1)+'G') % n
-        v = val.split('E')
-        if len(v) == 1:
-            left = v[0].split('.')
+    elif not numeric_tools.is_int(num) or math.log10(num) > 10:
+        val = ('%0.'+str(dec_places+1)+'G') % num
+        significand_exponent = val.split('E')
+        if len(significand_exponent) == 1:
+            left = significand_exponent[0].split('.')
             if len(left) > 1 and len(left[1]) > dec_places:
                 left[1] = left[1][:dec_places]
             val = '.'.join(left)
     else:
-        val = str(n)
+        val = str(num)
     val = val.split('E')
 
     if len(val) == 1:
@@ -71,10 +92,11 @@ def to_pretty_x10(n, dec_places=5, prepend='', append=''):
             val[1] = str(int(val[1][1:]))
         return prepend + val[0] + '×10^' + val[1] + append
 
-def to_ordinal(n):
-    str_n = str(n)
-    ones = n % 10
-    if 1 <= ones <= 3 and n not in (11, 12, 13):
+def to_ordinal(num):
+    """ Returns a string representing the ordinal of num. """
+    str_n = str(num)
+    ones = num % 10
+    if 1 <= ones <= 3 and num not in (11, 12, 13):
         if ones == 1:
             return str_n + 'st'
         elif ones == 2:
