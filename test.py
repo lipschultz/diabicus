@@ -83,26 +83,6 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertEqual(self.app.result, -6)
 
-    def test_implicit_multiplication_num_paren(self):
-        self.enter_basic_input('3(2-5)')
-        self.app.calculate()
-        self.assertEqual(self.app.result, -9)
-
-    def test_implicit_multiplication_paren_num(self):
-        self.enter_basic_input('(2-5)3')
-        self.app.calculate()
-        self.assertEqual(self.app.result, -9)
-
-    def test_implicit_multiplication_using_parentheses_preceded_by_decimal_point(self):
-        self.enter_basic_input('3.(2-5)')
-        self.app.calculate()
-        self.assertEqual(self.app.result, -9)
-
-    def test_implicit_multiplication_parentheses_time_parentheses(self):
-        self.enter_basic_input('(3-1)(2-5)')
-        self.app.calculate()
-        self.assertEqual(self.app.result, -6)
-
     def test_typing_ans_inputs_Ans(self):
         self.app.press_ans()
         self.assertEqual(self.app.input, "Ans")
@@ -196,43 +176,6 @@ class CalculatorTests(unittest.TestCase):
         self.app.bksp()
         self.assertEqual(self.app.input, '2')
 
-    def test_implicit_multiply_number_func_name(self):
-        self.enter_basic_input('2')
-        self.app.press_function_key('ln')
-        self.enter_basic_input('2)')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
-
-    def test_implicit_multiply_func_number(self):
-        self.app.press_function_key('ln')
-        self.enter_basic_input('2)2')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
-
-    def test_implicit_multiply_func_func(self):
-        self.app.press_function_key('ln')
-        self.enter_basic_input('2)')
-        self.app.press_function_key('ln')
-        self.enter_basic_input('2)')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 0.4804530139182014)
-
-    def test_implicit_multiply_Ans_func_name(self):
-        self.assign_value_to_Ans(2)
-        self.app.press_ans()
-        self.app.press_function_key('ln')
-        self.enter_basic_input('2)')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
-
-    def test_implicit_multiply_func_Ans(self):
-        self.assign_value_to_Ans(2)
-        self.app.press_function_key('ln')
-        self.enter_basic_input('2)')
-        self.app.press_ans()
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 1.3862943611198906)
-
     @unittest.skip("simpleeval thinks it'll take too long to compute")
     def test_large_root(self):
         self.assign_value_to_Ans(1.668e14)
@@ -240,27 +183,6 @@ class CalculatorTests(unittest.TestCase):
         self.app.press_ans()
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 12915107.432770353)
-
-    def test_implicit_multiply_num_Ans(self):
-        self.assign_value_to_Ans(3)
-        self.enter_basic_input('2')
-        self.app.press_ans()
-        self.app.calculate()
-        self.assertEqual(self.app.result, 6)
-
-    def test_implicit_multiply_Ans_num(self):
-        self.assign_value_to_Ans(3)
-        self.app.press_ans()
-        self.enter_basic_input('2')
-        self.app.calculate()
-        self.assertEqual(self.app.result, 6)
-
-    def test_implicit_multiply_Ans_Ans(self):
-        self.assign_value_to_Ans(3)
-        self.app.press_ans()
-        self.app.press_ans()
-        self.app.calculate()
-        self.assertEqual(self.app.result, 9)
 
     def test_pi_results_in_pi_value(self):
         self.enter_basic_input('π')
@@ -287,33 +209,6 @@ class CalculatorTests(unittest.TestCase):
         self.app.calculate()
         self.assertAlmostEqual(self.app.result, 2*math.pi)
 
-    def test_implicit_multiply_Ans_pi(self):
-        self.assign_value_to_Ans(3)
-        self.app.press_ans()
-        self.enter_basic_input('π')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 9.42477796076938)
-
-    def test_implicit_multiply_pi_e(self):
-        self.enter_basic_input('π')
-        self.enter_basic_input('e')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 8.539734222673566)
-
-    def test_implicit_multiply_pi_e_phi(self):
-        self.enter_basic_input('π')
-        self.enter_basic_input('e')
-        self.enter_basic_input('φ')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, 13.817580227176492)
-
-    def test_implicit_multiply_e_i_tau(self):
-        self.enter_basic_input('e')
-        self.enter_basic_input('i')
-        self.enter_basic_input('τ')
-        self.app.calculate()
-        self.assertAlmostEqual(self.app.result, complex(0, 17.079468445347132))
-
     def test_context_stores_past_results(self):
         self.enter_basic_input('2+2')
         self.app.calculate()
@@ -324,13 +219,96 @@ class CalculatorTests(unittest.TestCase):
         self.assertEqual(context['result'], [4, 3.0])
 
 class ComputeTests(unittest.TestCase):
+    variables = ('Ans', 'π', 'τ', 'e', 'i', 'φ')
+    log_name = 'log('
+    log_fn = compute.FUNCTION_PREFIX+log_name
+
     def setUp(self):
         self.eval = simpleeval.SimpleEval()
+
+    def test_catches_syntax_error_and_returns_appropriate_error(self):
+        result = compute.eval_expr(self.eval, 'ln(5')
+        self.assertIsInstance(result, compute.ComputationError)
+        self.assertEqual(result.msg, 'invalid syntax')
 
     def test_catches_divide_by_zero_and_returns_appropriate_error(self):
         result = compute.eval_expr(self.eval, '5/0')
         self.assertIsInstance(result, compute.ComputationError)
         self.assertEqual(result.msg, 'divide by zero')
+
+    def test_catch_too_big_number_and_returns_appropriate_error(self):
+        result = compute.eval_expr(self.eval, '(10^10000)^(10^10000)')
+        self.assertIsInstance(result, compute.ComputationError)
+        self.assertEqual(result.msg, 'Overflow error')
+
+    def test_implicit_multiplication_num_paren(self):
+        result = compute.make_multiplication_explicit('3(2-5)', self.variables)
+        self.assertEqual(result, '3*(2-5)')
+
+    def test_implicit_multiplication_paren_num(self):
+        result = compute.make_multiplication_explicit('(2-5)3', self.variables)
+        self.assertEqual(result, '(2-5)*3')
+
+    def test_implicit_multiplication_using_parentheses_preceded_by_decimal_point(self):
+        result = compute.make_multiplication_explicit('3.(2-5)', self.variables)
+        self.assertEqual(result, '3.*(2-5)')
+
+    def test_implicit_multiplication_parentheses_time_parentheses(self):
+        result = compute.make_multiplication_explicit('(3-1)(2-5)', self.variables)
+        self.assertEqual(result, '(3-1)*(2-5)')
+
+    def test_implicit_multiply_number_func_name(self):
+        result = compute.make_multiplication_explicit('2'+self.log_fn+'2)', self.variables)
+        self.assertEqual(result, '2*'+self.log_name+'2)')
+
+    def test_implicit_multiply_func_number(self):
+        result = compute.make_multiplication_explicit(self.log_fn+'2)2', self.variables)
+        self.assertEqual(result, self.log_name+'2)*2')
+
+    def test_implicit_multiply_func_func(self):
+        result = compute.make_multiplication_explicit(self.log_fn+'2)'+self.log_fn+'2)', self.variables)
+        self.assertEqual(result, self.log_name+'2)*'+self.log_name+'2)')
+
+    def test_implicit_multiply_Ans_func_name(self):
+        result = compute.make_multiplication_explicit('Ans'+self.log_fn+'2)', self.variables)
+        self.assertEqual(result, 'Ans*'+self.log_name+'2)')
+
+    def test_implicit_multiply_func_Ans(self):
+        result = compute.make_multiplication_explicit(self.log_fn+'2)Ans', self.variables)
+        self.assertEqual(result, self.log_name+'2)*Ans')
+
+    def test_nested_functions_not_multiplied(self):
+        result = compute.make_multiplication_explicit(self.log_fn+self.log_fn+'))', self.variables)
+        self.assertEqual(result, self.log_name+self.log_name+'))')
+
+    def test_implicit_multiply_num_Ans(self):
+        result = compute.make_multiplication_explicit('2Ans', self.variables)
+        self.assertEqual(result, '2*Ans')
+
+    def test_implicit_multiply_Ans_num(self):
+        result = compute.make_multiplication_explicit('Ans2', self.variables)
+        self.assertEqual(result, 'Ans*2')
+
+    def test_implicit_multiply_Ans_Ans(self):
+        result = compute.make_multiplication_explicit('AnsAns', self.variables)
+        self.assertEqual(result, 'Ans*Ans')
+
+    def test_implicit_multiply_Ans_pi(self):
+        result = compute.make_multiplication_explicit('Ansπ', self.variables)
+        self.assertEqual(result, 'Ans*π')
+
+    def test_implicit_multiply_pi_e(self):
+        result = compute.make_multiplication_explicit('πe', self.variables)
+        self.assertEqual(result, 'π*e')
+
+    def test_implicit_multiply_pi_e_phi(self):
+        result = compute.make_multiplication_explicit('πeφ', self.variables)
+        self.assertEqual(result, 'π*e*φ')
+
+    def test_implicit_multiply_e_i_tau(self):
+        result = compute.make_multiplication_explicit('eiτ', self.variables)
+        self.assertEqual(result, 'e*i*τ')
+
 
 class FormatNumbersTests(unittest.TestCase):
     ANY_VALUE_ABOVE_THRESHOLD = 5

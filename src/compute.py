@@ -81,11 +81,14 @@ def make_multiplication_explicit(expr, variables):
     - adjacent variables, e.g. `4e` = `4*e`
     """
     expr = re.sub('([0-9).])([^0-9).+*/-])', lambda m: m.group(1)+'*'+m.group(2), expr)
+    expr = make_multiplying_variables_explicit(expr, variables)
     expr = re.sub('([^0-9(.+*/-]+)([0-9(.])',
-                  lambda m: m.group(1)+('' if FUNCTION_PREFIX in m.group(1) else '*')+m.group(2),
+                  lambda m: (
+                      (m.group(1)[1:] if m.group(1).startswith(FUNCTION_PREFIX) else m.group(1)+'*')
+                      +(m.group(2)[1:] if m.group(2).startswith(FUNCTION_PREFIX) else m.group(2))
+                  ),
                   expr
                  )
-    expr = make_multiplying_variables_explicit(expr, variables)
     return expr
 
 def eval_expr(evaluator, expr):
@@ -105,6 +108,6 @@ def eval_expr(evaluator, expr):
     except (simpleeval.NumberTooHigh, OverflowError) as err:
         logging.error('Error evaluating expression: '+str(err))
         return ComputationError("Overflow error")
-    except Exception as err:
+    except Exception as err:  #pragma: no cover
         logging.error('Error evaluating expression ('+str(type(err))+'): '+str(err))
         return ComputationError('computation error')
