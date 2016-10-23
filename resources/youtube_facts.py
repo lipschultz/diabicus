@@ -18,22 +18,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from fractions import Fraction
 import math
-import scipy.integrate
-import json
 import sys
 import itertools
 import os
-
-import logging
 import random
 import re
 
+import scipy.integrate
+
 from src import number_facts
-from src import time_limit
 from src import format_numbers
 from src.numeric_tools import *
 
 class YoutubeFact(number_facts.JsonFact):
+    """
+    Class to hold a fact from a Youtube video.
+    """
     def __init__(self, json_data):
         super(YoutubeFact, self).__init__(json_data)
         self.link = json_data.get('link')
@@ -46,7 +46,7 @@ class YoutubeFact(number_facts.JsonFact):
 
         try:
             self.test = eval(self.raw_test)
-        except:
+        except Exception:
             self.test = False
         if not callable(self.test):
             self.test = lambda *args: False
@@ -58,22 +58,30 @@ class YoutubeFact(number_facts.JsonFact):
             raw_msg = self.raw_message[i]
             try:
                 msg = eval(raw_msg)
-            except:
+            except Exception:
                 msg = raw_msg
             if not callable(msg):
                 if raw_msg is None:
                     raw_msg = self.title
-                msg = lambda formula, result, context: number_facts.DEFAULT_MSG_FORMATTER.format(raw_msg, formula=formula, result=result, context=context)
+                msg = lambda formula, result, context: \
+                    number_facts.DEFAULT_MSG_FORMATTER.format(raw_msg,
+                                                              formula=formula,
+                                                              result=result,
+                                                              context=context
+                                                             )
 
             self._messages.append(msg)
 
         try:
             self.init = compile(self.init, '<json_string>', "exec")
             print("eval result for", self.title, ":", eval(self.init, globals(), locals()))
-        except:
+        except Exception:
             pass
 
     def get_default_message(self):
+        """
+        Use the title of the video as the default message for a fact.
+        """
         return self.title
 
     def __str__(self):
@@ -83,34 +91,50 @@ class YoutubeFact(number_facts.JsonFact):
         return str(self) + "{test : " + repr(self.raw_test.encode("unicode-escape")) + "}"
 
 def farey_addition(context):
+    """
+    Perform Farey addition on previous and previous-third result and
+    return True if it equals the previous-second result.
+    """
     if len(context['result']) < 3 or any(not is_rational(r) for r in context['result'][-3:]):
         return False
     first = Fraction(context['result'][-3]).limit_denominator(234)
     second = Fraction(context['result'][-2]).limit_denominator(234)
     third = Fraction(context['result'][-1]).limit_denominator(234)
-    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second
+    return Fraction(first.numerator + third.numerator,
+                    first.denominator + third.denominator
+                   ) == second
 
 def int_to_digits(result, as_type=int):
+    """ Convert result into a list of digits. """
     if as_type == int:
         return [result // 10**i % 10 for i in range(math.ceil(math.log(result, 10)))]
     else:
         return list(str(result))
 
-def vampire(result=1260):
+def vampire(result):
+    """
+    Returns True if result is a Vampire number.
+
+    A vampire number is an integer whose digits, when used to form two
+    integers (of equal length) that are then multiplied together, give
+    back the original number, e.g. 1260 = 21*60.
+    """
     digits = int_to_digits(result, str)
     result_size = len(digits)
     partition_template = [1]*(result_size//2) + [0]*(result_size//2)
     partitions = set([v for v in itertools.permutations(partition_template)])
-    for p in partitions:
-        f1 = int(''.join(itertools.compress(digits, p)))
-        f2 = int(''.join(itertools.compress(digits, [-1*v+1 for v in p])))
-        print(f1, '*', f2, '=', f1*f2, '?=', result)
-        if f1*f2 == result:
+    for part in partitions:
+        fang1 = int(''.join(itertools.compress(digits, part)))
+        fang2 = int(''.join(itertools.compress(digits, [-1*v+1 for v in part])))
+        print(fang1, '*', fang2, '=', fang1*fang2, '?=', result)
+        if fang1*fang2 == result:
             return True
     return False
 
-
-class MagicSquare:
+class MagicSquare(YoutubeFact):
+    """
+    Creates a magic square out of the result.
+    """
     def __init__(self):
         self.link = 'https://www.youtube.com/watch?v=aQxCnmhqZko'
         self.title = 'Magic Square Party Trick'
@@ -121,9 +145,15 @@ class MagicSquare:
         self.__exp = math.pi*math.sqrt(2/3)
 
     def test(self, formula, result, context):
+        """
+        Returns True if the magic square fact applies for the given result.
+        """
         return not self.skip and is_int(result) and 21 <= result <= 65
 
     def message(self, formula, result, context):
+        """
+        The message to display if the fact applies to the current context.
+        """
         row1 = [result-20, 1, 12, 7]
         row2 = [11, 8, result-21, 2]
         row3 = [5, 10, 3, result-18]
@@ -132,5 +162,10 @@ class MagicSquare:
         return 'The magic square for %d is %s' % (result, square)
 
 def load_facts():
-    path, name = os.path.split(__file__)
+    """
+    Loads facts from the file youtube.json (in the same location as this
+    python module and returns a number_facts.NumberFacts object
+    containing them.
+    """
+    path = os.path.dirname(__file__)
     return YoutubeFact.load_file(os.path.join(path, 'youtube.json'))
