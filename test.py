@@ -363,11 +363,113 @@ class FormatNumbersTests(unittest.TestCase):
         pnum = format_numbers.to_pretty_x10(num)
         self.assertEqual(pnum, '1.60074×10^-14')
 
+    def test_prettying_simple_num(self):
+        num = 1e3
+        pnum = format_numbers.to_pretty_x10(num)
+        self.assertEqual(pnum, '1000.0')
+
     def test_prettying_num_that_shouldnt_become_sci_notation(self):
         num = 0.16007448567456
         pnum = format_numbers.to_pretty_x10(num)
         self.assertEqual(pnum, '0.16007')
 
+    def test_prettying_complex_with_int_real_imag(self):
+        real = 5
+        imag = 7
+        pnum = format_numbers.pretty_print_complex(complex(real, imag))
+        self.assertEqual(pnum, str(real) + ' + ' + str(imag) + 'i')
+
+    def test_prettying_complex_with_float_real_imag(self):
+        real = 5.5
+        imag = 7.2
+        pnum = format_numbers.pretty_print_complex(complex(real, imag))
+        self.assertEqual(pnum, str(real) + ' + ' + str(imag) + 'i')
+
+    def test_prettying_complex_with_zero_real_nonzero_imag(self):
+        real = 0
+        imag = 7.2
+        pnum = format_numbers.pretty_print_complex(complex(real, imag))
+        self.assertEqual(pnum, str(imag) + 'i')
+
+    def test_prettying_complex_with_nonzero_real_zero_imag(self):
+        real = 5.5
+        imag = 0
+        pnum = format_numbers.pretty_print_complex(complex(real, imag))
+        self.assertEqual(pnum, str(real))
+
+    def test_prettying_complex_with_zero_real_imag(self):
+        real = 0
+        imag = 0
+        pnum = format_numbers.pretty_print_complex(complex(real, imag))
+        self.assertEqual(pnum, '0')
+
+    def test_prettying_complex_with_zero_real_imag_display_zero(self):
+        real = 0
+        imag = 0
+        pnum = format_numbers.pretty_print_complex(complex(real, imag), display_0=True)
+        self.assertEqual(pnum, '0 + 0i')
+
+    def test_prettying_complex_imaginary_indicator_changed(self):
+        real = 0
+        imag = 7.2
+        pnum = format_numbers.pretty_print_complex(complex(real, imag), imaginary_indicator='j')
+        self.assertEqual(pnum, str(imag) + 'j')
+
+    def test_prettying_complex_imag_uses_own_tostring_fn_if_supplied(self):
+        real = 5.5
+        imag = 7.2583
+        pnum = format_numbers.pretty_print_complex(complex(real, imag), imag_tostr_fn=lambda val: '%0.2f' % val)
+        self.assertEqual(pnum, str(real) + ' + 7.26i')
+
+    def test_to_ordinal_1(self):
+        val = 1
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'st')
+
+    def test_to_ordinal_11(self):
+        val = 11
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'th')
+
+    def test_to_ordinal_21(self):
+        val = 21
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'st')
+
+    def test_to_ordinal_2(self):
+        val = 2
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'nd')
+
+    def test_to_ordinal_12(self):
+        val = 12
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'th')
+
+    def test_to_ordinal_22(self):
+        val = 22
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'nd')
+
+    def test_to_ordinal_3(self):
+        val = 3
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'rd')
+
+    def test_to_ordinal_13(self):
+        val = 13
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'th')
+
+    def test_to_ordinal_33(self):
+        val = 33
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'rd')
+
+    def test_to_ordinal_4(self):
+        val = 4
+        pnum = format_numbers.to_ordinal(val)
+        self.assertEqual(pnum, str(val)+'th')
 
 if __name__ == '__main__':
     unittest.main()

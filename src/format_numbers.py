@@ -42,8 +42,10 @@ def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold
     else:
         return complex(real, value.imag)
 
-def pretty_print_complex(value, real_tostr_fn=str, imag_tostr_fn=None,
-                         imaginary_indicator='i', display_0=False
+def pretty_print_complex(value,
+                         real_tostr_fn=lambda val: (str(val) if not numeric_tools.is_int(val)
+                                                    else str(int(val))),
+                         imag_tostr_fn=None, imaginary_indicator='i', display_0=False
                         ):
     """
     Convert complex number value to displayable string.
