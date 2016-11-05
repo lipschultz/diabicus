@@ -61,7 +61,7 @@ TEST_SET = [{'result' : 0},
             {'result' : -1e-35},
             {'result' : -1e35},
             {'result' : complex(3, 1)},
-            {'result' : (45, complex(6, 17.079468445347132j), 88)},
+            {'result' : (88, complex(6, 17.079468445347132), 45)},
             {'formula' : '(-25)^0.5'},
             {'formula' : '-(-25)^0.5'},
             {'formula' : '3+(-25)^0.5'},
@@ -73,7 +73,7 @@ TEST_SET = [{'result' : 0},
             {'formula' : '.3^-221.062', 'tags' : (TAG_BIGNUM, )},
             {'formula' : '1213^3', 'tags' : (TAG_BIGNUM, )},
             {'formula' : '333×2197-​ln(.5)'},
-            {'formula' : ('eiτ×5', '15-2')},
+            {'formula' : ('15-2', 'eiτ×5')},
             ]
 
 class TestResult:
@@ -188,10 +188,15 @@ def convert_test_case(test_case):
         if formula is None:
             formula = [str(r) for r in result]
         elif result is None:
-            result = [compute.eval_expr(general_eval, f) for f in formula]
+            result = []
+            general_eval.names['Ans'] = 0
+            for f in formula:
+                r = compute.eval_expr(general_eval, f)
+                result.append(r)
+                general_eval.names['Ans'] = r
         context = {'result' : result, 'formula' : formula}
 
-    return formula[0], result[0], context
+    return formula[-1], result[-1], context
 
 if __name__ == '__main__':
     results = test_file('resources/youtube_facts.py')
