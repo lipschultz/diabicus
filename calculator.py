@@ -36,7 +36,7 @@ from src import numeric_tools
 from src import time_limit
 from src import format_numbers
 
-DISCO_LENGTH = 2 #seconds
+DISCO_LENGTH = 5 #seconds
 
 def get_loader_lib(module_location):
     path, name = os.path.split(module_location)
@@ -62,7 +62,7 @@ class Disco:
         return time.time() < self.__stop_time
 
 class Calculator:
-    def __init__(self):
+    def __init__(self, disco_length=DISCO_LENGTH):
         self._result = 0
         self._input = ''
         self._output = ''
@@ -78,7 +78,7 @@ class Calculator:
         self._output_format[int] = self._output_format[float]
 
         self.__just_calculated = False
-        self.__disco = Disco()
+        self.__disco = Disco(default_length=disco_length)
 
         self.context = {'result' : [], 'formula' : [], 'output' : []}
 
@@ -274,6 +274,7 @@ class CalcApp(App, Calculator):
 def command_line_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', '--facts', help="Path to python file containing facts (or code to load facts)")
+    parser.add_argument('--disco-length', default=DISCO_LENGTH, type=float, help="Number of seconds of disco following input")
     args = parser.parse_args()
     return args
 
@@ -284,4 +285,4 @@ if __name__=="__main__":
         facts_lib = get_loader_lib(args.facts)
         facts = facts_lib.load_facts()
     audio_files = glob.glob('media/*')
-    CalcApp(facts=facts, audio_src=audio_files).run()
+    CalcApp(facts=facts, disco_length=args.disco_length, audio_src=audio_files).run()
