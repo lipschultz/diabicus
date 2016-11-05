@@ -69,13 +69,13 @@ def pretty_print_complex(value,
     else:
         return imag + imaginary_indicator
 
-def to_pretty_x10(num, dec_places=5, prepend='', append=''):
+def to_pretty_x10(num, dec_places=5, prepend='', append='', max_int_length=10):
     """ Format num to look like nnn×10^mmm. """
     if num < sys.float_info.min or num > sys.float_info.max:
         val = decimal.Decimal(num)
         decimal.getcontext().prec = dec_places+1
         val = str(val.normalize())
-    elif not numeric_tools.is_int(num) or math.log10(num) > 10:
+    elif not numeric_tools.is_int(num) or math.log10(num) > max_int_length:
         val = ('%0.'+str(dec_places+1)+'G') % num
         significand_exponent = val.split('E')
         if len(significand_exponent) == 1:
