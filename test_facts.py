@@ -109,12 +109,14 @@ def get_loader_lib(module_location):
 def test_file(filename):
     facts_lib = get_loader_lib(filename)
     facts = facts_lib.load_facts()
-    print('Total facts:', len(facts))
 
     fact_results = []
     for fact in facts:
         fact_results.append(test_fact(fact))
     return fact_results
+
+def fact_to_str(fact, max_len=100):
+    return repr(fact)[:max_len]
 
 def test_fact(fact):
     TIMEOUT = 3
@@ -136,11 +138,11 @@ def test_fact(fact):
             status.add_test_case_result(case, True, duration)
         except TimeoutError as e:
             if not ('tags' in case and TAG_BIGNUM in case['tags']):
-                print('test:', repr(fact), 'timed out on case', case)
+                print('test: timeout error ('+str(e)+')\n\tfact:', fact_to_str(fact), '\n\tcase', case)
                 status.add_test_case_result(case, False, TIMEOUT)
             test_result = False
         except Exception as e:
-            print('test:', repr(fact), 'failed on test case', case, ':', type(e), e)
+            print('test:', type(e), e, "\n\tfact:", fact_to_str(fact), '\n\tcase:', case)
             status.add_test_case_result(case, False)
             test_result = False
 
@@ -155,19 +157,19 @@ def test_fact(fact):
                     duration = time.time() - start
                     success = True
                     if len(msg_text) > 100:
-                        print('msg:', repr(fact), 'failed on msg', i, '('+msg_text+') with test case', case, ': text too long (' + str(len(msg_text)) + ')')
+                        print('msg: length error:', len(msg_text), '\n\tfact:', fact_to_str(fact), '\n\tmsg', i, ': '+msg_text+'\n\tcase:', case)
                         success = False
                     status.add_msg_result(case, i, True, duration)
                 except TimeoutError as e:
                     if not ('tags' in case and TAG_BIGNUM in case['tags']):
-                        print('msg:', repr(fact), 'timed out on msg', i, '('+raw_msg+') with test case', case)
+                        print('msg: timeout error ('+str(e)+')\n\tfact:', fact_to_str(fact), '\n\tmsg', i, ': '+raw_msg+'\n\tcase:', case)
                         status.add_msg_result(case, i, False)
                 except OverflowError as e:
                     if not ('tags' in case and TAG_BIGNUM in case['tags']):
-                        print('msg:', repr(fact), 'encountered overflow on msg', i, '('+raw_msg+') with test case', case)
+                        print('msg: overflow error ('+str(e)+')\n\tfact:', fact_to_str(fact), '\n\tmsg', i, ': '+raw_msg+'\n\tcase:', case)
                         status.add_msg_result(case, i, False)
                 except Exception as e:
-                    print('msg:', repr(fact), 'failed on msg', i, '('+raw_msg+') with test case', case, ':', type(e), e)
+                    print('msg:', type(e), e, "\n\tfact:", fact_to_str(fact), '\n\tmsg', i, ': '+raw_msg+'\n\tcase:', case)
                     status.add_msg_result(case, i, False)
 
     return status
@@ -193,13 +195,15 @@ def convert_test_case(test_case):
 
 if __name__ == '__main__':
     results = test_file('resources/youtube_facts.py')
+    print('Facts loaded:', len(results))
+
     times = list(chain.from_iterable((r.test_times().values() for r in results)))
     print('Test time: avg=%0.2g, max=%0.2g, min=%0.2g' % (sum(times)/len(times), max(times), min(times)))
 
     test_failures = len([s for r in results for s in r.cases.values() if not s['success']])
     test_total = len([s for r in results for s in r.cases.values()])
-    print('Test Failures: %d / %d = %0.2f' % (test_failures, test_total, test_failures/test_total))
+    print('Test Failures: %d / %d = %0.2f%%' % (test_failures, test_total, test_failures/test_total*100))
 
     msg_failures = len([c for r in results for s in r.msgs.values() for c in s.values() if not c['success']])
     msg_total = len([c for r in results for s in r.msgs.values() for c in s.values()])
-    print('Message Failures: %d / %d = %0.2f' % (msg_failures, msg_total, msg_failures/msg_total))
+    print('Message Failures: %d / %d = %0.2f%%' % (msg_failures, msg_total, msg_failures/msg_total*100))
