@@ -74,6 +74,7 @@ TEST_SET = [{'result' : 0},
             {'formula' : '1213^3', 'tags' : (TAG_BIGNUM, )},
             {'formula' : '333×2197-​ln(.5)'},
             {'formula' : ('15-2', 'eiτ×5')},
+            {'formula' : ('1i', 'Ans+3', 'Ans^2', '(Ans)^.5')},
             ]
 
 class TestResult:
