@@ -106,8 +106,8 @@ def eval_expr(evaluator, expr):
     except ZeroDivisionError:
         return ComputationError('divide by zero')
     except (simpleeval.NumberTooHigh, OverflowError) as err:
-        logging.error('Error evaluating expression: '+str(err))
+        logging.error('eval_expr: Error evaluating expression: '+str(err))
         return ComputationError("Overflow error")
     except Exception as err:  #pragma: no cover
-        logging.error('Error evaluating expression ('+str(type(err))+'): '+str(err))
+        logging.error('eval_expr: Error evaluating expression ('+str(type(err))+'): '+str(err))
         return ComputationError('computation error')

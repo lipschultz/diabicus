@@ -86,7 +86,7 @@ class BaseFact:
                 return_message = msg(formula, result, context)
                 break
             except OverflowError:
-                logging.warning("Encountered overflow error for fact "
+                logging.warning("BaseFact.message: Encountered overflow error for fact "
                                 +str(self)+", message " + msg + ", formula="+formula
                                 +", result="+result+", context="+context_to_str(context)
                                )
@@ -126,7 +126,7 @@ class JsonFact(BaseFact):
             contents = json.load(fin)
 
         facts = [cls(d) for d in contents]
-        logging.info(str(len(facts)) + ' facts loaded from ' + filename)
+        logging.info('JsonFact.load_file: ' + str(len(facts)) + ' facts loaded from ' + filename)
         return NumberFacts(facts)
 
 class NumberFacts:
@@ -149,7 +149,10 @@ class NumberFacts:
         Return all facts that apply to the given formula, result, context.
         """
         app_facts = [f for f in self.facts if self.test_fact(f, formula, result, context)]
-        logging.info("Number of applicable facts found: "+str(len(app_facts)))
+        logging.info("NumberFacts.find_applicable_facts: "
+                     +"Number of applicable facts found: "
+                     +str(len(app_facts))
+                    )
         return app_facts
 
     def test_fact(self, fact, formula, result, context):
@@ -158,17 +161,20 @@ class NumberFacts:
         """
         timed_exec = time_limit.TimedExecution()
         try:
-            logging.debug("Testing fact " + repr(fact) + " with context " + context_to_str(context))
+            logging.debug("NumberFacts.test_fact: " + repr(fact)
+                          + " with context " + context_to_str(context)
+                         )
             result = timed_exec.run(fact.test, formula, result, context)
-            logging.debug("Test result for " + repr(fact) + ": " + str(result))
+            logging.debug("NumberFacts.test_fact: Result for " + repr(fact) + ": " + str(result))
             return result
         except TimeoutError as err:
-            logging.warning(str(fact) + ' timed out on formula = "' + formula
-                            +'", result = "' + str(result) + ', context = '
-                            + context_to_str(context)
+            logging.warning('NumberFacts.test_fact: ' + str(fact)
+                            + ' timed out on formula = "' + formula
+                            +'", result = "' + str(result)
+                            + ', context = ' + context_to_str(context)
                            )
         except Exception as err:
-            logging.warning(str(fact) + ' threw exception ' + repr(err)
+            logging.warning('NumberFacts.test_fact: ' + str(fact) + ' threw exception ' + repr(err)
                             + ': formula = "'+formula+'", result = "'
                             + str(result) + ', context = '
                             + context_to_str(context)
@@ -181,16 +187,16 @@ class NumberFacts:
         Pick a fact at random from facts, using a distribution that
         considers the weight of each fact.
         """
-        logging.info("Pick random fact from: "+repr(facts))
+        logging.info("NumberFacts.pick_random_fact: From: "+repr(facts))
 
         if len(facts) == 0:
-            logging.info('No facts to pick')
+            logging.info('NumberFacts.pick_random_fact: No facts to pick')
             return None
 
         total = sum(fact.weight for fact in facts)
         if total == 0:
             rand_fact = random.choice(facts)
-            logging.info('Total 0, picking factFact picked (fallback): '
+            logging.info('NumberFacts.pick_random_fact: Total 0, picking fact'
                          + str(rand_fact)
                         )
             return rand_fact
@@ -200,11 +206,11 @@ class NumberFacts:
         for fact in facts:
             cdf += fact.weight
             if prob <= cdf:
-                logging.info('Fact picked: ' + str(fact))
+                logging.info('NumberFacts.pick_random_fact: Picked ' + str(fact))
                 return fact
 
         rand_fact = random.choice(facts)
-        logging.info('Fact picked (fallback): ' + str(rand_fact))
+        logging.info('NumberFacts.pick_random_fact: Picked (fallback): ' + str(rand_fact))
         return rand_fact
 
     def __len__(self):
