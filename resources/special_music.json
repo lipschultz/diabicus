@@ -1,0 +1,19 @@
+[{"test" : "lambda formula, result, context: is_error(result)",
+  "file" : "media/special/Stand-up Maths - Stand-up Maths theme.flac",
+  "link" : "http://standupmaths.bandcamp.com",
+  "cite" : "\"Stand​-​up Maths theme\" by Howard Carter",
+  "start" : 14951,
+  "end" : 22470
+  },
+ {"test" : "lambda formula, result, context: result == 123",
+  "file" : "media/special/ABC123.ogg",
+  "link" : "https://www.youtube.com/watch?v=diu8i5UKTHc",
+  "cite" : "\"ABC\" by The Jackson 5"
+  },
+ {"test" : "lambda formula, result, context: result == 4321",
+  "file" : "media/special/CarebearCountdown.ogg",
+  "link" : "https://www.youtube.com/watch?v=2lpeFfAA2LQ",
+  "cite" : "Care Bears Countdown"
+  },
+
+]

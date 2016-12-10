@@ -22,6 +22,7 @@ import string
 import json
 
 from . import time_limit
+from . import cases
 
 def context_to_str(context):
     """ Convert context into a string useful for logging. """
@@ -118,103 +119,4 @@ class JsonFact(BaseFact):
 
     @classmethod
     def load_file(cls, filename):
-        """
-        Open file, read in facts, and create cls objects out of them,
-        returning a NumberFacts object containing the facts.
-        """
-        with open(filename) as fin:
-            contents = json.load(fin)
-
-        facts = [cls(d) for d in contents]
-        logging.info('JsonFact.load_file: ' + str(len(facts)) + ' facts loaded from ' + filename)
-        return NumberFacts(facts)
-
-class NumberFacts:
-    """
-    A collection of facts and helper methods for picking facts.
-    """
-    def __init__(self, facts):
-        self.facts = facts
-
-    def get_fact(self, formula, result, context):
-        """
-        Return one fact that applies to the supplied formula, result, context.
-        """
-        app_facts = self.find_applicable_facts(formula, result, context)
-        rand_fact = self.pick_random_fact(app_facts)
-        return rand_fact
-
-    def find_applicable_facts(self, formula, result, context):
-        """
-        Return all facts that apply to the given formula, result, context.
-        """
-        app_facts = [f for f in self.facts if self.test_fact(f, formula, result, context)]
-        logging.info("NumberFacts.find_applicable_facts: "
-                     +"Number of applicable facts found: "
-                     +str(len(app_facts))
-                    )
-        return app_facts
-
-    def test_fact(self, fact, formula, result, context):
-        """
-        Test whether fact applies to the supplied formula, result, context.
-        """
-        timed_exec = time_limit.TimedExecution()
-        try:
-            logging.debug("NumberFacts.test_fact: " + repr(fact)
-                          + " with context " + context_to_str(context)
-                         )
-            result = timed_exec.run(fact.test, formula, result, context)
-            logging.debug("NumberFacts.test_fact: Result for " + repr(fact) + ": " + str(result))
-            return result
-        except TimeoutError as err:
-            logging.warning('NumberFacts.test_fact: ' + str(fact)
-                            + ' timed out on formula = "' + formula
-                            +'", result = "' + str(result)
-                            + ', context = ' + context_to_str(context)
-                           )
-        except Exception as err:
-            logging.warning('NumberFacts.test_fact: ' + str(fact) + ' threw exception ' + repr(err)
-                            + ': formula = "'+formula+'", result = "'
-                            + str(result) + ', context = '
-                            + context_to_str(context)
-                           )
-
-        return False
-
-    def pick_random_fact(self, facts):
-        """
-        Pick a fact at random from facts, using a distribution that
-        considers the weight of each fact.
-        """
-        logging.info("NumberFacts.pick_random_fact: From: "+repr(facts))
-
-        if len(facts) == 0:
-            logging.info('NumberFacts.pick_random_fact: No facts to pick')
-            return None
-
-        total = sum(fact.weight for fact in facts)
-        if total == 0:
-            rand_fact = random.choice(facts)
-            logging.info('NumberFacts.pick_random_fact: Total 0, picking fact'
-                         + str(rand_fact)
-                        )
-            return rand_fact
-
-        prob = random.uniform(0, total)
-        cdf = 0
-        for fact in facts:
-            cdf += fact.weight
-            if prob <= cdf:
-                logging.info('NumberFacts.pick_random_fact: Picked ' + str(fact))
-                return fact
-
-        rand_fact = random.choice(facts)
-        logging.info('NumberFacts.pick_random_fact: Picked (fallback): ' + str(rand_fact))
-        return rand_fact
-
-    def __len__(self):
-        return len(self.facts)
-
-    def __getitem__(self, key):
-        return self.facts[key]
+        return cases.load_json_cases(cls, filename)

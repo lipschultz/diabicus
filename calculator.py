@@ -193,6 +193,13 @@ class CalcApp(App, Calculator):
         self.__audio_current_pos = 0
         self.__audio_current_len = math.inf
         self.__audio_current_state = None
+        
+        self.__special_music = kwargs.get('special_music')
+        if self.__special_music is not None:
+            special_music_lib = get_loader_lib(self.__special_music)
+            self.__special_music = special_music_lib.load()
+            del kwargs['special_music']
+        self.__special_music_current = None
 
         super(CalcApp, self).__init__(*args, **kwargs)
 
@@ -252,7 +259,11 @@ class CalcApp(App, Calculator):
                 time.sleep(0.1)
                 self.__audio_current.seek(self.__audio_current_pos)
                 self.__audio_current_state = 'play'
-        elif self.__audio_current.state == 'play':
+        else:
+            self.__pause_disco()
+
+    def __pause_disco(self):
+        if self.__audio_current.state == 'play':
             self.__audio_current_len = self.__audio_current.length
             self.__audio_current_pos = self.__audio_current.get_pos()
             self.__audio_current_state = 'paused'
@@ -261,7 +272,7 @@ class CalcApp(App, Calculator):
     def calculate(self):
         result = super(CalcApp, self).calculate()
         if self.__facts is not None:
-            fact = self.__facts.get_fact(self.input, result, self.context)
+            fact = self.__facts.get_case(self.input, result, self.context)
             if fact is not None:
                 message = fact.title
                 try:
@@ -270,11 +281,18 @@ class CalcApp(App, Calculator):
                     logging.warn('CalcApp.calculate: Getting message timed out for fact '+str(fact))
 
                 self.root.ids.fact.text = "[ref='" + fact.link + "']" + message + "[/ref]"
+        if self.__special_music is not None:
+            smusic = self.__special_music.get_case(self.input, result, self.context)
+            self.__pause_disco()
+            self.__special_music_current = SoundLoader.load(smusic.filename)
+            self.__special_music_current.play()
 
 def command_line_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-f', '--facts', help="Path to python file containing facts (or code to load facts)")
     parser.add_argument('--disco-length', default=DISCO_LENGTH, type=float, help="Number of seconds of disco following input")
+    parser.add_argument('-f', '--facts', help="Path to python file containing facts (or code to load facts)")
+    parser.add_argument('--music', help="Directory containing \"regular\" music")
+    parser.add_argument('--special-music', help="Path to python file that loads conditions for special music")
     args = parser.parse_args()
     return args
 
@@ -284,5 +302,5 @@ if __name__=="__main__":
     if args.facts is not None:
         facts_lib = get_loader_lib(args.facts)
         facts = facts_lib.load_facts()
-    audio_files = glob.glob('media/*')
-    CalcApp(facts=facts, disco_length=args.disco_length, audio_src=audio_files).run()
+    audio_files = glob.glob('media/general/*')
+    CalcApp(facts=facts, disco_length=args.disco_length, audio_src=audio_files, special_music=args.special_music).run()
