@@ -2150,6 +2150,65 @@
   "link" : "https://www.youtube.com/watch?v=5kC5k5QBqcc",
   "title": "The Problems with Secret Santa",
   "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {60, 3, 4, 5, 6, 7, 8, 60*3, 60*4, 60*5, 60*6, 60*7}",
+  "link" : "https://www.youtube.com/watch?v=xu-RSUGBgpA",
+  "title": "Too Many Triangles",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {4, 5}",
+  "link" : "https://www.youtube.com/watch?v=QvvkJT8myeI",
+  "title": "The Shortest Ever Papers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {6.3, 39, 100, 1000000, 0, 2.1, 0.021, 3.2, 0.032, 1.2, 0.012, 83, 1500, 2.854, 2.109, 1.919, 2.261, 2.404, 2.757, 2.317, 1.017, 2.308, 2.278, 6.325, 2.719, 2.61, 2.395, 2.477, 2.804, 2.8, 2.62, 2.94, 3.096, 2.868, 2.839, 1.212, 2.731, 3.197, 2.897, 2.719, 2.689, 2.821, 2.601, 0, 2.675, 2.616, 1.116, 2.494, 2.553, 2.239, 2.085, 2.086, 2.552, 0.02854, 0.02109, 0.01919, 0.02261, 0.02404, 0.02757, 0.02317, 0.01017, 0.02308, 0.02278, 0.06325, 0.02719, 0.0261, 0.02395, 0.02477, 0.02804, 0.028, 0.0262, 0.0294, 0.03096, 0.02868, 0.02839, 0.01212, 0.02731, 0.03197, 0.02897, 0.02719, 0.02689, 0.02821, 0.02601, 0, 0.02675, 0.02616, 0.01116, 0.02494, 0.02553, 0.02239, 0.02085, 0.02086, 0.02552} or (4 < result < 4.125 or 0.04 < result < 0.04125) or result in xrange(2, 13)",
+  "link" : "https://www.youtube.com/watch?v=ubQXz5RBBtU",
+  "title": "The Mathematics of Winning Monopoly",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {2, 3}",
+  "link" : "https://www.youtube.com/watch?v=8dHMpnfFdtc",
+  "title": "Super Bottle",
+  "source":"Numberphile",
+  "weight":0.5
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.e)",
+  "link" : "https://www.youtube.com/watch?v=AuA2EAgAegE",
+  "title": "Super Bottle",
+  "source":"Numberphile",
+  "note" : "formulas"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and (any(0 < len(context['result'])*(m+1)-m <= result <= len(context['result'])*(m+1)-1 for m in (6, 12, 20, 120)) or result in {6, 12, 20, 120, 7, 13, 21, 605, 242, 363, 3}) or result == 60.5",
+  "link" : "https://www.youtube.com/watch?v=pF8goco4ix0",
+  "title": "The Numbers in Dice Stacking and Balancing",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_prime(result) or result == 1./25",
+  "link" : "https://www.youtube.com/watch?v=8hsZm1BD_j8",
+  "title": "The Curious Incident of the Maths in the Stage-show: Part 1",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_prime(result)",
+  "link" : "https://www.youtube.com/watch?v=shQnyNlgmkc",
+  "title": "The Curious Incident of the Maths in the Stage-show: Part 2",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: formula in ('(1+9^(-4^(6×7)))^(3^(2^85))', '2^(5^.4)-.6-(.3^9/7)^(.8^.1)') or result == 18457734525360901453873570 or is_close(result, math.e)",
+  "link" : "https://www.youtube.com/watch?v=xgBGibfLD-U",
+  "title": "Incredible Formula",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {17, 2011, 2017, 2027, 10, 2008, 2026, 11, 2009, 2019, 2010, 7000, 2018, 1997, 2029, 504, 1993, 2081, 252, 1889, 2081, 126, 63, 1039, 2011, 2111, 1777, 2069, 1993, 2137, 1009, 1879, 2029, 33, 1327, 22, 1973, 1892, 2146, 232, 2015, 2018, 349, 13358, 8} or formula in {'9^2+44^2', '44^2+3^4'}",
+  "link" : "https://www.youtube.com/watch?v=z6jMU-AwX34",
+  "title": "17 Number Facts about 2017 in 2:17",
+  "source":"standupmaths",
+  "note" : "bases 8, 31, 32"
+ },
+ {"test" : "lambda formula, result, context: result in {12, 30, 3, 4, 5, 20, 24} or [5, 3] in {context['result'][-2:], context['result'][:-3:-1]}",
+  "link" : "https://www.youtube.com/watch?v=TV7sbaffuNo",
+  "title": "How to make an edge-coloured origami dodecahedron",
+  "source":"standupmaths"
  }
+ 
 
 ]
