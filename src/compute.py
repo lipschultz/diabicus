@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 import re
 import logging
 
-from . import simpleeval
+import simpleeval
 
 FUNCTION_PREFIX = '\u200b'
 

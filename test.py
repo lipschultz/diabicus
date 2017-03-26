@@ -18,12 +18,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 import math
+import simpleeval
 
 import calculator
 
 from src import compute
 from src import numeric_tools
-from src import simpleeval
 from src import format_numbers
 
 class CalculatorTests(unittest.TestCase):
