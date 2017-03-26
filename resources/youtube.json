@@ -2208,7 +2208,82 @@
   "link" : "https://www.youtube.com/watch?v=TV7sbaffuNo",
   "title": "How to make an edge-coloured origami dodecahedron",
   "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {0, 262144} or is_close(result, 100000, 0.10, 'pct')",
+  "link" : "https://www.youtube.com/watch?v=1MtEUErz7Gg",
+  "title": "Sandpiles",
+  "source":"Numberphile",
+  "note" : "multi-dimensional values, additive identity"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, 4.669201609102990671853203821578)",
+  "link" : "https://www.youtube.com/watch?v=ETrYE4MdoLQ",
+  "title": "4.669",
+  "source":"Numberphile",
+  "note" : "formula of the form lambda*Ans*(1-Ans), for lambda in (0, 4)"
+ },
+ {"test" : "lambda formula, result, context: result in {2.8, 160, 1./160} or is_close(result, 368, 80)",
+  "link" : "https://www.youtube.com/watch?v=yadjZTBDSR4",
+  "title": "Measuring the Berlin TV Tower with a ruler",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {4}",
+  "link" : "https://www.youtube.com/watch?v=Noo4lN-vSvw",
+  "title": "The Four 4s",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {383}",
+  "link" : "https://www.youtube.com/watch?v=PQDvEJFdY1U",
+  "title": "383 is cool",
+  "source":"Numberphile",
+  "note" : "prime, palindrome, sum of first three 3-digit palindromic primes, smallest number that is the sum of a prime and its reverse, Woodall prime (n* 2^n -1)"
+ },
+ {"test" : "lambda formula, result, context: result in {7, 23, 383, 32212254719, 2833419889721787128217599, 195845982777569926302400511, 4776913109852041418248056622882488319, 1307960347852357218937346147315859062783, 225251798594466661409915431774713195745814267044878909733007331390393510002687}",
+  "link" : "https://www.youtube.com/watch?v=PQDvEJFdY1U",
+  "title": "383 is cool",
+  "source":"Numberphile",
+  "oeis" : "http://oeis.org/A050918",
+  "msg" : "lambda f, r, c: str(int(r))+' is a Woodall Prime'"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and float(result) > 0",
+  "link" : "https://www.youtube.com/watch?v=X3HDnrehyDM",
+  "title": "Frog Jumping",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=xhj5er1k6GQ",
+  "title": "The Illumination Problem",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=AGX0cLbHaog",
+  "title": "Problems with Periodic Orbits",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=Ku8BOBwD4hc",
+  "title": "Stable Rollers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=FkHjG759ABY",
+  "title": "Recreating Asteroids with Lasers",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: (is_int(result) and result % 11 == 0) or (result in {3, 5, 17, 257, 65537}) or (result in {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169})",
+  "link" : "https://www.youtube.com/watch?v=0iMtlus-afo",
+  "title": "Pascal's Triangle",
+  "source":"Numberphile",
+  "notes": "Pascal's triangle",
+  "wiki" : "https://en.wikipedia.org/wiki/Pascal%27s_triangle"
+ },
+ {"test" : "lambda formula, result, context: result in {500, 31, 27, 60, 10, 18, 23, 1, 38, 111, 114, 34, 98, 120, 15, 93, 12, 21, 113, 41, 169, 100, 24, 61, 45, 63, 322, 178, 1000} or (is_number(result) and is_close(result, 6 / math.pi**2, 0.028, 'pct'))",
+  "link" : "https://www.youtube.com/watch?v=RZBhSi_PwHU",
+  "title": "Generating π from 1,000 random numbers",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=MXJ-zpJeY3E",
+  "title": "The World's Best Mathematician (*)",
+  "source":"Numberphile"
  }
- 
-
 ]
