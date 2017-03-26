@@ -167,7 +167,11 @@ def is_subsequence_of(needle, haystack):
     With needle=[1,2,4] and haystack=[1,1,2,3,4], the function returns
     False since, although the values do appear in haystack in the
     correct order, they are not consecutive.
+
+    An empty needle will always return False.
     """
+    if len(needle) == 0:
+        return False
     for offset in (i for i, x in enumerate(haystack) if x == needle[0]):
         if offset + len(needle) > len(haystack):
             return False
