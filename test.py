@@ -471,5 +471,10 @@ class FormatNumbersTests(unittest.TestCase):
         pnum = format_numbers.to_ordinal(val)
         self.assertEqual(pnum, str(val)+'th')
 
+class NumericToolsTests(unittest.TestCase):
+    def test_empty_needle_returns_false(self):
+        ANY_HAYSTACK = [1,2,3,4,5]
+        self.assertFalse(numeric_tools.is_subsequence_of([], ANY_HAYSTACK))
+
 if __name__ == '__main__':
     unittest.main()
