@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# coding=utf-8
 """
 Diabicus: A calculator that plays music, lights up, and displays facts.
 Copyright (C) 2016 Michael Lipschultz
