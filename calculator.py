@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# coding=utf-8
 """
 Diabicus: A calculator that plays music, lights up, and displays facts.
 Copyright (C) 2016 Michael Lipschultz
@@ -30,7 +32,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
 from kivy.core.audio import SoundLoader
 
-from src.simpleeval import SimpleEval
+from simpleeval import SimpleEval
+
 from src import compute
 from src import numeric_tools
 from src import time_limit

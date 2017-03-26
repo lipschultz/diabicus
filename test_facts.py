@@ -22,9 +22,10 @@ from itertools import chain
 import os
 import importlib
 
+from simpleeval import SimpleEval
+
 from src import number_facts
 from src import numeric_tools
-from src.simpleeval import SimpleEval
 from src import compute
 from src import time_limit
 
