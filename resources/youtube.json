@@ -2285,5 +2285,47 @@
   "link" : "https://www.youtube.com/watch?v=MXJ-zpJeY3E",
   "title": "The World's Best Mathematician (*)",
   "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and (0 < result < 5 or result in {125, 1936, 1482})",
+  "link" : "https://www.youtube.com/watch?v=NgbK43jB4rQ",
+  "title": "The Four Color Map Theorem",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=EYkBctqyKic",
+  "title": "The Brick Double-Domino Effect Explained",
+  "source":"standupmaths",
+  "notes": "trigonometry"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, (math.pi/2, math.pi/2 + 2/math.pi, 2.2195, 16.6, 0.289653820817320941, 0.124712637587267758, 0.5, -0.167049816550309655, -0.458812270687887068, 0.875287362412732241, 1.202938908156911389, -0.498273610464875672, 0.875287362412732241, 1.645)) or result in {18, 0}",
+  "link" : "https://www.youtube.com/watch?v=rXfKWIZQIo4",
+  "title": "The Moving Sofa Problem",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {1, 5, 6}",
+  "link" : "https://www.youtube.com/watch?v=rXvaCy8PMdE",
+  "title": "The Brick Balancing Challenge",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and 1 <= result <= 10000",
+  "link" : "https://www.youtube.com/watch?v=LqKpkdRRLZw",
+  "title": "Collatz Conjecture in Color",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=4dUK1JqTSgU",
+  "title": "Reflected Cats",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and (100 <= result <= 999 or result < 11111)",
+  "link" : "https://www.youtube.com/watch?v=-ruC5A9EzzE",
+  "title": "The 10,958 Problem",
+  "source":"Numberphile",
+  "notes": "there is a huge table of formulas to enter here"
+ },
+ {"test" : "lambda formula, result, context: is_real(result) and is_close(result, 10958, 0.4)",
+  "link" : "https://www.youtube.com/watch?v=pasyRUj7UwM",
+  "title": "A 10,958 Solution",
+  "source":"Numberphile"
  }
 ]
