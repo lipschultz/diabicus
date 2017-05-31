@@ -18,12 +18,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import unittest
 import math
+import simpleeval
 
 import calculator
 
 from src import compute
 from src import numeric_tools
-from src import simpleeval
 from src import format_numbers
 
 class CalculatorTests(unittest.TestCase):
@@ -470,6 +470,11 @@ class FormatNumbersTests(unittest.TestCase):
         val = 4
         pnum = format_numbers.to_ordinal(val)
         self.assertEqual(pnum, str(val)+'th')
+
+class NumericToolsTests(unittest.TestCase):
+    def test_empty_needle_returns_false(self):
+        ANY_HAYSTACK = [1,2,3,4,5]
+        self.assertFalse(numeric_tools.is_subsequence_of([], ANY_HAYSTACK))
 
 if __name__ == '__main__':
     unittest.main()

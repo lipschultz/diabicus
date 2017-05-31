@@ -1,2 +1,4 @@
 scipy
+Cython
 kivy
+simpleeval
