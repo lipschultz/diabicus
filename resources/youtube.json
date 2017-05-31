@@ -2345,6 +2345,12 @@
   "source":"standupmaths",
   "note" : "tetrahedral number, triangle numbers, square number"
  },
+ {"test" : "lambda formula, result, context: formula in {'2^.5', '2^0.5', '2^(1/2)', '2*^*tan(', '2×^×tan(', '5×6'} or result in {2041, 31 + 8/60, 31*60+8} or is_error(result)",
+  "link" : "https://www.youtube.com/watch?v=WN58941sgtI",
+  "title": "Speed Unboxing - Calculator Unboxing #9",
+  "source":"Numberphile",
+  "note" : "includes matching formulas"
+ },
  {"test" : "lambda formula, result, context: (is_int(result) and result < 30) or result in {13, 20, 24, 41, 36.837, 17.368, 1.58, 2.74, 29.16, 125} or is_error(result)",
   "link" : "https://www.youtube.com/watch?v=NzfSombRHIM",
   "title": "UK Rubik’s Cube Championship 2016 PART I",
