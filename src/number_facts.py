@@ -24,18 +24,6 @@ import json
 from . import time_limit
 from . import cases
 
-def context_to_str(context):
-    """ Convert context into a string useful for logging. """
-    str_context = []
-    for k, val in context.items():
-        if isinstance(val, (list, tuple)):
-            item = '<' + str(val[-5:]) + '>'
-        else:
-            item = repr(val)
-        str_context.append(k + ' : ' + str(item))
-
-    return '{' + ', '.join(str_context) + '}'
-
 DEFAULT_MSG_FORMATTER = string.Formatter()
 
 class BaseFact:
@@ -89,7 +77,7 @@ class BaseFact:
             except OverflowError:
                 logging.warning("BaseFact.message: Encountered overflow error for fact "
                                 +str(self)+", message " + msg + ", formula="+formula
-                                +", result="+result+", context="+context_to_str(context)
+                                +", result="+result+", context="+cases.context_to_str(context)
                                )
 
         self._messages_pos += prev_j + 1

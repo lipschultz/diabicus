@@ -17,6 +17,22 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 import logging
 import json
+import random
+
+from . import time_limit
+
+
+def context_to_str(context):
+    """ Convert context into a string useful for logging. """
+    str_context = []
+    for k, val in context.items():
+        if isinstance(val, (list, tuple)):
+            item = '<' + str(val[-5:]) + '>'
+        else:
+            item = repr(val)
+        str_context.append(k + ' : ' + str(item))
+
+    return '{' + ', '.join(str_context) + '}'
 
 class CaseCollection:
     """
@@ -37,7 +53,7 @@ class CaseCollection:
         """
         Return all cases that apply to the given formula, result, context.
         """
-        app_cases = [f for f in self.app_cases if self.test_case(f, formula, result, context)]
+        app_cases = [f for f in self.cases if self.test_case(f, formula, result, context)]
         logging.info("CaseCollection.find_applicable_cases: "
                      +"Number of applicable cases found: "
                      +str(len(app_cases))
