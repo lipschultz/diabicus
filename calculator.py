@@ -244,6 +244,13 @@ class CalcApp(App, Calculator):
     def __set_clear_button(self, to_all_clear=False):
         pass
 
+    def __is_special_music_playing(self):
+        return self.__special_music_current is not None and self.__special_music_current.state != 'stop'
+
+    def __stop_special_music(self):
+        if self.__special_music_current is not None:
+            self.__special_music_current.stop()
+
     def __play_new_audio(self):
         choice = random.choice(self.__audio)
         self.__audio_current = SoundLoader.load(choice)
@@ -254,16 +261,17 @@ class CalcApp(App, Calculator):
 
     def update_disco(self, dt):
         do_play = super(CalcApp, self).update_disco(dt)
-        if do_play:
-            if self.__audio_current is None or (self.__audio_current_state == 'play' and self.__audio_current.state == 'stop'):
-                self.__play_new_audio()
-            elif self.__audio_current_state == 'paused':
-                self.__audio_current.play()
-                time.sleep(0.1)
-                self.__audio_current.seek(self.__audio_current_pos)
-                self.__audio_current_state = 'play'
-        else:
-            self.__pause_disco()
+        if not self.__is_special_music_playing():
+            if do_play:
+                if self.__audio_current is None or (self.__audio_current_state == 'play' and self.__audio_current.state == 'stop'):
+                    self.__play_new_audio()
+                elif self.__audio_current_state == 'paused':
+                    self.__audio_current.play()
+                    time.sleep(0.1)
+                    self.__audio_current.seek(self.__audio_current_pos)
+                    self.__audio_current_state = 'play'
+            else:
+                self.__pause_disco()
 
     def __pause_disco(self):
         if self.__audio_current.state == 'play':
@@ -286,9 +294,11 @@ class CalcApp(App, Calculator):
                 self.root.ids.fact.text = "[ref='" + fact.link + "']" + message + "[/ref]"
         if self.__special_music is not None:
             smusic = self.__special_music.get_case(self.input, result, self.context)
-            self.__pause_disco()
-            self.__special_music_current = SoundLoader.load(smusic.filename)
-            self.__special_music_current.play()
+            if smusic is not None:
+                self.__pause_disco()
+                self.__stop_special_music()
+                self.__special_music_current = SoundLoader.load(smusic.filename)
+                self.__special_music_current.play()
 
 def command_line_arguments():
     parser = argparse.ArgumentParser()
