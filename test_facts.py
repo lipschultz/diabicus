@@ -76,6 +76,7 @@ TEST_SET = [{'result' : 0},
             {'formula' : '333×2197-​ln(.5)'},
             {'formula' : ('15-2', 'eiτ×5')},
             {'formula' : ('1i', 'Ans+3', 'Ans^2', '(Ans)^.5')},
+            {'formula' : ('14i×-i', '​ln(Ans)')},
             ]
 
 class TestResult:

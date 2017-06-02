@@ -21,6 +21,8 @@ import logging
 
 import simpleeval
 
+DEFAULT_NONZERO_THRESHOLD = 1e-15
+
 FUNCTION_PREFIX = '\u200b'
 
 class ComputationError:
@@ -91,6 +93,12 @@ def make_multiplication_explicit(expr, variables):
                  )
     return expr
 
+def convert_complex_with_0_imag_to_real(value):
+    if isinstance(value, complex) and abs(value.imag) < DEFAULT_NONZERO_THRESHOLD:
+        return value.real
+    else:
+        return value
+
 def eval_expr(evaluator, expr):
     """
     Convert expr into something evaluator can evaluate, compute and return result.
@@ -100,7 +108,8 @@ def eval_expr(evaluator, expr):
     expr = expr.replace(FUNCTION_PREFIX, '')
 
     try:
-        return evaluator.eval(expr)
+        value = evaluator.eval(expr)
+        return convert_complex_with_0_imag_to_real(value)
     except SyntaxError:
         return ComputationError('invalid syntax')
     except ZeroDivisionError:

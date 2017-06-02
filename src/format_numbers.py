@@ -22,7 +22,9 @@ import math
 
 from . import numeric_tools
 
-def simplify_complex(value, real_nonzero_threshold=1e-15, imag_nonzero_threshold=None):
+DEFAULT_NONZERO_THRESHOLD = 1e-15
+
+def simplify_complex(value, real_nonzero_threshold=DEFAULT_NONZERO_THRESHOLD, imag_nonzero_threshold=None):
     """
     Convert close-to-zero parts of complex value to zero.
 
