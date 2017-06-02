@@ -30,7 +30,6 @@ import importlib
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.clock import Clock
-from kivy.core.audio import SoundLoader
 
 from simpleeval import SimpleEval
 
@@ -38,6 +37,7 @@ from src import compute
 from src import numeric_tools
 from src import time_limit
 from src import format_numbers
+from src.audio import AudioReference
 
 DISCO_LENGTH = 5 #seconds
 
@@ -193,9 +193,6 @@ class CalcApp(App, Calculator):
         self.__audio = kwargs.get('audio_src', [])
         del kwargs['audio_src']
         self.__audio_current = None
-        self.__audio_current_pos = 0
-        self.__audio_current_len = math.inf
-        self.__audio_current_state = None
         
         self.__special_music = kwargs.get('special_music')
         del kwargs['special_music']
@@ -245,7 +242,7 @@ class CalcApp(App, Calculator):
         pass
 
     def __is_special_music_playing(self):
-        return self.__special_music_current is not None and self.__special_music_current.state != 'stop'
+        return self.__special_music_current is not None and self.__special_music_current.state == AudioReference.STATE_PLAY
 
     def __stop_special_music(self):
         if self.__special_music_current is not None:
@@ -253,32 +250,23 @@ class CalcApp(App, Calculator):
 
     def __play_new_audio(self):
         choice = random.choice(self.__audio)
-        self.__audio_current = SoundLoader.load(choice)
+        self.__audio_current = AudioReference(choice)
         self.__audio_current.play()
-        self.__audio_current_pos = 0
-        self.__audio_current_len = self.__audio_current.length
-        self.__audio_current_state = 'play'
 
     def update_disco(self, dt):
         do_play = super(CalcApp, self).update_disco(dt)
         if not self.__is_special_music_playing():
             if do_play:
-                if self.__audio_current is None or (self.__audio_current_state == 'play' and self.__audio_current.state == 'stop'):
+                if self.__audio_current is None or self.__audio_current.state == AudioReference.STATE_STOP:
                     self.__play_new_audio()
-                elif self.__audio_current_state == 'paused':
+                else:
                     self.__audio_current.play()
-                    time.sleep(0.1)
-                    self.__audio_current.seek(self.__audio_current_pos)
-                    self.__audio_current_state = 'play'
             else:
                 self.__pause_disco()
 
     def __pause_disco(self):
         if self.__audio_current.state == 'play':
-            self.__audio_current_len = self.__audio_current.length
-            self.__audio_current_pos = self.__audio_current.get_pos()
-            self.__audio_current_state = 'paused'
-            self.__audio_current.stop()
+            self.__audio_current.pause()
 
     def calculate(self):
         result = super(CalcApp, self).calculate()
@@ -297,7 +285,7 @@ class CalcApp(App, Calculator):
             if smusic is not None:
                 self.__pause_disco()
                 self.__stop_special_music()
-                self.__special_music_current = SoundLoader.load(smusic.filename)
+                self.__special_music_current = AudioReference(smusic.filename)
                 self.__special_music_current.play()
 
 def command_line_arguments():

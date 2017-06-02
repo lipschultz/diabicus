@@ -44,31 +44,31 @@ class AudioReference:
 
     @property
     def state(self):
-        if self.__audio.state == STATE_PLAY:
-            return STATE_PLAY
-        elif self.__state == STATE_PLAY:
+        if self.__audio.state == self.STATE_PLAY:
+            return self.STATE_PLAY
+        elif self.__state == self.STATE_PLAY:
             self.stop() # do a little housekeeping while we're at it...
-            return STATE_STOP
+            return self.STATE_STOP
         else:
             return self.__state
 
     def play(self):
         state = self.state
-        if state == STATE_PLAY:
+        if state == self.STATE_PLAY:
             # already playing...
             pass
-        elif state == STATE_STOP or state == STATE_PAUSE:
+        elif state == self.STATE_STOP or state == self.STATE_PAUSE:
             self.__audio.play()
             time.sleep(0.1)
             self.__audio.seek(self.__pos)
-        self.__state = STATE_PLAY            
+        self.__state = self.STATE_PLAY
 
     def pause(self):
         self.__pos = self.__audio.get_pos()
-        self.__state = STATE_PAUSE
+        self.__state = self.STATE_PAUSE
         self.__audio.stop()
 
     def stop(self):
         self.__pos = self.__start
-        self.__state = STATE_STOP
+        self.__state = self.STATE_STOP
         self.__audio.stop()
