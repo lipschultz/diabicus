@@ -92,7 +92,7 @@ class Calculator:
         self.__eval.names['e'] = math.e
         self.__eval.names['i'] = numeric_tools.I
         self.__eval.names['φ'] = numeric_tools.GOLDEN_RATIO
-        self.__eval.functions['ln'] = math.log
+        self.__eval.functions['ln'] = lambda n: math.log(compute.convert_complex_with_0_imag_to_real(n))
 
     def get_input(self):
         return self._input

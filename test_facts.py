@@ -30,7 +30,7 @@ from src import compute
 from src import time_limit
 
 general_eval = SimpleEval()
-general_eval.functions['ln'] = math.log
+general_eval.functions['ln'] = lambda n: math.log(compute.convert_complex_with_0_imag_to_real(n))
 general_eval.names['π'] = math.pi
 general_eval.names['τ'] = 2*math.pi
 general_eval.names['e'] = math.e
@@ -77,6 +77,7 @@ TEST_SET = [{'result' : 0},
             {'formula' : ('15-2', 'eiτ×5')},
             {'formula' : ('1i', 'Ans+3', 'Ans^2', '(Ans)^.5')},
             {'formula' : ('14i×-i', '​ln(Ans)')},
+            {'formula' : '​ln(14i×-i)'},
             ]
 
 class TestResult:
