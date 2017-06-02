@@ -198,10 +198,10 @@ class CalcApp(App, Calculator):
         self.__audio_current_state = None
         
         self.__special_music = kwargs.get('special_music')
+        del kwargs['special_music']
         if self.__special_music is not None:
             special_music_lib = get_loader_lib(self.__special_music)
             self.__special_music = special_music_lib.load()
-            del kwargs['special_music']
         self.__special_music_current = None
 
         super(CalcApp, self).__init__(*args, **kwargs)
