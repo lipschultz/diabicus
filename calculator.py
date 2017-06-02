@@ -303,17 +303,22 @@ class CalcApp(App, Calculator):
 def command_line_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('--disco-length', default=DISCO_LENGTH, type=float, help="Number of seconds of disco following input")
-    parser.add_argument('-f', '--facts', help="Path to python file containing facts (or code to load facts)")
-    parser.add_argument('--music', help="Directory containing \"regular\" music")
+    parser.add_argument('-f', '--facts', required=True, help="Path to python file containing facts (or code to load facts)")
+    parser.add_argument('--music', required=True, nargs='+', help="Path to \"regular\" music (file or directory containing multiple files)")
     parser.add_argument('--special-music', help="Path to python file that loads conditions for special music")
     args = parser.parse_args()
     return args
 
 if __name__=="__main__":
     args = command_line_arguments()
+
     facts = None
     if args.facts is not None:
         facts_lib = get_loader_lib(args.facts)
         facts = facts_lib.load_facts()
-    audio_files = glob.glob('media/general/*')
+
+    audio_files = []
+    for music_loc in args.music:
+        audio_files.extend(glob.glob(music_loc))
+
     CalcApp(facts=facts, disco_length=args.disco_length, audio_src=audio_files, special_music=args.special_music).run()
