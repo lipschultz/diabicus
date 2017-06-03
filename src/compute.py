@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 
+import math
 import re
 import logging
 
@@ -93,6 +94,21 @@ def make_multiplication_explicit(expr, variables):
                  )
     return expr
 
+def round_to_int_if_close(value, threshold=DEFAULT_NONZERO_THRESHOLD):
+    if isinstance(value, complex):
+        return complex(round_to_int_if_close(value.real, threshold), round_to_int_if_close(value.imag, threshold))
+    elif isinstance(value, float):
+        ceil = math.ceil(value)
+        floor = math.floor(value)
+        if abs(value - ceil) < threshold:
+            return ceil
+        elif abs(value - floor) < threshold:
+            return floor
+        else:
+            return value
+    else:
+        return value
+
 def convert_complex_with_0_imag_to_real(value):
     if isinstance(value, complex) and abs(value.imag) < DEFAULT_NONZERO_THRESHOLD:
         return value.real
@@ -109,6 +125,7 @@ def eval_expr(evaluator, expr):
 
     try:
         value = evaluator.eval(expr)
+        value = round_to_int_if_close(value)
         return convert_complex_with_0_imag_to_real(value)
     except SyntaxError:
         return ComputationError('invalid syntax')
