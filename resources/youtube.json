@@ -491,13 +491,13 @@
   "source":"Numberphile",
   "oeis" : ["https://oeis.org/A000045", "https://oeis.org/A000032"]
  },
- {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][-3:], FIBONACCI_NUMBERS) or is_subsequence_of(context['result'][-3:], (2308, 4261, 6569, 10830, 17399, 28229, 45628, 73857, 119485, 193342, 312827, 506169, 818996, 1325165, 2144161, 3469326, 5613487, 9082813, 14696300, 23779113, 38475413, 62254526, 100729939, 162984465, 263714404, 426698869, 690413273, 1117112142, 1807525415, 2924637557, 4732162972, 7656800529)) or (is_rational(result) and is_close(result, GOLDEN_RATIO)) or (len(context['result']) >= 2 and is_rational(context['result'][-2]) and is_rational(context['result'][-1]) and is_close(context['result'][-1]/context['result'][-2], GOLDEN_RATIO, 1e-3))",
+ {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][-3:], FIBONACCI_NUMBERS) or is_subsequence_of(context['result'][-3:], (2308, 4261, 6569, 10830, 17399, 28229, 45628, 73857, 119485, 193342, 312827, 506169, 818996, 1325165, 2144161, 3469326, 5613487, 9082813, 14696300, 23779113, 38475413, 62254526, 100729939, 162984465, 263714404, 426698869, 690413273, 1117112142, 1807525415, 2924637557, 4732162972, 7656800529)) or (is_rational(result) and is_close(result, GOLDEN_RATIO)) or (len(context['result']) >= 2 and is_rational(context['result'][-2]) and is_rational(context['result'][-1]) and context['result'][-2] != 0 and is_close(context['result'][-1]/context['result'][-2], GOLDEN_RATIO, 1e-3))",
   "link" : "https://www.youtube.com/watch?v=D8ntDpBm6Ok",
   "title": "Brady Numbers",
   "source":"Numberphile",
   "oeis" : ["https://oeis.org/A000045", "https://oeis.org/A247698"]
  },
- {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][-3:], FIBONACCI_NUMBERS) or (is_rational(result) and is_close(result, GOLDEN_RATIO)) or (len(context['result']) >= 2 and is_rational(context['result'][-2]) and is_rational(context['result'][-1]) and is_close(context['result'][-1]/context['result'][-2], GOLDEN_RATIO, 1e-3)) or (len(context['result']) >= 3 and all(is_rational(v) for v in context['result'][-3:]) and context['result'][-3]+context['result'][-2] == context['result'][-1])",
+ {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][-3:], FIBONACCI_NUMBERS) or (is_rational(result) and is_close(result, GOLDEN_RATIO)) or (len(context['result']) >= 2 and is_rational(context['result'][-2]) and is_rational(context['result'][-1]) and context['result'][-2] != 0 and is_close(context['result'][-1]/context['result'][-2], GOLDEN_RATIO, 1e-3)) or (len(context['result']) >= 3 and all(is_rational(v) for v in context['result'][-3:]) and context['result'][-3]+context['result'][-2] == context['result'][-1])",
   "link" : "https://www.youtube.com/watch?v=dTWKKvlZB08",
   "title": "Golden Proof",
   "source":"Numberphile",
@@ -904,7 +904,7 @@
   "title": "Primes are like Weeds (PNT)",
   "source":"Numberphile",
   "msg" : ["lambda f, r, c: 'The number of primes less than %s is approximately %s' % (format_numbers.to_pretty_x10(r), str(r / math.log(r)) if r / math.log(r) < 10000 else format_numbers.to_pretty_x10(r / math.log(r), 1))",
-           "lambda f, r, c: 'The %s prime number is approximately %s' % (format_numbers.to_ordinal(r), format_numbers.to_pretty_x10(math.floor(r * math.log(r))))",
+           "lambda f, r, c: 'The %s%s prime number is approximately %s' % (format_numbers.to_pretty_x10(r), format_numbers.to_ordinal(r, just_suffix=True), format_numbers.to_pretty_x10(math.floor(r * math.log(r))))",
            "lambda f, r, c: 'There is a prime between %s and %s' % (format_numbers.to_pretty_x10(r), format_numbers.to_pretty_x10(math.ceil(2*r if r < 100 else 1.2*r)))"
            ]
  },
@@ -1008,7 +1008,7 @@
   "source":"Numberphile",
   "note" : "different bases"
  },
- {"test" : "lambda formula, result, context: (len(context['result']) > 1 and not any(is_error(r) or is_complex(r) for r in context['result'][-2:]) and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
+ {"test" : "lambda formula, result, context: (len(context['result']) > 1 and not any(is_error(r) or is_complex(r) for r in context['result'][-2:]) and context['result'][-2] != 0 and result // context['result'][-2] > 10) or result in {2, 789, 6, 7, 0, 8} or re.search(r'[^*]\\*[^*]', formula)",
   "link" : "https://www.youtube.com/watch?v=JJQWtGm3eIs",
   "title": "Math Jokes Explained",
   "source":"Numberphile",

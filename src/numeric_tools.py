@@ -212,6 +212,9 @@ def is_close(num1, num2, threshold=1e-5, method='raw'):
         return False
     else:
         if method == 'pct':
-            return abs(num1-num2) / max(num1, num2) < threshold
+            if num1 == num2 and num1 == 0:
+                return True
+            else:
+                return abs(num1-num2) / max([abs(v) for v in (num1, num2) if v != 0]) < threshold
         else:
             return abs(num1-num2) < threshold

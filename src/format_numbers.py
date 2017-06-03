@@ -96,9 +96,12 @@ def to_pretty_x10(num, dec_places=5, prepend='', append='', max_int_length=10):
             val[1] = str(int(val[1][1:]))
         return prepend + val[0] + '×10^' + val[1] + append
 
-def to_ordinal(num):
-    """ Returns a string representing the ordinal of num. """
-    str_n = str(num)
+def to_ordinal(num, just_suffix=False):
+    """
+        Returns a string representing the ordinal of num. If `just_suffix is
+        True, then only the suffix is returned (and not the number).
+    """
+    str_n = '' if just_suffix else str(num)
     ones = num % 10
     if 1 <= ones <= 3 and num not in (11, 12, 13):
         if ones == 1:
