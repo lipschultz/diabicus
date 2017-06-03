@@ -476,5 +476,26 @@ class NumericToolsTests(unittest.TestCase):
         ANY_HAYSTACK = [1,2,3,4,5]
         self.assertFalse(numeric_tools.is_subsequence_of([], ANY_HAYSTACK))
 
+    def test_stripping_leading_zeros_from_numbers(self):
+        tests = [('04321', '4321'),
+                 ('0', '0'),
+                 ('00', '0'),
+                 ('0.0', '0.0'),
+                 ('43210', '43210'),
+                 ('004321', '4321'),
+                 ('0.04321', '0.04321'),
+                 ('0.004321', '0.004321'),
+                 ('0.987004321', '0.987004321'),
+                 ('00.004321', '0.004321'),
+                 ]
+        tests += [('+'+n, '+'+expected) for n, expected in tests]
+        tests += [('380+042', '380+42'),
+                  ('ln(003.00)', 'ln(3.00)')
+                  ]
+        for t, expected in tests:
+            actual = numeric_tools.remove_leading_zeros(t)
+            self.assertEqual(expected, actual)
+
+
 if __name__ == '__main__':
     unittest.main()
