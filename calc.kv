@@ -7,7 +7,35 @@
     text: 'O'
     color: .2, .2, .2, 1
 
-<SideLights@BoxLayout>
+<KeyButton@Button>
+    font_size: 24
+
+<EntryButton@KeyButton>
+    on_press: app.press_key(self.text)
+
+<EdgeButton@Button>
+    font_size: 16
+
+<EntryEdgeButton@KeyButton>
+    on_press: app.press_key(self.text)
+
+
+<NumberButton@EntryButton>
+    background_color: 0.51, 0.88, 0.88, 1
+
+<ArithmeticButton@EntryButton>
+    background_color: 1, 0.69, 0.36, 1
+
+<ArithmeticFunctionButton@KeyButton>
+    background_color: 1, 0.69, 0.36, 1
+
+<ConstantsEdgeButton@EntryEdgeButton>
+    background_color: 0.42, 0.71, 0.71, 1
+
+<FunctionEdgeButton@EdgeButton>
+    background_color: 0.82, 0.57, 0.29, 1
+
+<RightSide@BoxLayout>
     orientation: 'vertical'
     size_hint_x: 0.1
     Light
@@ -37,12 +65,6 @@
     Light
     Light
 
-<EdgeButton@Button>
-    font_size: 16
-
-<EntryEdgeButton@KeyButton>
-    on_press: app.press_key(self.text)
-
 <LeftSide@BoxLayout>
     orientation: 'vertical'
     size_hint_x: 0.1
@@ -50,26 +72,19 @@
         text: 'S'
     Light
     Light
-    EntryEdgeButton:
+    ConstantsEdgeButton:
         text: 'π'
-    EntryEdgeButton:
+    ConstantsEdgeButton:
         text: 'τ'
-    EntryEdgeButton:
+    ConstantsEdgeButton:
         text: 'e'
-    EntryEdgeButton:
+    ConstantsEdgeButton:
         text: 'i'
-    EntryEdgeButton:
+    ConstantsEdgeButton:
         text: 'φ'
     Light
     Light
     Light
-
-
-<KeyButton@Button>
-    font_size: 24
-
-<EntryButton@KeyButton>
-    on_press: app.press_key(self.text)
 
 <BasicKeypad@GridLayout>
     cols: 5
@@ -95,50 +110,54 @@
     KeyButton:
         text: '->'
 
-    EntryButton:
+    NumberButton:
         text: '7'
-    EntryButton:
+    NumberButton:
         text: '8'
-    EntryButton:
+    NumberButton:
         text: '9'
-    EntryButton:
+    ArithmeticButton:
         text: '+'
-    EntryButton:
+    ArithmeticButton:
         text: '('
 
-    EntryButton:
+    NumberButton:
         text: '4'
-    EntryButton:
+    NumberButton:
         text: '5'
-    EntryButton:
+    NumberButton:
         text: '6'
-    EntryButton:
+    ArithmeticButton:
         text: '-'
-    EntryButton:
+    ArithmeticButton:
         text: ')'
 
-    EntryButton:
+    NumberButton:
         text: '1'
-    EntryButton:
+    NumberButton:
         text: '2'
-    EntryButton:
+    NumberButton:
         text: '3'
-    EntryButton:
+    ArithmeticButton:
         text: '×'
-    EntryButton:
+    ArithmeticButton:
         text: '^'
 
-    EntryButton:
+    NumberButton:
         text: '0'
-    EntryButton:
+    NumberButton:
         text: '.'
     KeyButton:
         text: '='
         on_press: app.calculate()
-    EntryButton:
+        background_color: 0, 0, 0, 1
+    ArithmeticButton:
         text: '/'
-    KeyButton:
-        text: 'ln(x)'
+    ArithmeticFunctionButton:
+        text: 'ln(x)\n[size=16](Natural Log)[/size]'
+        markup: True
+        halign: 'center'
+        valign: 'middle'
         on_press: app.press_function_key('ln')
 
 
@@ -186,4 +205,4 @@
 
         TopBottomLights
 
-    SideLights
+    RightSide
