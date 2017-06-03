@@ -115,7 +115,7 @@
   "source":"Numberphile",
   "msg" : "lambda f, result, c: '%d has approximately %d partitions' % (result, 1/(4*math.sqrt(3)*result) * math.exp(math.pi*math.sqrt(2*result/3)))"
  },
- {"test" : "lambda formula, result, context: is_error(result) or result in (3051, 4107)",
+ {"test" : "lambda formula, result, context: is_error(result) or result in {3051, 4107}",
   "link" : "https://www.youtube.com/watch?v=aOT_bG-vWyg",
   "title": "The Parker Square",
   "source":"Numberphile"
@@ -168,7 +168,7 @@
   "source":"Numberphile",
   "note" : "slide rules"
  },
- {"test" : "lambda formula, result, context: is_int(result) and (result in (1, 6, 9, 154, 253, 1114, 1390, 2618, 5611, 12871, 15286, 108609, 132574) or result in (9, ) or result in (0b0, 0b101, 0b11011, 0b1110111, 0b111101111, 0b11111011111, 0b1111110111111, 0b111111101111111, 0b11111111011111111, 0b1111111110111111111, 0b111111111101111111111, 0b11111111111011111111111) or all(v==str(result%10) for v in str(result)))",
+ {"test" : "lambda formula, result, context: is_int(result) and (result in {1, 6, 9, 154, 253, 1114, 1390, 2618, 5611, 12871, 15286, 108609, 132574} or result in (9, ) or result in {0b0, 0b101, 0b11011, 0b1110111, 0b111101111, 0b11111011111, 0b1111110111111, 0b111111101111111, 0b11111111011111111, 0b1111111110111111111, 0b111111111101111111111, 0b11111111111011111111111} or all(v==str(result%10) for v in str(result)))",
   "link" : "https://www.youtube.com/watch?v=HPfAnX5blO0",
   "title": "Glitch Primes and Cyclops Numbers",
   "source":"Numberphile",
@@ -187,7 +187,7 @@
   "source":"Numberphile",
   "msg" : "lambda f, r, c: 'Approximately %s primes below %s.' % (format_numbers.to_pretty_x10(scipy.integrate.quad(lambda x: 1/math.log(x), 2, r)[0], 2), format_numbers.to_pretty_x10(r))"
  },
- {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in (30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046))",
+ {"test" : "lambda formula, result, context: (is_int(result) and result > 0 and math.log(result, 2) % 1 == 0) or (is_rational(result) and result in {30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6, 0.301, 0.176, 0.125, 0.097, 0.079, 0.067, 0.058, 0.051, 0.046})",
   "link" : "https://www.youtube.com/watch?v=pKwsPBeSiOc",
   "title": "Powers of 2",
   "source":"Numberphile"
@@ -220,12 +220,12 @@
   "title": "The Infinitesimal Monad",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: is_int(result) and result in (89, 196, 295, 394, 493, 592, 689, 691)",
+ {"test" : "lambda formula, result, context: is_int(result) and result in {89, 196, 295, 394, 493, 592, 689, 691}",
   "link" : "https://www.youtube.com/watch?v=bN8PE3eljdA",
   "title": "What's special about 196?",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: is_int(result) and result in (8, 4426165368, 92, 12)",
+ {"test" : "lambda formula, result, context: is_int(result) and result in {8, 4426165368, 92, 12}",
   "link" : "https://www.youtube.com/watch?v=jPcBU0Z2Hj8",
   "title": "The 8 Queen Problem",
   "source":"Numberphile"
@@ -236,7 +236,7 @@
   "source":"Numberphile",
   "oeis" : "https://oeis.org/A002863"
  },
- {"test" : "lambda formula, result, context: result in (8, 13, 14) or any([is_subsequence_of(context['result'][-3:], s) for s in ((1,7,6), (3,7,6), (2,4,7), (4,5,7), (3,8,2), (2,8,4), (4,5,4), (5,1,5), (5,1,8), (1,3,8), (6,3,5), (6,2,1), (7,6,1), (7,6,3), (8,2,3), (8,4,2))])",
+ {"test" : "lambda formula, result, context: result in {8, 13, 14} or any([is_subsequence_of(context['result'][-3:], s) for s in ((1,7,6), (3,7,6), (2,4,7), (4,5,7), (3,8,2), (2,8,4), (4,5,4), (5,1,5), (5,1,8), (1,3,8), (6,3,5), (6,2,1), (7,6,1), (7,6,3), (8,2,3), (8,4,2))])",
   "link" : "https://www.youtube.com/watch?v=fjEB_wbemQA",
   "title": "The Curse of Lane 8",
   "source":"Numberphile"
@@ -247,7 +247,7 @@
   "source":"Numberphile",
   "note" : "Shannon's number: 10^120; Hardy's estimate: 10^(10^50)"
  },
- {"test" : "lambda formula, result, context: result in (1980, 45, 2025, 1892, 44, 1936, 2070, 46, 2116, 2162, 47, 2209, 2046, 2, 2048, 2184, 3, 2187, 13, 2197)",
+ {"test" : "lambda formula, result, context: result in {1980, 45, 2025, 1892, 44, 1936, 2070, 46, 2116, 2162, 47, 2209, 2046, 2, 2048, 2184, 3, 2187, 13, 2197}",
   "link" : "https://www.youtube.com/watch?v=99stb2mzspI",
   "title": "Why 1980 was a great year to be born... but 2184 will be better",
   "source":"Numberphile"
@@ -290,7 +290,7 @@
   "title": "Billionaire Mathematician",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result in (3121, 1024, 15625, 11529, 15621) or is_close(result, 0.32768)",
+ {"test" : "lambda formula, result, context: result in {3121, 1024, 15625, 11529, 15621} or is_close(result, 0.32768)",
   "link" : "https://www.youtube.com/watch?v=U9qU20VmvaU",
   "title": "Monkeys and Coconuts",
   "source":"Numberphile"
@@ -306,7 +306,7 @@
   "source":"Numberphile",
   "note" : "binary numbers"
  },
- {"test" : "lambda formula, result, context: result in (7, 10000, 52) or is_close(result, 4.538) or is_close(result, 8.55)",
+ {"test" : "lambda formula, result, context: result in {7, 10000, 52} or is_close(result, 4.538) or is_close(result, 8.55)",
   "link" : "https://www.youtube.com/watch?v=AxJubaijQbI",
   "title": "The Best (and Worst) Ways to Shuffle Cards",
   "source":"Numberphile"
@@ -332,7 +332,7 @@
   "title": "Stars and Bars (and bagels)",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result in (58, 771216, 1e5, 1e7, 1e12)",
+ {"test" : "lambda formula, result, context: result in {58, 771216, 1e5, 1e7, 1e12}",
   "link" : "https://www.youtube.com/watch?v=l4bmZ1gRqCc",
   "title": "58 and other Confusing Numbers",
   "source":"Numberphile",
@@ -348,7 +348,7 @@
   "title": "The Useless Number",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: '*' in formula or result in (624, 144)",
+ {"test" : "lambda formula, result, context: '*' in formula or result in {624, 144}",
   "link" : "https://www.youtube.com/watch?v=9TAlEVDvXgw",
   "title": "Little Professor (Dr Grime's Toy Story)",
   "source":"Numberphile"
@@ -2136,12 +2136,12 @@
   "title": "New Rubik's Cube World Record! 4.74 seconds",
   "source":"standupmaths"
  },
- {"test" : "lambda formula, result, context: result in {1729, 133625910214620404953, 0x4753011fdb5d2ba37ebb6be33f5376d7529a3f67, 0xe5572030fdb915f2defaff2e121158b5fb16116c8439419310dfd120ca745222, 135, 162, 165, 45} or any(is_subsequence_of(context['result'][:-3], seq) for seq in ((41, 72, 21, 24, 45, 66, 69, 18, 48), (8, 10, 9, 10, 9, 8, 9, 8, 10), (15, 72, 48, 78, 45, 12, 41, 18, 75), (18, 69, 48, 75, 45, 15, 42, 21, 72), (47, 61, 57, 67, 54, 41, 51, 47, 64), (48, 62, 58, 68, 55, 42, 52, 48, 65), (8, 19, 18, 25, 15, 5, 12, 11, 22), (5, 22, 18, 28, 15, 2, 12, 8, 25), (4, 9, 8, 11, 7, 3, 6, 5, 10)))",
+ {"test" : "lambda formula, result, context: result in {1729, 133625910214620404953, 0x4753011fdb5d2ba37ebb6be33f5376d7529a3f67, 0xe5572030fdb915f2defaff2e121158b5fb16116c8439419310dfd120ca745222, 135, 162, 165, 45} or (len(context['result']) >= 2 and any(is_subsequence_of(context['result'][:-3], seq) for seq in ((41, 72, 21, 24, 45, 66, 69, 18, 48), (8, 10, 9, 10, 9, 8, 9, 8, 10), (15, 72, 48, 78, 45, 12, 41, 18, 75), (18, 69, 48, 75, 45, 15, 42, 21, 72), (47, 61, 57, 67, 54, 41, 51, 47, 64), (48, 62, 58, 68, 55, 42, 52, 48, 65), (8, 19, 18, 25, 15, 5, 12, 11, 22), (5, 22, 18, 28, 15, 2, 12, 8, 25), (4, 9, 8, 11, 7, 3, 6, 5, 10))))",
   "link" : "https://www.youtube.com/watch?v=cZ1W1vbuYuQ",
   "title": "MathsJam 2016: Letterwise Magic Squares",
   "source":"standupmaths"
  },
- {"test" : "lambda formula, result, context: is_subsequence_of(context['result'][:-3], (2, 4, 4, 5, 5, 6, 6, 8, 6, 7, 8, 9, 9, 9, 8, 10, 9, 9, 9, 9, 9, 9))",
+ {"test" : "lambda formula, result, context: len(context['result']) >= 2 and is_subsequence_of(context['result'][-3:], (2, 4, 4, 5, 5, 6, 6, 8, 6, 7, 8, 9, 9, 9, 8, 10, 9, 9, 9, 9, 9, 9))",
   "link" : "https://www.youtube.com/watch?v=49KvZrioFB0",
   "title": "Mondrian Puzzle",
   "source":"Numberphile"
@@ -2150,6 +2150,224 @@
   "link" : "https://www.youtube.com/watch?v=5kC5k5QBqcc",
   "title": "The Problems with Secret Santa",
   "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {60, 3, 4, 5, 6, 7, 8, 60*3, 60*4, 60*5, 60*6, 60*7}",
+  "link" : "https://www.youtube.com/watch?v=xu-RSUGBgpA",
+  "title": "Too Many Triangles",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {4, 5}",
+  "link" : "https://www.youtube.com/watch?v=QvvkJT8myeI",
+  "title": "The Shortest Ever Papers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {6.3, 39, 100, 1000000, 0, 2.1, 0.021, 3.2, 0.032, 1.2, 0.012, 83, 1500, 2.854, 2.109, 1.919, 2.261, 2.404, 2.757, 2.317, 1.017, 2.308, 2.278, 6.325, 2.719, 2.61, 2.395, 2.477, 2.804, 2.8, 2.62, 2.94, 3.096, 2.868, 2.839, 1.212, 2.731, 3.197, 2.897, 2.719, 2.689, 2.821, 2.601, 0, 2.675, 2.616, 1.116, 2.494, 2.553, 2.239, 2.085, 2.086, 2.552, 0.02854, 0.02109, 0.01919, 0.02261, 0.02404, 0.02757, 0.02317, 0.01017, 0.02308, 0.02278, 0.06325, 0.02719, 0.0261, 0.02395, 0.02477, 0.02804, 0.028, 0.0262, 0.0294, 0.03096, 0.02868, 0.02839, 0.01212, 0.02731, 0.03197, 0.02897, 0.02719, 0.02689, 0.02821, 0.02601, 0, 0.02675, 0.02616, 0.01116, 0.02494, 0.02553, 0.02239, 0.02085, 0.02086, 0.02552} or (is_real(result) and (4 < result < 4.125 or 0.04 < result < 0.04125)) or result in range(2, 13)",
+  "link" : "https://www.youtube.com/watch?v=ubQXz5RBBtU",
+  "title": "The Mathematics of Winning Monopoly",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {2, 3}",
+  "link" : "https://www.youtube.com/watch?v=8dHMpnfFdtc",
+  "title": "Super Bottle",
+  "source":"Numberphile",
+  "weight":0.5
+ },
+ {"test" : "lambda formula, result, context: is_close(result, math.e)",
+  "link" : "https://www.youtube.com/watch?v=AuA2EAgAegE",
+  "title": "Super Bottle",
+  "source":"Numberphile",
+  "note" : "formulas"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and (any(0 < len(context['result'])*(m+1)-m <= result <= len(context['result'])*(m+1)-1 for m in (6, 12, 20, 120)) or result in {6, 12, 20, 120, 7, 13, 21, 605, 242, 363, 3}) or result == 60.5",
+  "link" : "https://www.youtube.com/watch?v=pF8goco4ix0",
+  "title": "The Numbers in Dice Stacking and Balancing",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_prime(result) or result == 1./25",
+  "link" : "https://www.youtube.com/watch?v=8hsZm1BD_j8",
+  "title": "The Curious Incident of the Maths in the Stage-show: Part 1",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_prime(result)",
+  "link" : "https://www.youtube.com/watch?v=shQnyNlgmkc",
+  "title": "The Curious Incident of the Maths in the Stage-show: Part 2",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: formula in ('(1+9^(-4^(6×7)))^(3^(2^85))', '2^(5^.4)-.6-(.3^9/7)^(.8^.1)') or result == 18457734525360901453873570 or is_close(result, math.e)",
+  "link" : "https://www.youtube.com/watch?v=xgBGibfLD-U",
+  "title": "Incredible Formula",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {17, 2011, 2017, 2027, 10, 2008, 2026, 11, 2009, 2019, 2010, 7000, 2018, 1997, 2029, 504, 1993, 2081, 252, 1889, 2081, 126, 63, 1039, 2011, 2111, 1777, 2069, 1993, 2137, 1009, 1879, 2029, 33, 1327, 22, 1973, 1892, 2146, 232, 2015, 2018, 349, 13358, 8} or formula in {'9^2+44^2', '44^2+3^4'}",
+  "link" : "https://www.youtube.com/watch?v=z6jMU-AwX34",
+  "title": "17 Number Facts about 2017 in 2:17",
+  "source":"standupmaths",
+  "note" : "bases 8, 31, 32"
+ },
+ {"test" : "lambda formula, result, context: result in {12, 30, 3, 4, 5, 20, 24} or (5, 3) in {tuple(context['result'][-2:]), tuple(context['result'][:-3:-1])}",
+  "link" : "https://www.youtube.com/watch?v=TV7sbaffuNo",
+  "title": "How to make an edge-coloured origami dodecahedron",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {0, 262144} or is_close(result, 100000, 0.10, 'pct')",
+  "link" : "https://www.youtube.com/watch?v=1MtEUErz7Gg",
+  "title": "Sandpiles",
+  "source":"Numberphile",
+  "note" : "multi-dimensional values, additive identity"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, 4.669201609102990671853203821578)",
+  "link" : "https://www.youtube.com/watch?v=ETrYE4MdoLQ",
+  "title": "4.669",
+  "source":"Numberphile",
+  "note" : "formula of the form lambda*Ans*(1-Ans), for lambda in (0, 4)"
+ },
+ {"test" : "lambda formula, result, context: result in {2.8, 160, 1./160} or is_close(result, 368, 80)",
+  "link" : "https://www.youtube.com/watch?v=yadjZTBDSR4",
+  "title": "Measuring the Berlin TV Tower with a ruler",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {4}",
+  "link" : "https://www.youtube.com/watch?v=Noo4lN-vSvw",
+  "title": "The Four 4s",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {383}",
+  "link" : "https://www.youtube.com/watch?v=PQDvEJFdY1U",
+  "title": "383 is cool",
+  "source":"Numberphile",
+  "note" : "prime, palindrome, sum of first three 3-digit palindromic primes, smallest number that is the sum of a prime and its reverse, Woodall prime (n* 2^n -1)"
+ },
+ {"test" : "lambda formula, result, context: result in {7, 23, 383, 32212254719, 2833419889721787128217599, 195845982777569926302400511, 4776913109852041418248056622882488319, 1307960347852357218937346147315859062783, 225251798594466661409915431774713195745814267044878909733007331390393510002687}",
+  "link" : "https://www.youtube.com/watch?v=PQDvEJFdY1U",
+  "title": "383 is cool",
+  "source":"Numberphile",
+  "oeis" : "http://oeis.org/A050918",
+  "msg" : "lambda f, r, c: str(int(r))+' is a Woodall Prime'"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and float(result) > 0",
+  "link" : "https://www.youtube.com/watch?v=X3HDnrehyDM",
+  "title": "Frog Jumping",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=xhj5er1k6GQ",
+  "title": "The Illumination Problem",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=AGX0cLbHaog",
+  "title": "Problems with Periodic Orbits",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=Ku8BOBwD4hc",
+  "title": "Stable Rollers",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=FkHjG759ABY",
+  "title": "Recreating Asteroids with Lasers",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: (is_int(result) and result % 11 == 0) or (result in {3, 5, 17, 257, 65537}) or (result in {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229, 832040, 1346269, 2178309, 3524578, 5702887, 9227465, 14930352, 24157817, 39088169})",
+  "link" : "https://www.youtube.com/watch?v=0iMtlus-afo",
+  "title": "Pascal's Triangle",
+  "source":"Numberphile",
+  "notes": "Pascal's triangle",
+  "wiki" : "https://en.wikipedia.org/wiki/Pascal%27s_triangle"
+ },
+ {"test" : "lambda formula, result, context: result in {500, 31, 27, 60, 10, 18, 23, 1, 38, 111, 114, 34, 98, 120, 15, 93, 12, 21, 113, 41, 169, 100, 24, 61, 45, 63, 322, 178, 1000} or (is_number(result) and is_close(result, 6 / math.pi**2, 0.028, 'pct'))",
+  "link" : "https://www.youtube.com/watch?v=RZBhSi_PwHU",
+  "title": "Generating π from 1,000 random numbers",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=MXJ-zpJeY3E",
+  "title": "The World's Best Mathematician (*)",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and (0 < result < 5 or result in {125, 1936, 1482})",
+  "link" : "https://www.youtube.com/watch?v=NgbK43jB4rQ",
+  "title": "The Four Color Map Theorem",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=EYkBctqyKic",
+  "title": "The Brick Double-Domino Effect Explained",
+  "source":"standupmaths",
+  "notes": "trigonometry"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, (math.pi/2, math.pi/2 + 2/math.pi, 2.2195, 16.6, 0.289653820817320941, 0.124712637587267758, 0.5, -0.167049816550309655, -0.458812270687887068, 0.875287362412732241, 1.202938908156911389, -0.498273610464875672, 0.875287362412732241, 1.645)) or result in {18, 0}",
+  "link" : "https://www.youtube.com/watch?v=rXfKWIZQIo4",
+  "title": "The Moving Sofa Problem",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {1, 5, 6}",
+  "link" : "https://www.youtube.com/watch?v=rXvaCy8PMdE",
+  "title": "The Brick Balancing Challenge",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and 1 <= result <= 10000",
+  "link" : "https://www.youtube.com/watch?v=LqKpkdRRLZw",
+  "title": "Collatz Conjecture in Color",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=4dUK1JqTSgU",
+  "title": "Reflected Cats",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and (100 <= result <= 999 or result < 11111)",
+  "link" : "https://www.youtube.com/watch?v=-ruC5A9EzzE",
+  "title": "The 10,958 Problem",
+  "source":"Numberphile",
+  "notes": "there is a huge table of formulas to enter here"
+ },
+ {"test" : "lambda formula, result, context: is_real(result) and is_close(result, 10958, 0.4)",
+  "link" : "https://www.youtube.com/watch?v=pasyRUj7UwM",
+  "title": "A 10,958 Solution",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == random.randint(1, 6)",
+  "link" : "https://www.youtube.com/watch?v=kbKtFN71Lfs",
+  "title": "Chaos Game",
+  "source":"Numberphile",
+  "note" : "randomness"
+ },
+ {"test" : "lambda formula, result, context: is_close(result, 1.202056903159594, 1.2083-1.202056903159594)",
+  "link" : "https://www.youtube.com/watch?v=ur-iLy4z3QE",
+  "title": "Apéry's constant (calculated with Twitter)",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {12, math.pi/(18**.5)}",
+  "link" : "https://www.youtube.com/watch?v=3inLMXcetUA",
+  "title": "Calculating the optimal sphere packing density with oranges",
+  "source":"standupmaths",
+  "note" : "tetrahedral number, triangle numbers, square number"
+ },
+ {"test" : "lambda formula, result, context: formula in {'2^.5', '2^0.5', '2^(1/2)', '2*^*tan(', '2×^×tan(', '5×6'} or result in {2041, 31 + 8/60, 31*60+8} or is_error(result)",
+  "link" : "https://www.youtube.com/watch?v=WN58941sgtI",
+  "title": "Speed Unboxing - Calculator Unboxing #9",
+  "source":"Numberphile",
+  "note" : "includes matching formulas"
+ },
+ {"test" : "lambda formula, result, context: (is_int(result) and result < 30) or result in {13, 20, 24, 41, 36.837, 17.368, 1.58, 2.74, 29.16, 125} or is_error(result)",
+  "link" : "https://www.youtube.com/watch?v=NzfSombRHIM",
+  "title": "UK Rubik’s Cube Championship 2016 PART I",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and result > 2 and result % 2 == 0",
+  "link" : "https://www.youtube.com/watch?v=MxiTG96QOxw",
+  "title": "Goldbach Conjecture",
+  "source":"Numberphile",
+  "msg" : ["It's conjectured that all even integers (greater than 2) are the sum of two primes.",
+           "lambda f, result, c: 'About %s pairs of primes sum to %s.' % (format_numbers.to_pretty_x10(result/(2*math.log(result/2)**2), dec_places=2), format_numbers.to_pretty_x10(result))"]
+ },
+ {"test" : "lambda formula, result, context: is_int(result) and result > 5 and result % 2 == 1",
+  "link" : "https://www.youtube.com/watch?v=MxiTG96QOxw",
+  "title": "Goldbach Conjecture",
+  "source":"Numberphile",
+  "msg" : "lambda f, result, c: '%s can be written as the sum of three primes!' % (format_numbers.to_pretty_x10(result))",
+  "weight" : 0.5
  }
-
 ]

@@ -90,12 +90,12 @@ def __load_primes():
     global PRIME_NUMBERS
     path = os.path.dirname(__file__)
     with open(os.path.join(path, 'prime_numbers.csv')) as fin:
-        PRIME_NUMBERS = [int(v) for v in fin.read().split(', ')]
+        PRIME_NUMBERS = [int(v) for v in fin.read().split(',')]
 __load_primes()
 
 def is_prime(number):
     """ Returns True if number is a prime number. """
-    return is_int(number) and number > 1 and number in PRIME_NUMBERS
+    return is_int(number) and number > 1 and int(number) in PRIME_NUMBERS
 
 FACTORS_ALL = 'all'
 FACTORS_PROPER = 'proper'
@@ -145,9 +145,11 @@ def factors(num, form=FACTORS_PROPER):
         return all_factors
 
 
-FIBONACCI_NUMBERS = (0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377,
-                     610, 987, 1597, 2584, 4181, 6765
-                    )
+FIBONACCI_NUMBERS = [0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233,
+                     377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711,
+                     28657, 46368, 75025, 121393, 196418, 317811, 514229,
+                     832040, 1346269
+                     ]
 LUCAS_NUMBERS = (2, 1, 3, 4, 7, 11, 18, 29, 47, 76, 123, 199, 322, 521, 843,
                  1364, 2207, 3571, 5778, 9349, 15127, 24476, 39603, 64079,
                  103682, 167761, 271443, 439204, 710647, 1149851, 1860498,
