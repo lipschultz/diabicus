@@ -30,7 +30,10 @@ from src import compute
 from src import time_limit
 
 general_eval = SimpleEval()
-general_eval.functions['ln'] = lambda n: math.log(compute.convert_complex_with_0_imag_to_real(n))
+general_eval.functions['ln'] = lambda n: math.log(compute.convert_result(n))
+general_eval.functions['sin'] = lambda n: math.sin(compute.convert_result(n))
+general_eval.functions['cos'] = lambda n: math.cos(compute.convert_result(n))
+general_eval.functions['tan'] = lambda n: math.tan(compute.convert_result(n))
 general_eval.names['π'] = math.pi
 general_eval.names['τ'] = 2*math.pi
 general_eval.names['e'] = math.e

@@ -92,7 +92,10 @@ class Calculator:
         self.__eval.names['e'] = math.e
         self.__eval.names['i'] = numeric_tools.I
         self.__eval.names['φ'] = numeric_tools.GOLDEN_RATIO
-        self.__eval.functions['ln'] = lambda n: math.log(compute.convert_complex_with_0_imag_to_real(n))
+        self.__eval.functions['ln'] = lambda n: math.log(compute.convert_result(n))
+        self.__eval.functions['sin'] = lambda n: math.sin(compute.convert_result(n))
+        self.__eval.functions['cos'] = lambda n: math.cos(compute.convert_result(n))
+        self.__eval.functions['tan'] = lambda n: math.tan(compute.convert_result(n))
 
     def get_input(self):
         return self._input
