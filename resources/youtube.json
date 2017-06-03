@@ -2360,14 +2360,13 @@
   "link" : "https://www.youtube.com/watch?v=MxiTG96QOxw",
   "title": "Goldbach Conjecture",
   "source":"Numberphile",
-  "msg" : ["It's conjectured that all even integers (greater than 2) are the sum of two primes.",
-           "lambda f, result, c: 'About %s pairs of primes sum to %s.' % (format_numbers.to_pretty_x10(result/(2*math.log(result/2)**2), dec_places=2), format_numbers.to_pretty_x10(result))"]
+  "msg" : ["lambda f, r, c: 'It\\'s conjectured that all even integers (greater than 2) are the sum of two primes.'", "lambda f, result, c: 'About %s pairs of primes sum to %s.' % (format_numbers.to_pretty_x10(result/(2*math.log(result/2)**2), dec_places=2), format_numbers.to_pretty_x10(result))"]
  },
  {"test" : "lambda formula, result, context: is_int(result) and result > 5 and result % 2 == 1",
   "link" : "https://www.youtube.com/watch?v=MxiTG96QOxw",
   "title": "Goldbach Conjecture",
   "source":"Numberphile",
   "msg" : "lambda f, result, c: '%s can be written as the sum of three primes!' % (format_numbers.to_pretty_x10(result))",
-  "weight" : 0.5
+  "weight" : 0.25
  }
 ]
