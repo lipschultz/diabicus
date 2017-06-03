@@ -95,7 +95,7 @@ __load_primes()
 
 def is_prime(number):
     """ Returns True if number is a prime number. """
-    return is_int(number) and number > 1 and number in PRIME_NUMBERS
+    return is_int(number) and number > 1 and int(number) in PRIME_NUMBERS
 
 FACTORS_ALL = 'all'
 FACTORS_PROPER = 'proper'
