@@ -42,13 +42,16 @@
     Light
     Light
     FunctionEdgeButton:
-        text: 'sin(x)'
+        text: 'sin([i]x[/i])'
+        markup: True
         on_press: app.press_function_key('sin')
     FunctionEdgeButton:
-        text: 'cos(x)'
+        text: 'cos([i]x[/i])'
+        markup: True
         on_press: app.press_function_key('cos')
     FunctionEdgeButton:
-        text: 'tan(x)'
+        text: 'tan([i]x[/i])'
+        markup: True
         on_press: app.press_function_key('tan')
     Light
     Light
@@ -160,7 +163,7 @@
     ArithmeticButton:
         text: '/'
     ArithmeticFunctionButton:
-        text: 'ln(x)\n[size=16](Natural Log)[/size]'
+        text: 'ln([i]x[/i])\n[size=16](Natural Log)[/size]'
         markup: True
         halign: 'center'
         valign: 'middle'
