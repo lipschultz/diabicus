@@ -73,7 +73,7 @@ class Calculator:
         self.__eval = SimpleEval()
         self.__init_eval()
 
-        self.__DISPLAY_DIGITS = 8
+        self.__DISPLAY_DIGITS = 7
         self._output_format = {complex : lambda v : format_numbers.pretty_print_complex(format_numbers.simplify_complex(v), lambda n: format_numbers.to_pretty_x10(n, self.__DISPLAY_DIGITS)),
                                float : lambda v : format_numbers.to_pretty_x10(v, 2*self.__DISPLAY_DIGITS),#"%0.8g" % v,
                                str : lambda v : v
