@@ -94,6 +94,15 @@ def make_multiplication_explicit(expr, variables):
                  )
     return expr
 
+def remove_leading_zeros(expression):
+    return re.sub(r'(\d+\.?\d*)', lambda res: strip_leading_zeros_from_number(res.group(1)), expression)
+
+def strip_leading_zeros_from_number(number):
+    number = number.lstrip('0')
+    if len(number) == 0 or number[0] == '.':
+        number = '0' + number
+    return number
+
 def round_to_int_if_close(value, threshold=DEFAULT_NONZERO_THRESHOLD):
     if isinstance(value, complex):
         return complex(round_to_int_if_close(value.real, threshold), round_to_int_if_close(value.imag, threshold))
@@ -125,6 +134,7 @@ def eval_expr(evaluator, expr):
     """
     expr = translate_operators(expr)
     expr = make_multiplication_explicit(expr, evaluator.names)
+    expr = remove_leading_zeros(expr)
     expr = expr.replace(FUNCTION_PREFIX, '')
 
     try:

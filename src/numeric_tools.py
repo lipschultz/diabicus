@@ -219,12 +219,3 @@ def is_close(num1, num2, threshold=1e-5, method='raw'):
                 return abs(num1-num2) / max([abs(v) for v in (num1, num2) if v != 0]) < threshold
         else:
             return abs(num1-num2) < threshold
-
-def remove_leading_zeros(expression):
-    return re.sub(r'(\d+\.?\d*)', lambda res: strip_leading_zeros_from_number(res.group(1)), expression)
-
-def strip_leading_zeros_from_number(number):
-    number = number.lstrip('0')
-    if len(number) == 0 or number[0] == '.':
-        number = '0' + number
-    return number
