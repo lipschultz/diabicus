@@ -241,6 +241,9 @@ class CalcApp(App, Calculator):
         self.root.ids.basic_keypad.ids.answer_button.text = 'Ans\n[size=16](%s)[/size]' % (display_value)
     result = property(get_result, set_result)
 
+    def set_music_display(self, value):
+        self.root.ids.music_display.text = 'Audio: ' + value
+
     def __set_clear_button(self, to_all_clear=False):
         pass
 
@@ -255,6 +258,7 @@ class CalcApp(App, Calculator):
         choice = random.choice(self.__audio)
         self.__audio_current = AudioReference(choice)
         self.__audio_current.play()
+        self.set_music_display(self.__audio_current.display_name)
 
     def update_disco(self, dt):
         do_play = super(CalcApp, self).update_disco(dt)
@@ -264,8 +268,10 @@ class CalcApp(App, Calculator):
                     self.__play_new_audio()
                 else:
                     self.__audio_current.play()
+                    self.set_music_display(self.__audio_current.display_name)
             else:
                 self.__pause_disco()
+                self.set_music_display('')
 
     def __pause_disco(self):
         if self.__audio_current.state == 'play':
@@ -290,6 +296,7 @@ class CalcApp(App, Calculator):
                 self.__stop_special_music()
                 self.__special_music_current = AudioReference(smusic.filename)
                 self.__special_music_current.play()
+                self.set_music_display(smusic.cite)
 
 def command_line_arguments():
     parser = argparse.ArgumentParser()

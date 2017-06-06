@@ -19,28 +19,29 @@ import time
 
 from kivy.core.audio import SoundLoader
 
+import mutagen
+
 
 class AudioReference:
     STATE_PLAY = 'play'
     STATE_PAUSE = 'pause'
     STATE_STOP = 'stop'
     
-    def __init__(self, audio_object, *, start_offset=0, duration=None):
-        """
-            audio_object is either the Kivy sound object or a string
-            representing the path to an audio object
-        """
-        if isinstance(audio_object, str):
-            audio_object = SoundLoader.load(audio_object)
-
-        self.__audio = audio_object
+    def __init__(self, audio_filename, *, start_offset=0, duration=None):
+        self.__filename = audio_filename
+        self.__audio = SoundLoader.load(audio_filename)
+        self.__metadata = mutagen.File(audio_filename) or {}
         self.__start = start_offset
 
         if duration is None:
-            duration = audio_object.length - start_offset
+            duration = self.__audio.length - start_offset
         self.__duration = duration
 
         self.stop()
+
+    @property
+    def filename(self):
+        return self.__filename
 
     @property
     def state(self):
@@ -51,6 +52,36 @@ class AudioReference:
             return self.STATE_STOP
         else:
             return self.__state
+
+    @property
+    def display_name(self):
+        artist = self.artist
+        title = self.title
+        if artist is None or title is None:
+            return self.filename
+        else:
+            return artist + ' - ' + title
+
+    @property
+    def artist(self):
+        return self.get_tag({'TPE1' : lambda v: v.text[0],
+                             'ARTIST' : None
+                             })
+
+    @property
+    def title(self):
+        return self.get_tag({'TIT2' : lambda v: v.text[0],
+                             'TITLE' : None
+                             })
+
+    def get_tag(self, tag_transforms):
+        for tag, transform in tag_transforms.items():
+            value = self.__metadata.get(tag)
+            if value is not None:
+                if transform is None:
+                    return value[0]
+                else:
+                    return transform(value)
 
     def play(self):
         state = self.state
