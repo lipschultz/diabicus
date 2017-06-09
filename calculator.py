@@ -242,7 +242,10 @@ class CalcApp(App, Calculator):
     result = property(get_result, set_result)
 
     def set_music_display(self, value):
-        self.root.ids.music_display.text = 'Audio: ' + value
+        if value == '' or value is None:
+            self.root.ids.music_display.text = ''
+        else:
+            self.root.ids.music_display.text = 'Audio: ' + value
 
     def __set_clear_button(self, to_all_clear=False):
         pass
