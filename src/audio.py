@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 import time
+from threading import Timer
 
 from kivy.core.audio import SoundLoader
 
@@ -27,15 +28,26 @@ class AudioReference:
     STATE_PAUSE = 'pause'
     STATE_STOP = 'stop'
     
-    def __init__(self, audio_filename, *, start_offset=0, duration=None):
+    def __init__(self, audio_filename, *, start_offset=0, duration=None, end_time=None):
+        """
+            Either `duration` or `end_time` should be specified.  If both are, then
+            `end_time`'s value will be used.
+        """
         self.__filename = audio_filename
         self.__audio = SoundLoader.load(audio_filename)
         self.__metadata = mutagen.File(audio_filename) or {}
         self.__start = start_offset
 
-        if duration is None:
-            duration = self.__audio.length - start_offset
-        self.__duration = duration
+        self.__audio.length # Kivy won't play the audio without this...
+
+        if end_time is not None:
+            self.__end_time = end_time
+        elif duration is not None:
+            self.__end_time = self.__start + duration
+        else:
+            self.__end_time = None
+
+        self.__stop_thread = None
 
         self.stop()
 
@@ -92,6 +104,11 @@ class AudioReference:
             self.__audio.play()
             time.sleep(0.1)
             self.__audio.seek(self.__pos)
+
+            if self.__end_time is not None:
+                self.__stop_thread = Timer(self.__end_time - self.__audio.get_pos(), self.stop)
+                self.__stop_thread.daemon = True
+                self.__stop_thread.start()
         self.__state = self.STATE_PLAY
 
     def pause(self):
@@ -103,3 +120,7 @@ class AudioReference:
         self.__pos = self.__start
         self.__state = self.STATE_STOP
         self.__audio.stop()
+
+        if self.__stop_thread is not None:
+            self.__stop_thread.cancel()
+            self.__stop_thread = None

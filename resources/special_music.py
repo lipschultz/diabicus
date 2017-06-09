@@ -49,9 +49,6 @@ class SpecialMusicCase:
             else:
                 self.cite = self.filename
         
-        #if self.duration is None:
-        #    self.duration = self.end - self.start
-        
         #if self.duration < 0 or not os.path.exists(self.filename):
         #    self.test = lambda *args: False
 

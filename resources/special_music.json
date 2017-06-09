@@ -1,9 +1,9 @@
-[{"test" : "lambda formula, result, context: is_error(result)",
+[{"test" : "lambda formula, result, context: is_error(result) or result in {3051, 4107}",
   "file" : "media/special/Stand-up Maths - Stand-up Maths theme.flac",
   "link" : "http://standupmaths.bandcamp.com",
   "cite" : "\"Stand​-​up Maths theme\" by Howard Carter",
-  "start" : 14951,
-  "end" : 22470
+  "start" : 0,
+  "end" : 7.484
   },
  {"test" : "lambda formula, result, context: result == 123",
   "file" : "media/special/ABC123.ogg",

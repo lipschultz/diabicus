@@ -297,7 +297,7 @@ class CalcApp(App, Calculator):
             if smusic is not None:
                 self.__pause_disco()
                 self.__stop_special_music()
-                self.__special_music_current = AudioReference(smusic.filename)
+                self.__special_music_current = AudioReference(smusic.filename, duration=smusic.duration, end_time=smusic.end)
                 self.__special_music_current.play()
                 self.set_music_display(smusic.cite)
 
