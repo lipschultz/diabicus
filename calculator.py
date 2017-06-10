@@ -26,6 +26,7 @@ import glob
 import random
 import os
 import importlib
+from threading import Timer
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -69,6 +70,9 @@ class Calculator:
         self._result = 0
         self._input = ''
         self._output = ''
+
+        self._num_calculations = 0
+        self._num_errors = 0
 
         self.__eval = SimpleEval()
         self.__init_eval()
@@ -178,9 +182,11 @@ class Calculator:
         logging.info('Calculator.calculate: result = '+str(result))
         if isinstance(result, compute.ComputationError):
             self.output = "Error: "+result.msg
+            self._num_errors += 1
         else:
             self.result = result
             self.output = result
+            self._num_calculations += 1
         self.__just_calculated = True
         logging.info('Calculator.calculate: output = '+str(self.output))
         self.context['result'].append(result)
@@ -212,6 +218,10 @@ class CalcApp(App, Calculator):
         self._answer_format[int] = self._answer_format[float]
 
         self.timed_exec = time_limit.TimedExecution()
+
+        calc_display_thread = Timer(0.75, self.set_num_calculations_display)
+        calc_display_thread.daemon = True
+        calc_display_thread.start()
 
     def __init_eval(self):
         super(CalcApp, self).__init_eval()
@@ -246,6 +256,12 @@ class CalcApp(App, Calculator):
             self.root.ids.music_display.text = ''
         else:
             self.root.ids.music_display.text = 'Audio: ' + value
+
+    def set_num_calculations_display(self):
+        output = '# Calculations: ' + str(self._num_calculations)
+        if self._num_errors > 0:
+            output += ', # Errors: ' + str(self._num_errors)
+        self.root.ids.num_calculations.text = output
 
     def __set_clear_button(self, to_all_clear=False):
         pass
@@ -282,6 +298,7 @@ class CalcApp(App, Calculator):
 
     def calculate(self):
         result = super(CalcApp, self).calculate()
+        self.set_num_calculations_display()
         if self.__facts is not None:
             fact = self.__facts.get_case(self.input, result, self.context)
             if fact is not None:

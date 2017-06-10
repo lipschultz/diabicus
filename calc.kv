@@ -218,12 +218,22 @@
 
         TopBottomLights
 
-        Label:
-            id: music_display
-            text: ''
-            font_size: 12
-            halign: 'center'
-            valign: 'top'
+        BoxLayout:
+            orientation: 'horizontal'
             size_hint_y: 0.0475
+
+            Label:
+                id: music_display
+                text: ''
+                font_size: 12
+                halign: 'left'
+                valign: 'top'
+
+            Label:
+                id: num_calculations
+                text: '# Calculations: 0'
+                font_size: 12
+                halign: 'left'
+                valign: 'top'
 
     RightSide
