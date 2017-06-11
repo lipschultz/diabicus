@@ -31,7 +31,7 @@ class SpecialMusicCase:
         self.filename = json_data.get('file')
         self.link = json_data.get('link')
         self.cite = json_data.get('cite')
-        self.start = json_data.get('start')
+        self.start = json_data.get('start', 0)
         self.end = json_data.get('end')
         self.duration = json_data.get('duration')
         self.weight = json_data.get('weight', 1)

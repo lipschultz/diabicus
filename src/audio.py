@@ -106,7 +106,8 @@ class AudioReference:
             self.__audio.seek(self.__pos)
 
             if self.__end_time is not None:
-                self.__stop_thread = Timer(self.__end_time - self.__audio.get_pos(), self.stop)
+                duration = self.__end_time - self.__pos
+                self.__stop_thread = Timer(duration, self.stop)
                 self.__stop_thread.daemon = True
                 self.__stop_thread.start()
         self.__state = self.STATE_PLAY
