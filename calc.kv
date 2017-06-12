@@ -19,6 +19,9 @@
 <EntryEdgeButton@KeyButton>
     on_press: app.press_key(self.text)
 
+<EdgeToggleButton@ToggleButton>
+    font_size: 24
+
 
 <NumberButton@EntryButton>
     background_color: 0.51, 0.88, 0.88, 1
@@ -63,9 +66,29 @@
     Light
     Light
 
-<TopBottomLights@BoxLayout>
+<TopBottomBorder@BoxLayout>
     orientation: 'horizontal'
-    size_hint_y: 0.2
+    size_hint_y: 0.13
+
+<TopBorder@TopBottomBorder>
+    EdgeToggleButton:
+        id: angle_units
+        text: 'Angle:\n[size=12]Radians[/size]'
+        font_size: 16
+        markup: True
+        state: 'down'
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+    Light
+
+<BottomBorder@TopBottomBorder>
     Light
     Light
     Light
@@ -183,7 +206,8 @@
     BoxLayout:
         orientation: 'vertical'
 
-        TopBottomLights
+        TopBorder
+            id: top_border
 
         Label:
             id: input
@@ -216,7 +240,7 @@
         BasicKeypad:
             id: basic_keypad
 
-        TopBottomLights
+        BottomBorder
 
         BoxLayout:
             orientation: 'horizontal'

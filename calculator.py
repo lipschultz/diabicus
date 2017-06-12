@@ -97,9 +97,9 @@ class Calculator:
         self.__eval.names['i'] = numeric_tools.I
         self.__eval.names['φ'] = numeric_tools.GOLDEN_RATIO
         self.__eval.functions['ln'] = lambda n: math.log(compute.convert_result(n))
-        self.__eval.functions['sin'] = lambda n: math.sin(compute.convert_result(n))
-        self.__eval.functions['cos'] = lambda n: math.cos(compute.convert_result(n))
-        self.__eval.functions['tan'] = lambda n: math.tan(compute.convert_result(n))
+        self.__eval.functions['sin'] = lambda n: math.sin(compute.convert_angle_to_radian(compute.convert_result(n), self.is_radians))
+        self.__eval.functions['cos'] = lambda n: math.cos(compute.convert_angle_to_radian(compute.convert_result(n), self.is_radians))
+        self.__eval.functions['tan'] = lambda n: math.tan(compute.convert_angle_to_radian(compute.convert_result(n), self.is_radians))
 
     def get_input(self):
         return self._input
@@ -230,6 +230,9 @@ class CalcApp(App, Calculator):
 
     def build(self):
         return CalcMainLayout()
+
+    def is_radians(self):
+        return self.root.ids.top_border.ids.angle_units.state == 'down'
 
     def get_input(self):
         return self.root.ids.input.text

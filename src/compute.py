@@ -128,6 +128,14 @@ def convert_result(value, *, round_int_threshold=DEFAULT_NONZERO_THRESHOLD):
     value = round_to_int_if_close(value)
     return convert_complex_with_0_imag_to_real(value)
 
+def convert_angle_to_radian(value, is_radian_fn):
+    if is_radian_fn():
+        print('convert: True', value)
+        return value
+    else:
+        print('convert: False', value)
+        return math.radians(value)
+
 def eval_expr(evaluator, expr):
     """
     Convert expr into something evaluator can evaluate, compute and return result.
