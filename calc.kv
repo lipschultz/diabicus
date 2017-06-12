@@ -227,7 +227,7 @@
             halign: 'right'
             valign: 'middle'
             size_hint_y: 0.1
-        Label:
+        Button:
             id: fact
             text: ''
             markup: True
@@ -236,6 +236,7 @@
             halign: 'center'
             valign: 'top'
             size_hint_y: 0.0475
+            on_press: app.open_fact()
 
         BasicKeypad:
             id: basic_keypad

@@ -27,6 +27,7 @@ import random
 import os
 import importlib
 from threading import Timer
+import webbrowser
 
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -198,6 +199,7 @@ class CalcApp(App, Calculator):
     def __init__(self, *args, **kwargs):
         self.__facts = kwargs.get('facts')
         del kwargs['facts']
+        self.__fact_current = None
 
         self.__audio = kwargs.get('audio_src', [])
         del kwargs['audio_src']
@@ -233,6 +235,10 @@ class CalcApp(App, Calculator):
 
     def is_radians(self):
         return self.root.ids.top_border.ids.angle_units.state == 'down'
+
+    def open_fact(self):
+        if self.__fact_current is not None and self.__fact_current.link is not None:
+            webbrowser.open(self.__fact_current.link)
 
     def get_input(self):
         return self.root.ids.input.text
@@ -303,7 +309,7 @@ class CalcApp(App, Calculator):
         result = super(CalcApp, self).calculate()
         self.set_num_calculations_display()
         if self.__facts is not None:
-            fact = self.__facts.get_case(self.input, result, self.context)
+            fact = self.__fact_current = self.__facts.get_case(self.input, result, self.context)
             if fact is not None:
                 message = fact.title
                 try:
@@ -311,7 +317,7 @@ class CalcApp(App, Calculator):
                 except TimeoutError as e:
                     logging.warn('CalcApp.calculate: Getting message timed out for fact '+str(fact))
 
-                self.root.ids.fact.text = "[ref='" + fact.link + "']" + message + "[/ref]"
+                self.root.ids.fact.text = message
         if self.__special_music is not None:
             smusic = self.__special_music.get_case(self.input, result, self.context)
             if smusic is not None:
