@@ -297,15 +297,37 @@ class CalcApp(App, Calculator):
                 else:
                     self.__audio_current.play()
                     self.set_music_display(self.__audio_current.display_name)
+                self.__shine_lights()
             else:
                 self.__pause_disco()
                 self.set_music_display('')
+        else:
+            self.__shine_lights()
 
     def __pause_disco(self):
-        if self.__audio_current.state == 'play':
+        if self.__audio_current is not None and self.__audio_current.state == 'play':
             self.__audio_current.pause()
+        self.__reset_lights()
+
+    def __get_border_lights(self):
+        lights = []
+        for container in (self.root.ids.right_side, self.root.ids.left_side, self.root.ids.top_border, self.root.ids.bottom_border):
+            lights.extend([container.ids.get(ref) for ref in container.ids.keys() if 'light' in ref])
+        return lights
+
+    def __shine_lights(self):
+        lights = self.__get_border_lights()
+        shining_images = glob.glob('media/images/*_shining.png')
+        for l in lights:
+            l.source = random.choice(shining_images)
+
+    def __reset_lights(self):
+        lights = self.__get_border_lights()
+        for l in lights:
+            l.source = 'media/images/light_grey_off.png'
 
     def calculate(self):
+        self.__get_border_lights()
         result = super(CalcApp, self).calculate()
         self.set_num_calculations_display()
         if self.__facts is not None:

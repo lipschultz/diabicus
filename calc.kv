@@ -3,12 +3,16 @@
 <Button>:
     color: .8,.9,0,1
 
-<Light@Label>:
-    text: 'O'
-    color: .2, .2, .2, 1
+<Light@Image>:
+    source: 'media/images/light_grey_off.png'
+
 
 <KeyButton@Button>
     font_size: 24
+    background_normal: 'media/images/button_brown_normal.png'
+    background_down: 'media/images/button_brown_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
 
 <EntryButton@KeyButton>
     on_press: app.press_key(self.text)
@@ -21,50 +25,87 @@
 
 <EdgeToggleButton@ToggleButton>
     font_size: 24
+    background_normal: 'media/images/button_yellow_normal.png'
+    background_down: 'media/images/button_yellow_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
 
 
 <NumberButton@EntryButton>
-    background_color: 0.51, 0.88, 0.88, 1
-
-<ArithmeticButton@EntryButton>
-    background_color: 1, 0.69, 0.36, 1
-
-<ArithmeticFunctionButton@KeyButton>
-    background_color: 1, 0.69, 0.36, 1
+    background_normal: 'media/images/button_blue_normal.png'
+    background_down: 'media/images/button_blue_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
 
 <ConstantsEdgeButton@EntryEdgeButton>
-    background_color: 0.42, 0.71, 0.71, 1
+    background_normal: 'media/images/button_green_normal.png'
+    background_down: 'media/images/button_green_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
+
+
+
+<ArithmeticButton@EntryButton>
+    background_normal: 'media/images/button_red_normal.png'
+    background_down: 'media/images/button_red_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
+
+<ArithmeticFunctionButton@KeyButton>
+    background_normal: 'media/images/button_red_normal.png'
+    background_down: 'media/images/button_red_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
 
 <FunctionEdgeButton@EdgeButton>
-    background_color: 0.82, 0.57, 0.29, 1
+    background_normal: 'media/images/button_orange_normal.png'
+    background_down: 'media/images/button_orange_pressed.png'
+    border: 1, 1, 1, 1
+    color: 0, 0, 0, 1
+
+
 
 <RightSide@BoxLayout>
     orientation: 'vertical'
     size_hint_x: 0.1
     Light
+        id: light_right_0
     Light
+        id: light_right_1
     Light
+        id: light_right_2
     FunctionEdgeButton:
+        id: button_sin
         text: 'sin([i]x[/i])'
         markup: True
         on_press: app.press_function_key('sin')
     FunctionEdgeButton:
+        id: button_cos
         text: 'cos([i]x[/i])'
         markup: True
         on_press: app.press_function_key('cos')
     FunctionEdgeButton:
+        id: button_tan
         text: 'tan([i]x[/i])'
         markup: True
         on_press: app.press_function_key('tan')
     EdgeButton:
-        background_color: 0.82, 0.57, 0.29, 1
+        id: button_x10pow
+        background_normal: 'media/images/button_orange_normal.png'
+        background_down: 'media/images/button_orange_pressed.png'
+        border: 1, 1, 1, 1
+        color: 0, 0, 0, 1
         text: '[i]x[/i]×10^[i]y[/i]'
         markup: True
         on_press: app.press_key('×10^')
     Light
+        id: light_right_3
     Light
+        id: light_right_4
     Light
+        id: light_right_5
     Light
+        id: light_right_6
 
 <TopBottomBorder@BoxLayout>
     orientation: 'horizontal'
@@ -78,49 +119,81 @@
         markup: True
         state: 'down'
     Light
+        id: light_top_0
     Light
+        id: light_top_1
     Light
+        id: light_top_2
     Light
+        id: light_top_3
     Light
+        id: light_top_4
     Light
+        id: light_top_5
     Light
+        id: light_top_6
     Light
+        id: light_top_7
     Light
+        id: light_top_8
     Light
+        id: light_top_9
 
 <BottomBorder@TopBottomBorder>
     Light
+        id: light_bottom_0
     Light
+        id: light_bottom_1
     Light
+        id: light_bottom_2
     Light
+        id: light_bottom_3
     Light
+        id: light_bottom_4
     Light
+        id: light_bottom_5
     Light
+        id: light_bottom_6
     Light
+        id: light_bottom_7
     Light
+        id: light_bottom_8
     Light
+        id: light_bottom_9
     Light
+        id: light_bottom_10
 
 <LeftSide@BoxLayout>
     orientation: 'vertical'
     size_hint_x: 0.1
     EntryEdgeButton:
+        id: button_settings
         text: 'S'
     Light
+        id: light_left_0
     Light
+        id: light_left_1
     ConstantsEdgeButton:
+        id: button_pi
         text: 'π'
     ConstantsEdgeButton:
+        id: button_tau
         text: 'τ'
     ConstantsEdgeButton:
+        id: button_e
         text: 'e'
     ConstantsEdgeButton:
+        id: button_i
         text: 'i'
     ConstantsEdgeButton:
+        id: button_phi
         text: 'φ'
     Light
+        id: light_left_2
     Light
+        id: light_left_3
     Light
+        id: light_left_4
 
 <BasicKeypad@GridLayout>
     cols: 5
@@ -132,6 +205,7 @@
         halign: 'center'
         on_press: app.clear()
     KeyButton:
+        id: button_bksp
         text: 'Bksp'
         on_press: app.bksp()
     KeyButton:
@@ -142,54 +216,79 @@
         valign: 'middle'
         on_press: app.press_ans()
     KeyButton:
+        id: button_left
         text: '<-'
     KeyButton:
+        id: button_right
         text: '->'
 
     NumberButton:
+        id: button_7
         text: '7'
     NumberButton:
+        id: button_8
         text: '8'
     NumberButton:
+        id: button_9
         text: '9'
     ArithmeticButton:
+        id: button_plus
         text: '+'
     ArithmeticButton:
+        id: button_left_paren
         text: '('
 
     NumberButton:
+        id: button_4
         text: '4'
     NumberButton:
+        id: button_5
         text: '5'
     NumberButton:
+        id: button_6
         text: '6'
     ArithmeticButton:
+        id: button_minus
         text: '-'
     ArithmeticButton:
+        id: button_right_paren
         text: ')'
 
     NumberButton:
+        id: button_1
         text: '1'
     NumberButton:
+        id: button_2
         text: '2'
     NumberButton:
+        id: button_3
         text: '3'
     ArithmeticButton:
+        id: button_multiply
         text: '×'
     ArithmeticButton:
+        id: button_power
         text: '^'
 
     NumberButton:
+        id: button_0
         text: '0'
     NumberButton:
+        id: button_decimal
         text: '.'
     KeyButton:
+        id: button_equals
+        background_normal: 'media/images/button_purple_normal.png'
+        background_down: 'media/images/button_purple_pressed.png'
+        border: 1, 1, 1, 1
+        color: 0, 0, 0, 1
         text: '='
         on_press: app.calculate()
-        background_color: 0, 0, 0, 1
     ArithmeticButton:
+        id: button_divide
         text: '/'
     ArithmeticFunctionButton:
+        id: button_ln
         text: 'ln([i]x[/i])\n[size=16](Natural Log)[/size]'
         markup: True
         halign: 'center'
@@ -202,6 +301,7 @@
     orientation: 'horizontal'
 
     LeftSide
+        id: left_side
 
     BoxLayout:
         orientation: 'vertical'
@@ -228,6 +328,8 @@
             valign: 'middle'
             size_hint_y: 0.1
         Button:
+            background_color: 0, 0, 0, 1
+            color: 0.5, 0.5, 1, 1
             id: fact
             text: ''
             markup: True
@@ -242,6 +344,7 @@
             id: basic_keypad
 
         BottomBorder
+            id: bottom_border
 
         BoxLayout:
             orientation: 'horizontal'
@@ -261,4 +364,5 @@
                 halign: 'left'
                 valign: 'top'
 
-    RightSide
+    RightSide:
+        id: right_side
