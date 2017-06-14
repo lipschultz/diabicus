@@ -225,6 +225,8 @@ class CalcApp(App, Calculator):
         calc_display_thread.daemon = True
         calc_display_thread.start()
 
+        self.__flashable_button_defaults = None
+
     def __init_eval(self):
         super(CalcApp, self).__init_eval()
         del self.__eval.names['True']
@@ -315,16 +317,41 @@ class CalcApp(App, Calculator):
             lights.extend([container.ids.get(ref) for ref in container.ids.keys() if 'light' in ref])
         return lights
 
+    def __get_flashable_buttons(self):
+        buttons = []
+        for container in (self.root.ids.right_side, self.root.ids.left_side, self.root.ids.top_border, self.root.ids.bottom_border):
+            buttons.extend([container.ids.get(ref) for ref in container.ids.keys() if 'light' not in ref])
+
+        if self.__flashable_button_defaults is None:
+            self.__flashable_button_defaults = {}
+            for b in buttons:
+                self.__flashable_button_defaults[b] = (b.background_normal, b.background_down)
+
+        return buttons
+
     def __shine_lights(self):
-        lights = self.__get_border_lights()
         shining_images = glob.glob('media/images/*_shining.png')
+
+        lights = self.__get_border_lights()
         for l in lights:
             l.source = random.choice(shining_images)
+
+        buttons = self.__get_flashable_buttons()
+        for b in buttons:
+            choice = random.choice(shining_images)
+            b.background_normal = choice
+            b.background_down = choice
 
     def __reset_lights(self):
         lights = self.__get_border_lights()
         for l in lights:
             l.source = 'media/images/light_grey_off.png'
+
+        if self.__flashable_button_defaults is not None:
+            buttons = self.__get_flashable_buttons()
+            for b in buttons:
+                b.background_normal = self.__flashable_button_defaults[b][0]
+                b.background_down = self.__flashable_button_defaults[b][1]
 
     def calculate(self):
         self.__get_border_lights()
