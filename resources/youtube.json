@@ -268,6 +268,13 @@
   "source":"Numberphile",
   "oeis" : "https://oeis.org/A258107"
  },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=l7E-pBWuSIA",
+  "title": "Numbers with Meaning",
+  "host" : "Sarah Wiseman",
+  "source":"Numberphile",
+  "note" : "about popular numbers"
+ },
  {"init": "def farey_addition(context):\n    if len(context['result']) < 3 or any(not is_rational(r) for r in context['result'][-3:]):\n        return False\n    first = Fraction(context['result'][-3]).limit_denominator(234)\n    second = Fraction(context['result'][-2]).limit_denominator(234)\n    third = Fraction(context['result'][-1]).limit_denominator(234)\n    return Fraction(first.numerator + third.numerator, first.denominator + third.denominator) == second\n",
   "test" : "lambda formula, result, context: farey_addition(context)",
   "link" : "https://www.youtube.com/watch?v=0hlvhQZIOQw",
@@ -275,14 +282,14 @@
   "source":"Numberphile",
   "note" : "function doesn't exist!"
  },
- {"test" : "lambda formula, result, context: 'sinh' in formula or 'π' in formula",
+ {"test" : "lambda formula, result, context: 'sinh(' in formula or 'π' in formula",
   "link" : "https://www.youtube.com/watch?v=zDJKFcZ0Kkg",
   "title": "More Hyperbolic Sports",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: 'sinh' in formula or 'π' in formula or 'cosh' in formula",
+ {"test" : "lambda formula, result, context: 'sinh(' in formula or 'π' in formula or 'cosh(' in formula",
   "link" : "https://www.youtube.com/watch?v=u6Got0X41pY",
-  "title": "More Hyperbolic Sports",
+  "title": "Playing Sports in Hyperbolic Space",
   "source":"Numberphile"
  },
  {"test" : "lambda formula, result, context: result == 7",
@@ -2368,5 +2375,52 @@
   "source":"Numberphile",
   "msg" : "lambda f, result, c: '%s can be written as the sum of three primes!' % (format_numbers.to_pretty_x10(result))",
   "weight" : 0.25
+ },
+ {"test" : "lambda formula, result, context: is_error(result) or result in {80.424, 1.3404, 76.726, 1.2787666666666666, 66.31, 66.31/60, 64.626, 1.0771, 63.21, 1.0535, 65.84, 1.097333333333333, 2*60+27, 2+27/60, 62.13, 62.13/60, 147, 148, 64.47, 64.47/60, 64.62, 64.62/60, 7.071}",
+  "link" : "https://www.youtube.com/watch?v=ndEVnYhCMzo",
+  "title": "UK Rubik’s Cube Championship 2016 PART II",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {6, 8, 10, 12, 14, 16, 18, 24, 30, 36, 42, 48, 60, 90, 210}",
+  "link" : "https://www.youtube.com/watch?v=PEMIxDjSRTQ",
+  "title": "210 is VERY Goldbachy",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=O4ndIDcDSGc",
+  "title": "Gödel's Incompleteness Theorem",
+  "host" : "Marcus du Sautoy",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: is_prime(result)",
+  "link" : "https://www.youtube.com/watch?v=mccoBBf0VDM",
+  "title": "Gödel's Incompleteness (extra footage 1)",
+  "host" : "Marcus du Sautoy",
+  "source":"Numberphile",
+  "weight": 0.25
+ },
+ {"test" : "lambda formula, result, context: result in {62.5, 1571, 15.7, 56.5, 35.1}",
+  "link" : "https://www.youtube.com/watch?v=OWCAlJ1vsqc",
+  "title": "How fast is a Fidget Spinner?",
+  "host" : "Matt Parker",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {21, 112, 50, 35, 27, 15, 17, 11, 8, 19, 29, 25, 9, 16, 18, 24, 33, 37, 42, 6, 2, 4}",
+  "link" : "https://www.youtube.com/watch?v=NoRjwZomUK0",
+  "title": "Squared Squares",
+  "host" : "James Grime",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {39, 42, 31, 3, 11, 9, 20, 36, 33, 14, 5, 19, 24, 2320, 1885, 1040, 429, 234, 182, 52, 130, 195, 91, 13, 117, 104, 325, 221, 299, 957, 725, 638, 143, 78, 65, 312, 286, 39, 247, 705, 565, 615, 87, 551, 493, 319, 522, 435, 174, 145, 140, 375, 50, 696, 667, 665, 575, 270, 203, 232, 406, 116, 35, 340, 305, 290, 29, 261}",
+  "link" : "https://www.youtube.com/watch?v=I0peG_kRE-4",
+  "title": "A Nice Square",
+  "host" : "James Grime",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result == 13532385396179",
+  "link" : "https://www.youtube.com/watch?v=3IMAUm2WY70",
+  "title": "13532385396179",
+  "host" : "Tony Padilla",
+  "source":"Numberphile"
  }
 ]
