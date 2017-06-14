@@ -235,6 +235,12 @@ class CalcApp(App, Calculator):
     def build(self):
         return CalcMainLayout()
 
+    def toggle_angle(self):
+        if self.root.ids.top_border.ids.angle_units.state == 'down':
+            self.root.ids.top_border.ids.angle_units.text = '[s] Degrees [/s]\n[b]Radians[/b]'
+        else:
+            self.root.ids.top_border.ids.angle_units.text = '[b]Degrees[/b]\n[s] Radians [/s]'
+
     def is_radians(self):
         return self.root.ids.top_border.ids.angle_units.state == 'down'
 
