@@ -77,7 +77,8 @@ class BaseFact:
             except OverflowError:
                 logging.warning("BaseFact.message: Encountered overflow error for fact "
                                 +str(self)+", message " + msg + ", formula="+formula
-                                +", result="+result+", context="+cases.context_to_str(context)
+                                +", result="+str(result)
+                                +", context="+str(cases.context_to_str(context))
                                )
 
         self._messages_pos += prev_j + 1
