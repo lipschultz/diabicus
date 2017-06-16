@@ -1,0 +1,7 @@
+How does this gap compare to Sloane's Gap?
+
+For fans of Matt Parker, I've also computed the Standupmaths's Gap.  Determining the singingbanana's gap is left as an exercise to the reader.
+
+Future Work:
+- What would YouTube's Gap look like?
+- Have greater resolution for fractional numbers.
