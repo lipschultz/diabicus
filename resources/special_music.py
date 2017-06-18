@@ -18,8 +18,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import os
 
-from src import cases
-from src.numeric_tools import *
+from diabicus import cases
+from diabicus.numeric_tools import *
 
 class SpecialMusicCase:
     """

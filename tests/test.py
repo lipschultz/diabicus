@@ -20,11 +20,10 @@ import unittest
 import math
 import simpleeval
 
-import calculator
-
-from src import compute
-from src import numeric_tools
-from src import format_numbers
+from diabicus import calculator
+from diabicus import compute
+from diabicus import numeric_tools
+from diabicus import format_numbers
 
 class CalculatorTests(unittest.TestCase):
     def setUp(self):

@@ -26,9 +26,9 @@ import re
 
 import scipy.integrate
 
-from src import number_facts
-from src import format_numbers
-from src.numeric_tools import *
+from diabicus import format_numbers
+from diabicus import number_facts
+from diabicus.numeric_tools import *
 
 class YoutubeFact(number_facts.JsonFact):
     """

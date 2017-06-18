@@ -24,10 +24,10 @@ import importlib
 
 from simpleeval import SimpleEval
 
-from src import number_facts
-from src import numeric_tools
-from src import compute
-from src import time_limit
+from diabicus import compute
+from diabicus import number_facts
+from diabicus import numeric_tools
+from diabicus import time_limit
 
 general_eval = SimpleEval()
 general_eval.functions['ln'] = lambda n: math.log(compute.convert_result(n))

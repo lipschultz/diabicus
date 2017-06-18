@@ -20,7 +20,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import math
 import time
-import argparse
 import logging
 import glob
 import random
@@ -35,13 +34,12 @@ from kivy.clock import Clock
 
 from simpleeval import SimpleEval
 
-from src import compute
-from src import numeric_tools
-from src import time_limit
-from src import format_numbers
-from src.audio import AudioReference
-
-DISCO_LENGTH = 5 #seconds
+from diabicus import compute
+from diabicus import const
+from diabicus import numeric_tools
+from diabicus import time_limit
+from diabicus import format_numbers
+from diabicus.audio import AudioReference
 
 def get_loader_lib(module_location):
     path, name = os.path.split(module_location)
@@ -54,7 +52,7 @@ class CalcMainLayout(BoxLayout):
     pass
 
 class Disco:
-    def __init__(self, default_length=DISCO_LENGTH):
+    def __init__(self, default_length=const.DISCO_LENGTH):
         self.__stop_time = 0
         self.__default_len = default_length
 
@@ -67,7 +65,7 @@ class Disco:
         return time.time() < self.__stop_time
 
 class Calculator:
-    def __init__(self, disco_length=DISCO_LENGTH):
+    def __init__(self, disco_length=const.DISCO_LENGTH):
         self._result = 0
         self._input = ''
         self._output = ''
@@ -381,26 +379,3 @@ class CalcApp(App, Calculator):
                 self.__special_music_current = AudioReference(smusic.filename, start_offset=smusic.start, duration=smusic.duration, end_time=smusic.end)
                 self.__special_music_current.play()
                 self.set_music_display(smusic.cite)
-
-def command_line_arguments():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--disco-length', default=DISCO_LENGTH, type=float, help="Number of seconds of disco following input")
-    parser.add_argument('-f', '--facts', required=True, help="Path to python file containing facts (or code to load facts)")
-    parser.add_argument('--music', required=True, nargs='+', help="Path to \"regular\" music (file or directory containing multiple files)")
-    parser.add_argument('--special-music', help="Path to python file that loads conditions for special music")
-    args = parser.parse_args()
-    return args
-
-if __name__=="__main__":
-    args = command_line_arguments()
-
-    facts = None
-    if args.facts is not None:
-        facts_lib = get_loader_lib(args.facts)
-        facts = facts_lib.load_facts()
-
-    audio_files = []
-    for music_loc in args.music:
-        audio_files.extend(glob.glob(music_loc))
-
-    CalcApp(facts=facts, disco_length=args.disco_length, audio_src=audio_files, special_music=args.special_music).run()
