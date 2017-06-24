@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="button_yellow.svg"
-   inkscape:export-filename="/home/michael/projects/diabicus/media/images/button_yellow_normal.png"
+   inkscape:export-filename="/home/michael/projects/diabicus/media/images/button_yellow_shining.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -69,7 +69,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.67456359"
-     inkscape:cx="401"
+     inkscape:cx="147.50277"
      inkscape:cy="401"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -92,7 +92,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -100,7 +100,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="normal"
-     style="display:inline"
+     style="display:none"
      transform="translate(-16.979999,616.01997)"
      sodipodi:insensitive="true">
     <rect
@@ -116,11 +116,27 @@
        inkscape:export-ydpi="300.17963" />
   </g>
   <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="pressed"
+     style="display:none"
+     transform="translate(-16.979999,616.01997)"
+     sodipodi:insensitive="true">
+    <rect
+       style="opacity:1;fill:#ffff33;fill-opacity:1;stroke:none;stroke-width:14.28571415;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4136-9-1"
+       width="790.41901"
+       height="790.41901"
+       x="22.770496"
+       y="-610.22949"
+       ry="0" />
+  </g>
+  <g
      inkscape:label="shining"
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-214,195.63779)"
-     style="display:none"
+     style="display:inline"
      sodipodi:insensitive="true">
     <rect
        ry="39"
@@ -147,21 +163,5 @@
        cy="521.86218"
        r="32"
        transform="matrix(4.1800027,0,0,4.1800027,-632.73081,-1976.0231)" />
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer4"
-     inkscape:label="pressed"
-     style="display:none"
-     transform="translate(-16.979999,616.01997)"
-     sodipodi:insensitive="true">
-    <rect
-       style="opacity:1;fill:#ffff33;fill-opacity:1;stroke:none;stroke-width:14.28571415;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4136-9-1"
-       width="790.41901"
-       height="790.41901"
-       x="22.770496"
-       y="-610.22949"
-       ry="0" />
   </g>
 </svg>

@@ -21,7 +21,7 @@ import logging
 import string
 import json
 
-from . import time_limit
+from .. import time_limit
 from . import cases
 
 DEFAULT_MSG_FORMATTER = string.Formatter()
@@ -101,7 +101,7 @@ class JsonFact(BaseFact):
         self.raw_message = json_data.get('msg')
 
     def __str__(self):
-        return self.raw_test.encode("unicode-escape") + " -> " + self.raw_message
+        return str(self.raw_test.encode("unicode-escape")) + " -> " + str(self.raw_message)
 
     def __repr__(self):
         return self.json_data

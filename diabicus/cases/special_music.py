@@ -18,8 +18,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import os
 
-from diabicus import cases
 from diabicus.numeric_tools import *
+
+#from . import cases
+
 
 class SpecialMusicCase:
     """
@@ -60,5 +62,5 @@ class SpecialMusicCase:
 
 def load():
     path = os.path.dirname(__file__)
-    return cases.load_json_cases(SpecialMusicCase, os.path.join(path, 'special_music.json'))
+    return cases.load_json_cases(SpecialMusicCase, os.path.join(path, '..', '..', 'resources', 'special_music.json'))
 

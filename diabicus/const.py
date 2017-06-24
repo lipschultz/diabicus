@@ -17,3 +17,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 
 DISCO_LENGTH = 5 #seconds
+
+PROJECT_NAME = 'diabicus'
+
+version = '0.0.1'
+
+author = 'Michael Lipschultz'
+author_email = 'michael.lipschultz@gmail.com'
+
+website = 'https://github.com/lipschultz/diabicus'
+
+description = 'Calculator with disco music and flashing lights'
+
+long_description = '''A calculator that plays disco music and flashes lights when being used.'''

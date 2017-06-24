@@ -15,11 +15,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
+
 import logging
 import json
 import random
 
-from . import time_limit
+from .. import time_limit
 
 
 def context_to_str(context):

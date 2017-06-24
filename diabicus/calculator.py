@@ -23,8 +23,6 @@ import time
 import logging
 import glob
 import random
-import os
-import importlib
 from threading import Timer
 import webbrowser
 
@@ -40,13 +38,6 @@ from diabicus import numeric_tools
 from diabicus import time_limit
 from diabicus import format_numbers
 from diabicus.audio import AudioReference
-
-def get_loader_lib(module_location):
-    path, name = os.path.split(module_location)
-    module_name = os.path.splitext(name)[0]
-    module_path = path
-    importlib.import_module(module_path)
-    return importlib.import_module('.'+module_name, module_path)
 
 class CalcMainLayout(BoxLayout):
     pass
@@ -195,19 +186,14 @@ class Calculator:
 
 class CalcApp(App, Calculator):
     def __init__(self, *args, **kwargs):
-        self.__facts = kwargs.get('facts')
-        del kwargs['facts']
+        self.__facts = kwargs.pop('facts', None)
         self.__fact_current = None
 
-        self.__audio = kwargs.get('audio_src', [])
-        del kwargs['audio_src']
+        self.__audio = kwargs.pop('audio_src', [])
         self.__audio_current = None
-        
-        self.__special_music = kwargs.get('special_music')
-        del kwargs['special_music']
-        if self.__special_music is not None:
-            special_music_lib = get_loader_lib(self.__special_music)
-            self.__special_music = special_music_lib.load()
+
+        self.__special_music = kwargs.pop('special_music', None)
+        print('sm:', self.__special_music)
         self.__special_music_current = None
 
         super(CalcApp, self).__init__(*args, **kwargs)
@@ -334,7 +320,7 @@ class CalcApp(App, Calculator):
         return buttons
 
     def __shine_lights(self):
-        shining_images = glob.glob('media/images/*_shining.png')
+        shining_images = glob.glob('diabicus/data/images/*_shining.png')
 
         lights = self.__get_border_lights()
         for l in lights:
@@ -349,7 +335,7 @@ class CalcApp(App, Calculator):
     def __reset_lights(self):
         lights = self.__get_border_lights()
         for l in lights:
-            l.source = 'media/images/light_grey_off.png'
+            l.source = 'diabicus/data/images/light_grey_off.png'
 
         if self.__flashable_button_defaults is not None:
             buttons = self.__get_flashable_buttons()

@@ -27,8 +27,10 @@ import re
 import scipy.integrate
 
 from diabicus import format_numbers
-from diabicus import number_facts
 from diabicus.numeric_tools import *
+
+from . import number_facts
+
 
 class YoutubeFact(number_facts.JsonFact):
     """
