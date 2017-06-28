@@ -2422,5 +2422,18 @@
   "title": "13532385396179",
   "host" : "Tony Padilla",
   "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: False",
+  "link" : "https://www.youtube.com/watch?v=RhuaPhahHbU",
+  "title": "4D MONKEY DUST",
+  "host" : "Henry Segerman",
+  "source":"Numberphile",
+  "note" : "dimensions"
+ },
+ {"test" : "lambda formula, result, context: ",
+  "link" : "https://www.youtube.com/watch?v=ezdeBrPnzyc",
+  "title": "A Quick Cake Conundrum",
+  "host" : "Cliff Stoll",
+  "source":"Numberphile"
  }
 ]
