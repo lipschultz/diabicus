@@ -255,9 +255,13 @@
     ArithmeticButton:
         id: button_minus
         text: '-'
-    ArithmeticButton:
-        id: button_right_paren
-        text: ')'
+    ArithmeticFunctionButton:
+        id: button_sqrt
+        text: '√¯\n[size=16](Square Root)[/size]'
+        markup: True
+        halign: 'center'
+        valign: 'middle'
+        on_press: app.press_function_key('√')
 
     NumberButton:
         id: button_1

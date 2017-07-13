@@ -33,7 +33,7 @@ class ComputationError:
     def __init__(self, message):
         self.msg = message
 
-EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**', 'mod' : '%'}
+EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**', 'mod' : '%', '√' : 'sqrt'}
 def translate_operators(expr):
     """ Convert human-familiar operators to python operators. """
     for k, val in EXPRESSION_TRANSLATIONS.items():

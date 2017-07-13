@@ -18,6 +18,7 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see <http://www.gnu.org/licenses/>.
 """
 
+import cmath
 import math
 import time
 import logging
@@ -87,6 +88,7 @@ class Calculator:
         self.__eval.names['i'] = numeric_tools.I
         self.__eval.names['φ'] = numeric_tools.GOLDEN_RATIO
         self.__eval.functions['ln'] = lambda n: math.log(compute.convert_result(n))
+        self.__eval.functions['sqrt'] = lambda n: cmath.sqrt(n)
         self.__eval.functions['sin'] = lambda n: math.sin(compute.convert_angle_to_radian(compute.convert_result(n), self.is_radians))
         self.__eval.functions['cos'] = lambda n: math.cos(compute.convert_angle_to_radian(compute.convert_result(n), self.is_radians))
         self.__eval.functions['tan'] = lambda n: math.tan(compute.convert_angle_to_radian(compute.convert_result(n), self.is_radians))
