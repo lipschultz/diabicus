@@ -1,5 +1,6 @@
-scipy
 Cython
+numpy
+scipy
 kivy
 simpleeval
 mutagen
