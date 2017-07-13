@@ -33,7 +33,7 @@ class ComputationError:
     def __init__(self, message):
         self.msg = message
 
-EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**'}
+EXPRESSION_TRANSLATIONS = {'×' : '*', '^': '**', 'mod' : '%'}
 def translate_operators(expr):
     """ Convert human-familiar operators to python operators. """
     for k, val in EXPRESSION_TRANSLATIONS.items():
@@ -83,9 +83,9 @@ def make_multiplication_explicit(expr, variables):
     - a number before/after a function, e.g. `3fn(2)4` = `3*fn(2)*4`
     - adjacent variables, e.g. `4e` = `4*e`
     """
-    expr = re.sub('([0-9).])([^0-9).+*/-])', lambda m: m.group(1)+'*'+m.group(2), expr)
+    expr = re.sub('([0-9).])([^0-9).+*/%-])', lambda m: m.group(1)+'*'+m.group(2), expr)
     expr = make_multiplying_variables_explicit(expr, variables)
-    expr = re.sub('([^0-9(.+*/-]+)([0-9(.])',
+    expr = re.sub('([^0-9(.+*/%-]+)([0-9(.])',
                   lambda m: (
                       (m.group(1)[1:] if m.group(1).startswith(FUNCTION_PREFIX) else m.group(1)+'*')
                       +(m.group(2)[1:] if m.group(2).startswith(FUNCTION_PREFIX) else m.group(2))

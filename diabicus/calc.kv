@@ -216,12 +216,12 @@
         halign: 'center'
         valign: 'middle'
         on_press: app.press_ans()
-    KeyButton:
-        id: button_left
-        text: '<-'
-    KeyButton:
-        id: button_right
-        text: '->'
+    ArithmeticButton:
+        id: button_left_paren
+        text: '('
+    ArithmeticButton:
+        id: button_right_paren
+        text: ')'
 
     NumberButton:
         id: button_7
@@ -235,9 +235,13 @@
     ArithmeticButton:
         id: button_plus
         text: '+'
-    ArithmeticButton:
-        id: button_left_paren
-        text: '('
+    ArithmeticFunctionButton:
+        id: button_mod
+        text: 'mod\n[size=16](Get remainder)[/size]'
+        markup: True
+        halign: 'center'
+        valign: 'middle'
+        on_press: app.press_key('mod')
 
     NumberButton:
         id: button_4

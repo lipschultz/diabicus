@@ -193,7 +193,6 @@ class CalcApp(App, Calculator):
         self.__audio_current = None
 
         self.__special_music = kwargs.pop('special_music', None)
-        print('sm:', self.__special_music)
         self.__special_music_current = None
 
         super(CalcApp, self).__init__(*args, **kwargs)
