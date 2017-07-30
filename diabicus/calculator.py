@@ -155,17 +155,27 @@ class Calculator:
         else:
             self.input = ''
 
+    @staticmethod
+    def is_function_character(char):
+        return char.isalpha() or char == '√'
+
     def bksp(self):
         self.__on_interaction()
         self.__just_calculated = False
         if len(self.input) > 0:
-            if self.input[-3:] == 'Ans':
-                self.input = self.input[:-3]
-            elif len(self.input) > 1 and self.input[-1] == '(' and self.input[-2].isalpha():
-                start_of_function = self.input.rfind(compute.FUNCTION_PREFIX)
-                self.input = self.input[:start_of_function]
-            else:
-                self.input = self.input[:-1]
+            matched = False
+            words = ('Ans', 'mod')
+            for word in words:
+                if self.input[-len(word):] == word:
+                    self.input = self.input[:-len(word)]
+                    matched = True
+                    break
+            if not matched:
+                if len(self.input) > 1 and self.input[-1] == '(' and self.is_function_character(self.input[-2]):
+                    start_of_function = self.input.rfind(compute.FUNCTION_PREFIX)
+                    self.input = self.input[:start_of_function]
+                else:
+                    self.input = self.input[:-1]
 
     def calculate(self):
         self.__on_interaction()
