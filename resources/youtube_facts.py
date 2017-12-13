@@ -38,6 +38,8 @@ class YoutubeFact(number_facts.JsonFact):
         super(YoutubeFact, self).__init__(json_data)
         self.link = json_data.get('link')
         self.title = json_data.get('title')
+        self.host = json_data.get('host')
+        self.date = json_data.get('date')
         self.source = json_data.get('source')
         self.oeis = json_data.get('oeis')
         self.wiki = json_data.get('wiki')
