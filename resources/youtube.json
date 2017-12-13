@@ -3484,5 +3484,33 @@
   "date" : "Nov 17, 2017",
   "source":"Numberphile",
   "note" : "randomness"
- }
+ },
+ {"test" : "lambda formula, result, context: is_error(result) or is_rational(result)",
+  "link" : "https://www.youtube.com/watch?v=2BIx2x-Q2fE",
+  "title": "An astonishing old calculator",
+  "host" : ["Cliff Stoll"],
+  "date" : "Nov 30, 2017",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: result in {1000, 0, 52, 1908, 50, 100, 6996, 70, 99.94}",
+  "link" : "https://www.youtube.com/watch?v=A8Tiba3h9Fw",
+  "title": "Don Bradman's Duck",
+  "host" : ["Brady Haran"],
+  "date" : "Dec 7, 2017",
+  "source":"Numberphile"
+ },
+ {"test" : "lambda formula, result, context: (is_int(result) and 1 <= result <= 12) or (result == context['result'][-2])",
+  "link" : "https://www.youtube.com/watch?v=ZoA0u66wcSs",
+  "title": "Strictly Come Dancing is Strictly Unfair",
+  "host" : ["Matt Parker", "Jen Rogers"],
+  "date" : "Dec 7, 2017",
+  "source":"standupmaths"
+ },
+ {"test" : "lambda formula, result, context: result in {120e9, 2500, int(120e9)*2500, 11245, 7, 12, 25e-9, 40e6, 25, 1e9, 1, 10, 2.5, 6.499e9, }",
+  "link" : "https://www.youtube.com/watch?v=ZcB6FfAxKlY",
+  "title": "Stats of CERN: How many Higgs per second?",
+  "host" : ["Matt Parker"],
+  "date" : "Dec 12, 2017",
+  "source":"standupmaths"
+ },
 ]
