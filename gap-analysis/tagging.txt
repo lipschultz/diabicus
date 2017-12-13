@@ -1,3 +1,6 @@
+Numbers on Numberphile
+
+
 Perhaps the most contentious part of this analysis is in how I determined whether a number was featured in a video.  I initially created this data for a disco calculator for a friend's daughter, so I wasn't too concerned with a rigorous set of criteria for determining whether a number is featured in a video.  That said, I did create some guidelines for myself:
 - If the video is about random numbers, then the video will match a random number, which may or may not be in the set of numbers being considered.
 - When a constant is calculated and the error is mentioned (e.g. computing pi using pies), any number within that error range of the constant is considered "featured" in the video
@@ -5,7 +8,7 @@ Perhaps the most contentious part of this analysis is in how I determined whethe
     - e.g. a video about parabolas will use some numbers as coefficients and x or y values, but those numbers aren't "featured" in the video
     - the triplets in Apey's constant
 - Some videos just aren't obviously about numbers (Todashi's Toys are a good example), so these videos don't match any numbers.
-- If a set is talked about (e.g. prime numbers or Fibonnacci sequence) but only some numbers from the sequence are included, "all" numbers in the set are considered featured in the video (well, all numbers up to the max I'm considering in this analysis)
+- If a set is talked about (e.g. prime numbers or Fibonnacci sequence) but only some numbers from the sequence are included, "all" numbers in the set are considered featured in the video (well, all numbers up to the max I'm considering in this analysis or up to what's included in OEIS or Wikipedia).
 
-Only videos on Numberphile and standupmaths are included in the data (although for this analysis, I only focus on Numberphile).  Hidden videos on those channels that are linked to from a visible video on those channels are included.  Other hidden videos, and private videos, are not included.
+Only videos on Numberphile and standupmaths are included in the data (although for this analysis, I only focus on Numberphile).  Hidden videos on those channels that are linked to from a visible video on those channels are included.  Other hidden videos, and private videos, are not included.  Numberphile2 and Matt Parker are not included.  Analysis for singingbanana is left as an exercise to the reader.
 

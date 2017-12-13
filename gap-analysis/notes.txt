@@ -5,3 +5,15 @@ For fans of Matt Parker, I've also computed the Standupmaths's Gap.  Determining
 Future Work:
 - What would YouTube's Gap look like?
 - Have greater resolution for fractional numbers.
+
+
+https://stackoverflow.com/questions/3331176/how-to-get-number-of-video-views-with-youtube-api
+https://developers.google.com/youtube/v3/docs/videos#resource
+
+
+https://www.youtube.com/watch?v=Oev332D0K0I
+    spends a lot of time talking about other numbers, but host explicitly starts by saying he wants to talk about 15
+
+
+cluster of popularity around pi, e, other constants
+https://www.youtube.com/watch?v=Lihh_lMmcDw
