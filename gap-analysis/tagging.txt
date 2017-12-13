@@ -11,4 +11,3 @@ Perhaps the most contentious part of this analysis is in how I determined whethe
 - If a set is talked about (e.g. prime numbers or Fibonnacci sequence) but only some numbers from the sequence are included, "all" numbers in the set are considered featured in the video (well, all numbers up to the max I'm considering in this analysis or up to what's included in OEIS or Wikipedia).
 
 Only videos on Numberphile and standupmaths are included in the data (although for this analysis, I only focus on Numberphile).  Hidden videos on those channels that are linked to from a visible video on those channels are included.  Other hidden videos, and private videos, are not included.  Numberphile2 and Matt Parker are not included.  Analysis for singingbanana is left as an exercise to the reader.
-

@@ -30,7 +30,7 @@ def get_last_int_done(filename):
     with open(filename) as fin:
         fin.readline() #header
         return max(float(l.split('\t')[0]) for l in fin)
-            
+
 def save_info():
     file_exists = exists(int_counts_filename)
     with open(int_counts_filename, 'a') as fout:
@@ -60,7 +60,7 @@ def get_counts(facts, start, end, step=1):
         range_vals = np.arange(start, end, step)
     elif isinstance(step, str):
         range_vals = drange(start, end, step)
-        
+
     for i in range_vals:
         if len(int_counts) % 1e6 == 0:
             print(i, len(int_counts), time.time() - start_time)
