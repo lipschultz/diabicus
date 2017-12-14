@@ -57,60 +57,92 @@ def add_facts_to_db(facts, conn):
     return link_id_map
 
 
-def drange(start, end, step="1"):
-    start = Decimal(start)
-    end = Decimal(end)
-    step = Decimal(step)
-    while start < end:
-        yield start
-        start += step
+class Range:
+    def __init__(self, start, end, step=1, imag=False):
+        self.start = start
+        self.end = end
+        self.step = step
+        self.imag = imag
+
+    def create_range(self):
+        if isinstance(self.step, int):
+            r = range(self.start, self.end, self.step)
+        elif isinstance(self.step, float):
+            r = np.arange(self.start, self.end, self.step)
+        elif isinstance(self.step, str):
+            r = self.__drange(self.start, self.end, self.step)
+        if self.imag:
+            r = self.__make_imaginary(r)
+        return r
+
+    def __len__(self):
+        return int((self.end - self.start) / float(self.step))
+
+    def __drange(self, start, end, step="1"):
+        start = Decimal(start)
+        end = Decimal(end)
+        step = Decimal(step)
+        while start < end:
+            start_val = int(start) if (start % 1).is_zero() else float(start)
+            yield start_val
+            start += step
+
+    def __make_imaginary(self, range_generator):
+        for val in range_generator:
+            yield val * 1j
 
 
-def get_counts(conn, facts, link_id_map, real_start, real_end, real_step=1):
+def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn):
     cursor = conn.cursor()
     start_time = datetime.now()
     print('start', 0, 0)
-    if isinstance(real_step, int):
-        real_vals = range(real_start, real_end, real_step)
-    elif isinstance(real_step, float):
-        real_vals = np.arange(real_start, real_end, real_step)
-    elif isinstance(real_step, str):
-        real_vals = drange(real_start, real_end, real_step)
 
-    imag = 0
     num_count = 0
-    for real in real_vals:
-        real = int(real) if (real % 1).is_zero() else float(real)
+    count_data = []
+    for real in real_range.create_range():
+        for imag in imag_range.create_range():
+            num_count += 1
 
-        num = real
-        if imag != 0:
-            num += complex(0, imag)
+            num = real
+            if imag != 0:
+                num += complex(0, imag)
 
-        num_count += 1
-        if num_count % 1e3 == 0:
-            time_diff = datetime.now() - start_time
-            rate = num_count / time_diff.total_seconds()
-            real_total = (real_end - real_start) / float(real_step)
-            imag_total = 1
-            num_total = real_total * imag_total
-            num_remaining = num_total - num_count
-            est_time_remaining = num_remaining / rate / 3600
-            print('{num}: {count}, {time}; rate={rate:0.2f}, ETR={etr:0.2f}h'.format(num=num, count=num_count, time=time_diff, rate=rate, etr=est_time_remaining))
-            #print(real, num_count, time_diff, (num_count / time_diff.total_seconds()))
+            if num_count % 1e3 == 0:
+                time_diff = datetime.now() - start_time
+                rate = num_count / time_diff.total_seconds()
+                real_total = len(real_range)
+                imag_total = len(imag_range)
+                num_total = real_total * imag_total
+                num_remaining = num_total - num_count
+                est_time_remaining = num_remaining / rate / 3600
+                print('{num}: {count}/{total}, {time}; rate={rate:0.2f}, ETR={etr:0.2f}h'.format(num=num, count=num_count, total=num_total, time=time_diff, rate=rate, etr=est_time_remaining))
+                cursor.executemany('INSERT INTO counts VALUES (?, ?, ?)', count_data)
+                conn.commit()
+                count_data = []
+                #print(real, num_count, time_diff, (num_count / time_diff.total_seconds()))
 
-        count_data = []
-        links_matched = set()
-        for f in facts:
-            if f.link not in links_matched and f.test(str(num), num, {'result' : [num], 'formula' : [str(num)]}):
-                count_data.append(FactNumberMatch(link_id_map[f.link], real, imag))
-                links_matched.add(f.link)
-        cursor.executemany('INSERT INTO counts VALUES (?, ?, ?)', count_data)
-        conn.commit()
+            if skip_fn(real, imag):
+                continue
+
+            links_matched = set()
+            for f in facts:
+                if f.link not in links_matched and f.test(str(num), num, {'result' : [num], 'formula' : [str(num)]}):
+                    count_data.append(FactNumberMatch(link_id_map[f.link], real, imag))
+                    links_matched.add(f.link)
 
 
 if __name__ == '__main__':
     facts = load_tests()
     conn = get_database('data.db')
     link_id_map = add_facts_to_db(facts, conn)
-    get_counts(conn, facts, link_id_map, -10000, 10001, '0.01')
+
+    ideal_min = -10000
+    ideal_max = 10001
+    ideal_step = '0.01'
+
+    real_range = Range(ideal_min, 0, 1)
+    imag_range = Range(ideal_min, 0, 1)
+
+    skip_fn = lambda r, i: r == 0 or i == 0
+    get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn)
     conn.close()
