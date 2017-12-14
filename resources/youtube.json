@@ -3408,7 +3408,7 @@
   "date" : "Aug 24, 2017",
   "source":"Numberphile"
  },
- {"test" : "lambda formula, result, context: result in {1856, 1858, 1897} or 4 <= result <= 14 or result in {750, 200, 3400} or is_close(result, (6+2/12, 4+8/12))",
+ {"test" : "lambda formula, result, context: result in {1856, 1858, 1897} or (is_real(result) and 4 <= result <= 14) or result in {750, 200, 3400} or is_close(result, (6+2/12, 4+8/12))",
   "link" : "https://www.youtube.com/watch?v=eHN7OJuVgXA",
   "title": "The Raising of Chicago: the windy city",
   "host" : ["Matt Parker"],
