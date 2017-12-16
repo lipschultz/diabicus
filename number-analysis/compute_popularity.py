@@ -1,6 +1,7 @@
-import atexit
+import random
 import sqlite3
 import sys
+import time
 
 from collections import namedtuple
 from datetime import datetime
@@ -116,8 +117,18 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn):
                 num_remaining = num_total - num_count
                 est_time_remaining = num_remaining / rate / 3600
                 print('{num}: {count}/{total}, {time}; rate={rate:0.2f}, ETR={etr:0.2f}h'.format(num=num, count=num_count, total=num_total, time=time_diff, rate=rate, etr=est_time_remaining))
-                cursor.executemany('INSERT INTO counts VALUES (?, ?, ?)', count_data)
-                conn.commit()
+
+                for failure_count in range(3):
+                    try:
+                        cursor.executemany('INSERT INTO counts VALUES (?, ?, ?)', count_data)
+                        conn.commit()
+                        break
+                    except sqlite3.OperationalError as e:
+                        if failure_count == 2:
+                            raise e
+                        else:
+                            time.sleep(2*random.random())
+
                 count_data = []
                 #print(real, num_count, time_diff, (num_count / time_diff.total_seconds()))
 
