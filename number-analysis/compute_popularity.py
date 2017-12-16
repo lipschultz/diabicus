@@ -93,15 +93,24 @@ class Range:
             yield val * 1j
 
 
-def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn):
+def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn=None, resume_after=None):
     cursor = conn.cursor()
     start_time = datetime.now()
     print('start', 0, 0)
 
     num_count = 0
     count_data = []
+    confirm_commit = True
     for real in real_range.create_range():
+        if resume_after is not None and real < resume_after[0]:
+            num_count += len(imag_range)
+            continue
+
         for imag in imag_range.create_range():
+            if resume_after is not None and real == resume_after[0] and imag <= resume_after[1]:
+                num_count += 1
+                continue
+
             num_count += 1
 
             num = real
@@ -117,6 +126,9 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn):
                 num_remaining = num_total - num_count
                 est_time_remaining = num_remaining / rate / 3600
                 print('{num}: {count}/{total}, {time}; rate={rate:0.2f}, ETR={etr:0.2f}h'.format(num=num, count=num_count, total=num_total, time=time_diff, rate=rate, etr=est_time_remaining))
+                # if confirm_commit:
+                #     input("Commit this? Ctrl-C if no")
+                #     confirm_commit = False
 
                 for failure_count in range(3):
                     try:
@@ -124,6 +136,7 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn):
                         conn.commit()
                         break
                     except sqlite3.OperationalError as e:
+                        print('Failed to insert:', e)
                         if failure_count == 2:
                             raise e
                         else:
@@ -132,7 +145,7 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn):
                 count_data = []
                 #print(real, num_count, time_diff, (num_count / time_diff.total_seconds()))
 
-            if skip_fn(real, imag):
+            if skip_fn is not None and skip_fn(real, imag):
                 continue
 
             links_matched = set()
@@ -150,10 +163,29 @@ if __name__ == '__main__':
     ideal_min = -10000
     ideal_max = 10001
     ideal_step = '0.01'
+    resume_after = None
 
-    real_range = Range(ideal_min, 0, 1)
+    # real_range = Range(0, ideal_max, 1)
+    # imag_range = Range(0, ideal_max, 1)
+    # resume_after = (4933, 66)
+
+    # real_range = Range(ideal_min, 0, 1)
+    # imag_range = Range(0, ideal_max, 1)
+    # resume_after = (-5189, 3188)
+    # TODO: skipped this range:
+    #       (-5189+2188j): 48117000/100010000, 1 day, 19:20:01.751491; rate=308.44, ETR=46.73h
+    #       (-5189+3188j)
+
+    real_range = Range(0, ideal_max, 1)
     imag_range = Range(ideal_min, 0, 1)
+    resume_after = (4838, -1)
+    # TODO: skipped this range:
+    #       (4838-1001j): 48389000/100010000, 1 day, 19:18:55.840213; rate=310.31, ETR=46.21h
+    #       (4838-1j): 48390000/100010000, 1 day, 19:19:01.104841; rate=310.31, ETR=46.21h
+
+    #real_range = Range(ideal_min, 0, 1)
+    #imag_range = Range(ideal_min, 0, 1)
 
     skip_fn = lambda r, i: r == 0 or i == 0
-    get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn)
+    get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn, resume_after)
     conn.close()
