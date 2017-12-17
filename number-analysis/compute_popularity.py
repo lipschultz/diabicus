@@ -98,17 +98,18 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn=None, r
     start_time = datetime.now()
     print('start', 0, 0)
 
+    num_total = len(real_range) * len(imag_range)
     num_count = 0
     count_data = []
-    confirm_commit = True
+    confirm_commit = False
     for real in real_range.create_range():
         if resume_after is not None and real < resume_after[0]:
-            num_count += len(imag_range)
+            num_total -= len(imag_range)
             continue
 
         for imag in imag_range.create_range():
             if resume_after is not None and real == resume_after[0] and imag <= resume_after[1]:
-                num_count += 1
+                num_total -= 1
                 continue
 
             num_count += 1
@@ -120,9 +121,6 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn=None, r
             if num_count % 1e3 == 0:
                 time_diff = datetime.now() - start_time
                 rate = num_count / time_diff.total_seconds()
-                real_total = len(real_range)
-                imag_total = len(imag_range)
-                num_total = real_total * imag_total
                 num_remaining = num_total - num_count
                 est_time_remaining = num_remaining / rate / 3600
                 print('{num}: {count}/{total}, {time}; rate={rate:0.2f}, ETR={etr:0.2f}h'.format(num=num, count=num_count, total=num_total, time=time_diff, rate=rate, etr=est_time_remaining))
