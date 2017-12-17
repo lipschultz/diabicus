@@ -124,9 +124,9 @@ def get_counts(conn, facts, link_id_map, real_range, imag_range, skip_fn=None, r
                 num_remaining = num_total - num_count
                 est_time_remaining = num_remaining / rate / 3600
                 print('{num}: {count}/{total}, {time}; rate={rate:0.2f}, ETR={etr:0.2f}h'.format(num=num, count=num_count, total=num_total, time=time_diff, rate=rate, etr=est_time_remaining))
-                # if confirm_commit:
-                #     input("Commit this? Ctrl-C if no")
-                #     confirm_commit = False
+                if confirm_commit:
+                    input("Commit this? Ctrl-C if no")
+                    confirm_commit = False
 
                 for failure_count in range(3):
                     try:
