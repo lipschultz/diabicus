@@ -2,7 +2,7 @@ import gzip
 import sqlite3
 
 
-def get_counts(conn, oeis_filename):
+def get_counts(conn, oeis_filename, count_each_occurrence_in_sequence=True):
     c = conn.cursor()
     with gzip.open(oeis_filename, 'rb') as fin:
         for line in fin:
@@ -10,6 +10,8 @@ def get_counts(conn, oeis_filename):
                 continue
 
             label, *values = [v.strip() for v in line.split(b',')]
+            if not count_each_occurrence_in_sequence:
+                values = set(values)
 
             link = 'http://oeis.org/' + str(label)
             source = 'OEIS'
@@ -29,5 +31,5 @@ if __name__ == '__main__':
     oeis_file = 'data/oeis.gz'
     db_file = 'data/data-real,imag.db'
     conn = sqlite3.connect(db_file)
-    get_counts(conn, oeis_file)
+    get_counts(conn, oeis_file, False)
     conn.close()

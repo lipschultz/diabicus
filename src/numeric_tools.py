@@ -21,7 +21,10 @@ import os
 import re
 from functools import reduce
 
-from .compute import ComputationError
+try:
+    from .compute import ComputationError
+except ImportError:
+    ComputationError = Exception
 
 def is_int(val):
     """ Returns True if val is an int or a float with 0 fractional part """
