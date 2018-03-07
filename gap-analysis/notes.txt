@@ -1,7 +1,3 @@
-How does this gap compare to Sloane's Gap?
-
-For fans of Matt Parker, I've also computed the Standupmaths's Gap.  Determining the singingbanana's gap is left as an exercise to the reader.
-
 Future Work:
 - What would YouTube's Gap look like?
 - Have greater resolution for fractional numbers.
@@ -19,13 +15,16 @@ cluster of popularity around pi, e, other constants
 https://www.youtube.com/watch?v=Lihh_lMmcDw
 
 
-Key Figures, Figures, and Figures to Come
-
-
 TODO:
 from Numberphile video about educators' favorite numbers -- who has most/least popular favorite?
 what about common popular numbers (https://www.scientificamerican.com/article/most-popular-numbers-grapes-of-math/)
 
 
-Numbers on Numberphile
-(or, as I've been thinking of it: The Point Where it Gets Interesting)
+compare ordering to benford's law
+
+
+There is no 'i' in "The popular class of numbers"
+
+combine OEIS, Numberphile, and standupmaths into one dataset and look at popularity
+
+I entered this sub-series on positive rationals expecting to see similar results to the original Sloane's Gap paper.  I wasn't expecting the same numbers to be popular, but I was expecting to see popular and unpopular numbers in Numberphile and standupmaths.
