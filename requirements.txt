@@ -3,3 +3,4 @@ Cython
 kivy
 simpleeval
 mutagen
+statsmodels
